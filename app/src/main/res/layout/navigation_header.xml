@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.widget.LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+
+    android:orientation="vertical"
+    android:padding="16dp"
+    android:gravity="bottom"
+    android:layout_width="match_parent"
+    android:layout_height="160dp"
+    android:theme="@style/ThemeOverlay.AppCompat.Dark"
+    android:background="@drawable/navigationdrawerback">
+    <de.hdodenhof.circleimageview.CircleImageView
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/profile_image"
+        android:layout_width="56dp"
+        android:layout_height="56dp"
+        android:src="@drawable/shyamsir"
+        android:scaleType="centerCrop"
+        />
+    <android.support.v7.widget.AppCompatTextView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:text="Shyam Rahangdale"
+        android:paddingTop="8dp"
+        android:textAppearance="@style/Base.TextAppearance.AppCompat.Body1"/>
+    <android.support.v7.widget.AppCompatTextView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:text="shyamrahangdale@ymail.com"
+        android:paddingTop="4dp"
+
+       />
+</android.widget.LinearLayout>
