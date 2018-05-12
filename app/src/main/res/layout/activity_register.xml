@@ -7,16 +7,19 @@
 
 
 
-    <LinearLayout
+    <android.support.v7.widget.LinearLayoutCompat
         android:layout_width="fill_parent"
         android:layout_height="match_parent"
         android:layout_marginTop="?attr/actionBarSize"
         android:orientation="vertical"
         android:paddingLeft="20dp"
         android:paddingRight="20dp"
-        android:paddingTop="60dp">
+        >
 
+        <android.support.v7.widget.AppCompatTextView
 
+            style="@style/HeaderTextStyle"
+            android:text="@string/app_guide_register" />
         <android.support.design.widget.TextInputLayout
             android:id="@+id/input_layout_name"
             android:layout_width="match_parent"
@@ -88,6 +91,6 @@
 
 
 
-    </LinearLayout>
+    </android.support.v7.widget.LinearLayoutCompat>
 
 </android.support.design.widget.CoordinatorLayout>
