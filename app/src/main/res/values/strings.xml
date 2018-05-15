@@ -23,4 +23,6 @@
     <string name="close_drawer">Close Drawer</string>
     <string name="app_guide_register">GUIDE REGISTER</string>
     <string name="app_guide_login">GUIDE LOGIN</string>
+    <string name="login">Login</string>
+    <string name="register">Register</string>
 </resources>

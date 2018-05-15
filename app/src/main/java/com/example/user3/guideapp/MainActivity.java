@@ -8,9 +8,29 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.ListAdapter;
+import android.widget.ListView;
+import android.widget.SimpleAdapter;
 import android.widget.Toast;
+
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 
 public class MainActivity extends  AppCompatActivity  implements NavigationView.OnNavigationItemSelectedListener{
@@ -18,9 +38,16 @@ public class MainActivity extends  AppCompatActivity  implements NavigationView.
     DrawerLayout drawerLayout;
     NavigationView navigationView;
     Toolbar toolbar;
+   ListView listView;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+
+
+
+
         setContentView(R.layout.navigation_drawer);
 
         toolbar =findViewById(R.id.my_toolbar);
@@ -29,10 +56,14 @@ public class MainActivity extends  AppCompatActivity  implements NavigationView.
          drawerLayout=findViewById(R.id.drawer_layout);
          navigationView=findViewById(R.id.navigation_view);
          navigationView.setNavigationItemSelectedListener(this);
+
          ActionBarDrawerToggle toggle=new ActionBarDrawerToggle(this,drawerLayout,toolbar,R.string.open_drawer,R.string.close_drawer);
          drawerLayout.addDrawerListener(toggle);
          toggle.syncState();
 
+        listView=findViewById(R.id.listViewHeroes);
+
+        getheros();
        //setSupportActionBar(toolbar);
       // getSupportActionBar().setDisplayShowHomeEnabled(true);
     }
@@ -97,4 +128,48 @@ public class MainActivity extends  AppCompatActivity  implements NavigationView.
 
 
     }
+
+    private void getheros()
+    {
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(Api.BASE_URL)
+                .addConverterFactory(GsonConverterFactory.create()) //Here we are using the GsonConverterFactory to directly convert json data to object
+                .build();
+
+        Api api = retrofit.create(Api.class);
+
+        //now making the call object
+        //Here we are using the api method that we created inside the api interface
+        Call<List<Hero>> call = api.getHeroes();
+        call.enqueue(new  Callback<List<Hero>>() {
+            @Override
+            public void onResponse(Call<List<Hero>> call, Response<List<Hero>> response) {
+                List<Hero> heros=response.body();
+               // for(Hero h:heros){
+                //    Log.d("name",h.getName());
+                //    Log.d("realname",h.getRealname());
+                 //   Log.d("imageurl",h.getImageurl());
+                //}
+                String[] heroes = new String[heros.size()];
+
+                //looping through all the heroes and inserting the names inside the string array
+                for (int i = 0; i < heros.size(); i++) {
+                    heroes[i] = heros.get(i).getName();
+                }
+
+
+                //displaying the string array into listview
+                listView.setAdapter(new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_list_item_1, heroes));
+
+
+            }
+
+            @Override
+            public void onFailure(Call<List<Hero>> call, Throwable t) {
+                Toast.makeText(getApplicationContext(),t.getMessage(),Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+
 }

@@ -21,22 +21,17 @@
         android:paddingLeft="20dp"
         android:paddingRight="20dp"
         android:paddingTop="60dp">
-
-        <Button android:id="@+id/btn_login"
+        <Button android:id="@+id/btn_getweek"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:text="Login"
+            android:text="Get Week"
             android:background="@color/colorPrimary"
             android:layout_marginTop="40dp"
             android:textColor="@android:color/white"/>
-        <Button android:id="@+id/btn_register"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:text="Register"
-            android:background="@color/colorPrimary"
-            android:layout_marginTop="40dp"
-            android:textColor="@android:color/white"/>
-
+        <ListView
+            android:id="@+id/listViewHeroes"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
 
     </LinearLayout>
 
