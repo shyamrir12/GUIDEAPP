@@ -6,8 +6,8 @@ import com.google.gson.annotations.SerializedName;
  */
 
 public class Result {
-    @SerializedName("error")
-    private Boolean error;
+    @SerializedName("Status")
+    private Boolean Status;
 
     @SerializedName("Message")
     private String Message;
@@ -21,8 +21,8 @@ public class Result {
 
     }
 
-    public Boolean getError() {
-        return error;
+    public Boolean getStatus() {
+        return Status;
     }
 
     public String getMessage() {
