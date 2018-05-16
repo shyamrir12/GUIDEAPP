@@ -24,7 +24,7 @@
         <Button android:id="@+id/btn_getweek"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:text="Get Week"
+            android:text="Week Master"
             android:background="@color/colorPrimary"
             android:layout_marginTop="40dp"
             android:textColor="@android:color/white"/>

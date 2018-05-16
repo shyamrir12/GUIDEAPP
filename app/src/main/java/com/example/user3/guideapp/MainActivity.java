@@ -8,22 +8,15 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.view.View.OnClickListener;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.ListAdapter;
 import android.widget.ListView;
-import android.widget.SimpleAdapter;
 import android.widget.Toast;
 
-import java.lang.reflect.Array;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
+import com.example.user3.guideapp.Api.Api;
+import com.example.user3.guideapp.Model.Week;
+
 import java.util.List;
 
 import retrofit2.Call;
@@ -140,32 +133,32 @@ public class MainActivity extends  AppCompatActivity  implements NavigationView.
 
         //now making the call object
         //Here we are using the api method that we created inside the api interface
-        Call<List<Hero>> call = api.getHeroes();
-        call.enqueue(new  Callback<List<Hero>>() {
+        Call<List<Week>> call = api.getWeeks();
+        call.enqueue(new  Callback<List<Week>>() {
             @Override
-            public void onResponse(Call<List<Hero>> call, Response<List<Hero>> response) {
-                List<Hero> heros=response.body();
+            public void onResponse(Call<List<Week>> call, Response<List<Week>> response) {
+                List<Week> heros=response.body();
                // for(Hero h:heros){
                 //    Log.d("name",h.getName());
                 //    Log.d("realname",h.getRealname());
                  //   Log.d("imageurl",h.getImageurl());
                 //}
-                String[] heroes = new String[heros.size()];
+                String[] weeks = new String[heros.size()];
 
                 //looping through all the heroes and inserting the names inside the string array
                 for (int i = 0; i < heros.size(); i++) {
-                    heroes[i] = heros.get(i).getName();
+                    weeks[i] = heros.get(i).getWeekName();
                 }
 
 
                 //displaying the string array into listview
-                listView.setAdapter(new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_list_item_1, heroes));
+                listView.setAdapter(new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_list_item_1, weeks));
 
 
             }
 
             @Override
-            public void onFailure(Call<List<Hero>> call, Throwable t) {
+            public void onFailure(Call<List<Week>> call, Throwable t) {
                 Toast.makeText(getApplicationContext(),t.getMessage(),Toast.LENGTH_SHORT).show();
             }
         });
