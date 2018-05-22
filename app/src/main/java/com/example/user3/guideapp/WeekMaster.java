@@ -10,6 +10,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.user3.guideapp.Api.Api;
+import com.example.user3.guideapp.Helper.SharedPrefManager;
 import com.example.user3.guideapp.Model.Result;
 import com.example.user3.guideapp.Model.Week;
 
@@ -73,7 +74,7 @@ Button saveweek,updateweek,deleteweekss;
 
         //Defining the user object as we need to pass it with the call
 
-        Call<Week> call = service.getWeeks(2);
+        Call<Week> call = service.getWeeks(2,": Bearer "+SharedPrefManager.getInstance(this).getUser().access_token);
 
        call.enqueue(new Callback<Week>() {
            @Override

@@ -1,5 +1,6 @@
 package com.example.user3.guideapp;
 
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -12,9 +13,11 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.user3.guideapp.Api.Api;
+import com.example.user3.guideapp.Helper.SharedPrefManager;
 import com.example.user3.guideapp.Model.Week;
 
 import java.util.List;
@@ -32,20 +35,17 @@ public class MainActivity extends  AppCompatActivity  implements NavigationView.
     NavigationView navigationView;
     Toolbar toolbar;
    ListView listView;
+   TextView textemail;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+       setContentView(R.layout.navigation_drawer);
 
-
-
-
-        setContentView(R.layout.navigation_drawer);
-
-        toolbar =findViewById(R.id.my_toolbar);
-        setSupportActionBar(toolbar);
-
+         toolbar =findViewById(R.id.my_toolbar);
+         setSupportActionBar(toolbar);
+         textemail=findViewById(R.id.text_email);
          drawerLayout=findViewById(R.id.drawer_layout);
          navigationView=findViewById(R.id.navigation_view);
          navigationView.setNavigationItemSelectedListener(this);
@@ -55,7 +55,7 @@ public class MainActivity extends  AppCompatActivity  implements NavigationView.
          toggle.syncState();
 
         listView=findViewById(R.id.listViewHeroes);
-
+        textemail.setText(SharedPrefManager.getInstance(this).getUser().userName);
         getheros();
        //setSupportActionBar(toolbar);
       // getSupportActionBar().setDisplayShowHomeEnabled(true);
@@ -75,7 +75,10 @@ public class MainActivity extends  AppCompatActivity  implements NavigationView.
                 return true;
             case R.id.action_logout:
                 // User chose the "Settings" item, show the app settings UI...
-                Toast.makeText(this,"logout clicked",Toast.LENGTH_SHORT).show();
+                SharedPrefManager.getInstance(this).logout();
+                Intent login = new Intent(getApplicationContext(),Login.class);
+                startActivity(login);
+                //Toast.makeText(this,"logout clicked",Toast.LENGTH_SHORT).show();
                 return true;
 
             case R.id.action_credits:
@@ -133,7 +136,7 @@ public class MainActivity extends  AppCompatActivity  implements NavigationView.
 
         //now making the call object
         //Here we are using the api method that we created inside the api interface
-        Call<List<Week>> call = api.getWeeks();
+        Call<List<Week>> call = api.getWeeks(SharedPrefManager.getInstance(this).getUser().access_token);
         call.enqueue(new  Callback<List<Week>>() {
             @Override
             public void onResponse(Call<List<Week>> call, Response<List<Week>> response) {

@@ -23,6 +23,7 @@ import android.widget.Toast;
 
 import com.example.user3.guideapp.Api.Api;
 import com.example.user3.guideapp.Api.GuideApi;
+import com.example.user3.guideapp.Helper.SharedPrefManager;
 import com.example.user3.guideapp.Model.Token;
 import com.example.user3.guideapp.Model.TokenRequest;
 import com.example.user3.guideapp.Model.TokenResponse;
@@ -43,112 +44,118 @@ import okhttp3.Response;
 
 
 public class Login extends AppCompatActivity {
- Button register,login;
+    Button register, login;
     CoordinatorLayout login_layout;
-    AppCompatEditText emailedit,passwordedit;
-    TextInputLayout emaillayout,passwordlayout;
-  ProgressBar progressBar;
+    AppCompatEditText emailedit, passwordedit;
+    TextInputLayout emaillayout, passwordlayout;
+    ProgressBar progressBar;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_login);
-        progressBar=(ProgressBar) findViewById(R.id.progressBar1);
-register=findViewById(R.id.btn_register);
-login=findViewById(R.id.btn_login);
-login_layout =findViewById(R.id.login_layout_id);
-emaillayout=findViewById(R.id.input_layout_email);
-passwordlayout=findViewById(R.id.input_layout_password);
-emailedit=findViewById(R.id.input_email);
-passwordedit=findViewById(R.id.input_password);
+        progressBar = (ProgressBar) findViewById(R.id.progressBar1);
+        register = findViewById(R.id.btn_register);
+        login = findViewById(R.id.btn_login);
+        login_layout = findViewById(R.id.login_layout_id);
+        emaillayout = findViewById(R.id.input_layout_email);
+        passwordlayout = findViewById(R.id.input_layout_password);
+        emailedit = findViewById(R.id.input_email);
+        passwordedit = findViewById(R.id.input_password);
         progressBar.setVisibility(View.INVISIBLE);
-passwordlayout.setCounterEnabled(true);
-passwordlayout.setCounterMaxLength(10);
-emaillayout.setCounterEnabled(true);
-emaillayout.setCounterMaxLength(100);
+        passwordlayout.setCounterEnabled(true);
+        passwordlayout.setCounterMaxLength(10);
+        emaillayout.setCounterEnabled(true);
+        emaillayout.setCounterMaxLength(100);
 
-emailedit.addTextChangedListener(new TextWatcher() {
-                                     @Override
-                                     public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+        emailedit.addTextChangedListener(new TextWatcher() {
+                                             @Override
+                                             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
-                                     }
+                                             }
 
-                                     @Override
-                                     public void onTextChanged(CharSequence s, int start, int before, int count) {
-                                         if (emailedit.getText().toString().isEmpty()) {
-                                             emaillayout.setErrorEnabled(true);
-                                             emaillayout.setError("Please Enter Your Email..");
+                                             @Override
+                                             public void onTextChanged(CharSequence s, int start, int before, int count) {
+                                                 if (emailedit.getText().toString().isEmpty()) {
+                                                     emaillayout.setErrorEnabled(true);
+                                                     emaillayout.setError("Please Enter Your Email..");
 
 
+                                                 } else if (isEmailValid(emailedit.getText().toString()) == false) {
+
+                                                     emaillayout.setErrorEnabled(true);
+                                                     emaillayout.setError("Please Enter Valid Email..");
+
+                                                 } else
+
+                                                 {
+                                                     emaillayout.setErrorEnabled(false);
+                                                 }
+                                             }
+
+                                             @Override
+                                             public void afterTextChanged(Editable s) {
+
+                                             }
                                          }
-                                         else if( isEmailValid(emailedit.getText().toString())==false){
 
-                                             emaillayout.setErrorEnabled(true);
-                                             emaillayout.setError("Please Enter Valid Email..");
-
-                                         }
-                                         else
-
-                                         {   emaillayout.setErrorEnabled(false);
-                                         }
-                                     }
-
-                                     @Override
-                                     public void afterTextChanged(Editable s) {
-
-                                     }
-                                 }
-
-);
+        );
 
 
-emailedit.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-    @Override
-    public void onFocusChange(View v, boolean hasFocus) {
-        if (emailedit.getText().toString().isEmpty()) {
-            emaillayout.setErrorEnabled(true);
-            emaillayout.setError("Please Enter Your Email..");
+        emailedit.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (emailedit.getText().toString().isEmpty()) {
+                    emaillayout.setErrorEnabled(true);
+                    emaillayout.setError("Please Enter Your Email..");
+                } else {
+                    emaillayout.setErrorEnabled(false);
+                }
+
+            }
+        });
+
+        login_layout.setOnClickListener(null);
+
+        login.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Intent log=new Intent(getApplicationContext(),MainActivity.class);
+                //  startActivity(log);
+                if (emailedit.getText().toString().isEmpty()) {
+                    emaillayout.setErrorEnabled(true);
+                    emaillayout.setError("Please Enter Your Email..");
+
+
+                } else if (isEmailValid(emailedit.getText().toString()) == false) {
+
+                    emaillayout.setErrorEnabled(true);
+                    emaillayout.setError("Please Enter Valid Email..");
+
+                } else
+
+                {
+                    emaillayout.setErrorEnabled(false);
+                    userLogin();
+                }
+
+            }
+        });
+        register.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent reg = new Intent(getApplicationContext(), Register.class);
+                startActivity(reg);
+            }
+        });
+        if(SharedPrefManager.getInstance(this).getUser().userName!=null)
+        {
+            Intent log = new Intent(getApplicationContext(), MainActivity.class);
+            startActivity(log);
         }
-        else
-        {   emaillayout.setErrorEnabled(false);}
-
     }
-});
 
-login_layout.setOnClickListener(null);
-
-login.setOnClickListener(new View.OnClickListener() {
-    @Override
-    public void onClick(View v) {
-       // Intent log=new Intent(getApplicationContext(),MainActivity.class);
-      //  startActivity(log);
-        if (emailedit.getText().toString().isEmpty()) {
-            emaillayout.setErrorEnabled(true);
-            emaillayout.setError("Please Enter Your Email..");
-
-
-        }
-        else if( isEmailValid(emailedit.getText().toString())==false){
-
-            emaillayout.setErrorEnabled(true);
-            emaillayout.setError("Please Enter Valid Email..");
-
-        }
-        else
-
-        {   emaillayout.setErrorEnabled(false);
-            userLogin();
-        }
-
-    }
-});
-register.setOnClickListener(new View.OnClickListener() {
-    @Override
-    public void onClick(View v) {
-        Intent reg=new Intent(getApplicationContext(),Register.class);
-        startActivity(reg);
-    }
-});
-    }
     public static boolean isEmailValid(String emailtext) {
         boolean isValid = false;
 
@@ -163,8 +170,7 @@ register.setOnClickListener(new View.OnClickListener() {
         return isValid;
     }
 
-    public void userLogin()
-    {
+    public void userLogin() {
        /* final ProgressDialog progressDialog = new ProgressDialog(this);
         progressDialog.setMessage("Signing Up...");
         progressDialog.show();*/
@@ -173,15 +179,15 @@ register.setOnClickListener(new View.OnClickListener() {
         try {
             //String res="";
 
-           new POSTLogin().execute(emailedit.getText().toString(),passwordedit.getText().toString() );
+            new POSTLogin().execute(emailedit.getText().toString(), passwordedit.getText().toString());
 
-           //Toast.makeText(getApplicationContext(),res,Toast.LENGTH_SHORT).show();
+            //Toast.makeText(getApplicationContext(),res,Toast.LENGTH_SHORT).show();
 
         } catch (Exception e) {
             e.printStackTrace();
-           // progressDialog.dismiss();
-            Toast.makeText(getApplicationContext(),"Error: " + e,Toast.LENGTH_SHORT).show();
-           // System.out.println("Error: " + e);
+            // progressDialog.dismiss();
+            Toast.makeText(getApplicationContext(), "Error: " + e, Toast.LENGTH_SHORT).show();
+            // System.out.println("Error: " + e);
         }
    /*     Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(GuideApi.BASE_URL)
@@ -220,10 +226,10 @@ register.setOnClickListener(new View.OnClickListener() {
     }
 
     private class POSTLogin extends AsyncTask<String, Void, String> {
-       @Override
+        @Override
         protected String doInBackground(String... params) {
 
-           //     InputStream inputStream = null;
+            //     InputStream inputStream = null;
             String cliente = params[0];
             String clave = params[1];
             //String res = params[2];
@@ -249,17 +255,18 @@ register.setOnClickListener(new View.OnClickListener() {
                     //System.out.println(json);
                     Gson gson = new Gson();
                     Token jsonbody = gson.fromJson(json, Token.class);
+                    SharedPrefManager.getInstance(getApplicationContext()).userLogin(jsonbody);
+
                     //System.out.println(jsonbody.userName+":"+ jsonbody.access_token);
                     //res=json;
-                  // System.out.println("CONTENIDO::  " + json);
+                    //System.out.println("CONTENIDO::  " + json);
                     //Toast.makeText(getApplicationContext(),json,Toast.LENGTH_SHORT).show();
                 }
             } catch (Exception e) {
                 e.printStackTrace();
                 //System.out.println("Error: " + e);
-               // Toast.makeText(getApplicationContext(),"Error: " + e,Toast.LENGTH_SHORT).show();
+                // Toast.makeText(getApplicationContext(),"Error: " + e,Toast.LENGTH_SHORT).show();
             }
-
 
 
             return json;
@@ -267,18 +274,18 @@ register.setOnClickListener(new View.OnClickListener() {
 
         protected void onPostExecute(String result) {
 
-           if(result.isEmpty()) {
-               progressBar.setVisibility(View.INVISIBLE);
-               Toast.makeText(getApplicationContext(),"Invalid user id or password",Toast.LENGTH_SHORT).show();
-           }
-           else{
-               progressBar.setVisibility(View.INVISIBLE);
+            if (result.isEmpty()) {
+                progressBar.setVisibility(View.INVISIBLE);
+                Toast.makeText(getApplicationContext(), "Invalid user id or password", Toast.LENGTH_SHORT).show();
+            } else {
+                progressBar.setVisibility(View.INVISIBLE);
 
-               Intent log = new Intent(getApplicationContext(), MainActivity.class);
-               startActivity(log);
-           }
+                Intent log = new Intent(getApplicationContext(), MainActivity.class);
+                startActivity(log);
+            }
             //Toast.makeText(getApplicationContext(),result,Toast.LENGTH_SHORT).show();
             //progressDialog.dismiss();
 
         }
-}}
+    }
+}

@@ -9,29 +9,30 @@ import retrofit2.http.Body;
 import retrofit2.http.DELETE;
 import retrofit2.http.Field;
 import retrofit2.http.GET;
+import retrofit2.http.Header;
 import retrofit2.http.POST;
 import retrofit2.http.PUT;
 import retrofit2.http.Path;
 
 public interface Api {
 
-    String BASE_URL = "http://guidedev.azurewebsites.net/api/";
+    String BASE_URL = "http://guidedev.azurewebsites.net/api/AdminApi/";
 
-    @GET("AdminApi")
-    Call<List<Week>> getWeeks();
+    @GET("GetWeekMaster")
+    Call<List<Week>> getWeeks(@Header("Authorization") String authHeader);
 
-    @GET("AdminApi/{WeekId}")
-    Call<Week> getWeeks(@Path("WeekId") int WeekId);
+    @GET("GetWeekMaster/{WeekId}")
+    Call<Week> getWeeks(@Path("WeekId") int WeekId,@Header("Authorization") String authHeader);
 
-    @POST("AdminApi")
+    @POST("PostWeekMaster")
     Call<Result> createWeek( @Body Week week);
 
-    @PUT("AdminApi/{WeekId}")
+    @PUT("PutWeekMaster/{WeekId}")
     Call<Result> updateWeek(
             @Body Week week
     );
 
-    @DELETE("AdminApi/{WeekId}")
+    @DELETE("DeleteWeekMaster/{WeekId}")
     Call<Result> deleteWeeks(@Path("WeekId") int WeekId);
 
 
