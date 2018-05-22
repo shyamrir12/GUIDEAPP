@@ -80,7 +80,7 @@ Button saveweek,updateweek,deleteweekss;
            public void onResponse(Call<Week> call, Response<Week> response) {
                progressDialog.dismiss();
                Week week=response.body();
-               //Log.d("WeekName",weeka.getWeekName());
+               Log.d("WeekName",week.getWeekName());
               String wid=String.valueOf(week.getWeekID());
                weekid.setText(wid);
                weekname.setText(week.getWeekName());

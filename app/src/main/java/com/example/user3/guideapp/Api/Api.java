@@ -24,9 +24,8 @@ public interface Api {
     Call<Week> getWeeks(@Path("WeekId") int WeekId);
 
     @POST("AdminApi")
-    Call<Result> createWeek(
-           @Body Week week
-           );
+    Call<Result> createWeek( @Body Week week);
+
     @PUT("AdminApi/{WeekId}")
     Call<Result> updateWeek(
             @Body Week week
