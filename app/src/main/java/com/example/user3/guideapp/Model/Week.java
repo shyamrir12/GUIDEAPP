@@ -21,6 +21,7 @@ public class Week {
     }
 
     public Week(int weekID, String weekName) {
+
         WeekID = weekID;
         WeekName = weekName;
 

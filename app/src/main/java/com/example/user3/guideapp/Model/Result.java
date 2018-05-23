@@ -15,9 +15,11 @@ public class Result {
     @SerializedName("week")
     private Week week;
 
-    public Result(String Message) {
+    public Result(String Message,Boolean Status,Week week) {
 
         this.Message = Message;
+        this.Status=Status;
+        this.week=week;
 
     }
 

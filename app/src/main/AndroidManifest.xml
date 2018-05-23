@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.user3.guideapp">
+
     <uses-permission android:name="android.permission.GET_ACCOUNTS" />
     <uses-permission android:name="android.permission.READ_PROFILE" />
     <uses-permission android:name="android.permission.READ_CONTACTS" />
@@ -16,7 +17,6 @@
         <activity
             android:name=".MainActivity"
             android:theme="@style/AppTheme.NoActionBar" />
-
         <activity
             android:name=".Register"
             android:parentActivityName=".Login"
@@ -30,11 +30,11 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".WeekMaster"
-            android:theme="@style/AppLogin">
-
-
-        </activity>
+        <activity
+            android:name=".WeekMaster"
+            android:theme="@style/AppLogin"></activity>
+        <activity android:name=".MyCourse" android:parentActivityName=".MainActivity"
+            android:theme="@style/AppLogin" ></activity>
     </application>
 
 </manifest>

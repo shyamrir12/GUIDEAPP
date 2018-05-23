@@ -48,14 +48,14 @@ public class Login extends AppCompatActivity {
     CoordinatorLayout login_layout;
     AppCompatEditText emailedit, passwordedit;
     TextInputLayout emaillayout, passwordlayout;
-    ProgressBar progressBar;
+    ProgressDialog progressDialog ;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        progressDialog = new ProgressDialog(this);
         setContentView(R.layout.activity_login);
-        progressBar = (ProgressBar) findViewById(R.id.progressBar1);
+
         register = findViewById(R.id.btn_register);
         login = findViewById(R.id.btn_login);
         login_layout = findViewById(R.id.login_layout_id);
@@ -63,7 +63,7 @@ public class Login extends AppCompatActivity {
         passwordlayout = findViewById(R.id.input_layout_password);
         emailedit = findViewById(R.id.input_email);
         passwordedit = findViewById(R.id.input_password);
-        progressBar.setVisibility(View.INVISIBLE);
+
         passwordlayout.setCounterEnabled(true);
         passwordlayout.setCounterMaxLength(10);
         emaillayout.setCounterEnabled(true);
@@ -149,8 +149,7 @@ public class Login extends AppCompatActivity {
                 startActivity(reg);
             }
         });
-        if(SharedPrefManager.getInstance(this).getUser().userName!=null)
-        {
+        if (SharedPrefManager.getInstance(this).getUser().userName != null) {
             Intent log = new Intent(getApplicationContext(), MainActivity.class);
             startActivity(log);
         }
@@ -174,8 +173,9 @@ public class Login extends AppCompatActivity {
        /* final ProgressDialog progressDialog = new ProgressDialog(this);
         progressDialog.setMessage("Signing Up...");
         progressDialog.show();*/
+        progressDialog.setMessage("loading...");
+        progressDialog.show();
 
-        progressBar.setVisibility(View.VISIBLE);
         try {
             //String res="";
 
@@ -185,7 +185,7 @@ public class Login extends AppCompatActivity {
 
         } catch (Exception e) {
             e.printStackTrace();
-            // progressDialog.dismiss();
+            progressDialog.dismiss();
             Toast.makeText(getApplicationContext(), "Error: " + e, Toast.LENGTH_SHORT).show();
             // System.out.println("Error: " + e);
         }
@@ -275,11 +275,12 @@ public class Login extends AppCompatActivity {
         protected void onPostExecute(String result) {
 
             if (result.isEmpty()) {
-                progressBar.setVisibility(View.INVISIBLE);
+                progressDialog.dismiss();
+                //progressBar.setVisibility(View.INVISIBLE);
                 Toast.makeText(getApplicationContext(), "Invalid user id or password", Toast.LENGTH_SHORT).show();
             } else {
-                progressBar.setVisibility(View.INVISIBLE);
-
+                //progressBar.setVisibility(View.INVISIBLE);
+                progressDialog.dismiss();
                 Intent log = new Intent(getApplicationContext(), MainActivity.class);
                 startActivity(log);
             }

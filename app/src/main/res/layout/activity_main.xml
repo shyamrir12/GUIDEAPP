@@ -20,24 +20,27 @@
         android:orientation="vertical"
         android:paddingLeft="20dp"
         android:paddingRight="20dp"
-        android:paddingTop="60dp">
+        android:paddingTop="20dp">
         <android.support.v7.widget.AppCompatTextView
-
             style="@style/HeaderTextStyle"
             android:id="@+id/text_email"
-            android:text="Test" />
-        <Button android:id="@+id/btn_getweek"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:text="Week Master"
-            android:background="@color/colorPrimary"
-            android:layout_marginTop="40dp"
-            android:textColor="@android:color/white"/>
-        <ListView
-            android:id="@+id/listViewHeroes"
+            android:text="User Home" />
+        <android.support.v7.widget.AppCompatTextView
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
-
+            android:layout_height="wrap_content"
+            android:text="Course List" />
+        <ListView
+            android:id="@+id/listViewCourseList"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+        <android.support.v7.widget.AppCompatTextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Category List" />
+        <ListView
+            android:id="@+id/listViewCategoryList"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
     </LinearLayout>
 
 </android.support.constraint.ConstraintLayout>
