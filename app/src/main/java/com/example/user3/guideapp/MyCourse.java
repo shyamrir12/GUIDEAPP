@@ -1,33 +1,50 @@
 package com.example.user3.guideapp;
 
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.example.user3.guideapp.Adapters.CourseAdapter;
 import com.example.user3.guideapp.Helper.SharedPrefManager;
 import com.example.user3.guideapp.Model.HomeData;
 import com.google.gson.Gson;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 
 public class MyCourse extends AppCompatActivity {
-    ListView listView;
 
+    RecyclerView recyclerView;
     ProgressDialog progressDialog ;
-
+    List<HomeData.DataCourse> courseList;
+    List<HomeData.DataCourseBanner> bannerList;
+    List<HomeData.DataRating> ratingList;
+    CourseAdapter adapter;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_course);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        listView = findViewById(R.id.listViewMycourse);
+        //listView = findViewById(R.id.listViewMycourse);
+        recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
+        recyclerView.setHasFixedSize(true);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+
         progressDialog = new ProgressDialog(this);
         getMyCourse();
+
+        //setting adapter to recyclerview
+
     }
     public void getMyCourse()
     {
@@ -124,20 +141,37 @@ public class MyCourse extends AppCompatActivity {
 
 
                 HomeData.HomeDataResult jsonbody = gson.fromJson(result, HomeData.HomeDataResult.class);
+               // HomeData.DataCourseBanner jsonbodybanner=gson.fromJson(result,HomeData.DataCourseBanner.class);
+                //HomeData.DataRating jsonbodyrating=gson.fromJson(result,HomeData.DataRating.class);
                  //System.out.println("Message: " +jsonbody.dataCourse.get(1).getCourseName());
-                String[] course = new String[jsonbody.dataCourse.size()];
+                courseList=new ArrayList<>();
+                bannerList=new ArrayList<>();
+                ratingList=new ArrayList<>();
+                courseList=jsonbody.dataCourse;
+                ratingList=jsonbody.dataRating;
+                bannerList=jsonbody.dataCourseBanner;
+
+
+                adapter = new CourseAdapter(MyCourse.this, courseList, bannerList, ratingList);
+                recyclerView.setAdapter(adapter);
+                //creating recyclerview adapter
+
+                //List<HomeData.HomeDataResult>=new ArrayList<HomeData.HomeDataResult>();
+
+                //jsonbody.dataCourse courseList= new ArrayList<>();
+
+
+
+               // String[] course = new String[jsonbody.dataCourse.size()];
 
                 //looping through all the heroes and inserting the names inside the string array
-                for (int i = 0; i < jsonbody.dataCourse.size(); i++) {
-                    course[i] = jsonbody.dataCourse.get(i).getCourseName();
-                }
+              //  for (int i = 0; i < jsonbody.dataCourse.size(); i++) {
+               //     course[i] = jsonbody.dataCourse.get(i).getCourseName();
+                //}
 
 
                 //displaying the string array into listview
-                listView.setAdapter(new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_list_item_1, course));
-
-
-
+                //listView.setAdapter(new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_list_item_1, course));
 
                 progressDialog.dismiss();
                 // Toast.makeText(getApplicationContext(),jsonbody.Message,Toast.LENGTH_SHORT).show();

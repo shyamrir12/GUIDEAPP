@@ -263,10 +263,25 @@ public class HomeData {
         public String Message;
         public List<DataCourse> dataCourse ;
 
+        public List<DataRating> getDataRating() {
+            return dataRating;
+        }
 
-        // public List<DataRating> dataRating;
+        public void setDataRating(List<DataRating> dataRating) {
+            this.dataRating = dataRating;
+        }
+
+        public List<DataCourseBanner> getDataCourseBanner() {
+            return dataCourseBanner;
+        }
+
+        public void setDataCourseBanner(List<DataCourseBanner> dataCourseBanner) {
+            this.dataCourseBanner = dataCourseBanner;
+        }
+
+        public List<DataRating> dataRating;
         // public List<object> datalicense ;
-        // public List<DataCourseBanner> dataCourseBanner ;
+        public List<DataCourseBanner> dataCourseBanner ;
     }
 
 }
