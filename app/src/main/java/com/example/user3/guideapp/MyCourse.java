@@ -26,9 +26,8 @@ public class MyCourse extends AppCompatActivity {
 
     RecyclerView recyclerView;
     ProgressDialog progressDialog ;
-    List<HomeData.DataCourse> courseList;
-    List<HomeData.DataCourseBanner> bannerList;
-    List<HomeData.DataRating> ratingList;
+
+    List<HomeData.CourseApiList> courseapiList;
     CourseAdapter adapter;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -144,15 +143,14 @@ public class MyCourse extends AppCompatActivity {
                // HomeData.DataCourseBanner jsonbodybanner=gson.fromJson(result,HomeData.DataCourseBanner.class);
                 //HomeData.DataRating jsonbodyrating=gson.fromJson(result,HomeData.DataRating.class);
                  //System.out.println("Message: " +jsonbody.dataCourse.get(1).getCourseName());
-                courseList=new ArrayList<>();
-                bannerList=new ArrayList<>();
-                ratingList=new ArrayList<>();
-                courseList=jsonbody.dataCourse;
-                ratingList=jsonbody.dataRating;
-                bannerList=jsonbody.dataCourseBanner;
+
+courseapiList=new ArrayList<>();
+
+                courseapiList=jsonbody.courseapilist;
 
 
-                adapter = new CourseAdapter(MyCourse.this, courseList, bannerList, ratingList);
+
+                adapter = new CourseAdapter(MyCourse.this, courseapiList);
                 recyclerView.setAdapter(adapter);
                 //creating recyclerview adapter
 
