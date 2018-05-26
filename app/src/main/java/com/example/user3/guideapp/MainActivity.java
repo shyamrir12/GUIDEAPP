@@ -14,11 +14,14 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.GridView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.user3.guideapp.Adapters.CustomGrid;
 import com.example.user3.guideapp.Helper.SharedPrefManager;
 import com.example.user3.guideapp.Model.HomeData;
 import com.example.user3.guideapp.Model.HomeIndex;
@@ -38,7 +41,7 @@ import okhttp3.Request;
 
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
-
+    GridView grid,gridcat;
     DrawerLayout drawerLayout;
     NavigationView navigationView;
     Toolbar toolbar;
@@ -74,10 +77,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         drawerLayout.addDrawerListener(toggle);
         toggle.syncState();
 
-        listViewCourseList = findViewById(R.id.listViewCourseList);
-        listViewCategoryList=findViewById(R.id.listViewCategoryList);
+        //listViewCourseList = findViewById(R.id.listViewCourseList);
+       // listViewCategoryList=findViewById(R.id.listViewCategoryList);
         //textemail.setText(SharedPrefManager.getInstance(this).getUser().userName);
         getheros();
+
         //setSupportActionBar(toolbar);
         // getSupportActionBar().setDisplayShowHomeEnabled(true);
     }
@@ -286,19 +290,42 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
               HomeIndex.HomeIndexResult jsonbody = gson.fromJson(result, HomeIndex.HomeIndexResult.class);
 
-                String[] course = new String[jsonbody.dataCourseList.size()];
+                final String[] course = new String[jsonbody.dataCourseList.size()];
                 String[] category = new String[jsonbody.dataCategoryList.size()];
+                int[] imageId=new int[jsonbody.dataCourseList.size()];
+                int[] imageIdcat=new int[jsonbody.getDataCategoryList().size()];
                 //looping through all the heroes and inserting the names inside the string array
                 for (int i = 0; i < jsonbody.dataCourseList.size(); i++) {
                     course[i] = jsonbody.dataCourseList.get(i).getCourseName();
-                }
-                for (int i = 0; i < jsonbody.dataCategoryList.size(); i++) {
-                    category[i] = jsonbody.dataCategoryList.get(i).getCategoryName();
+                    imageId[i]= R.drawable.book;
                 }
 
+                for (int i = 0; i < jsonbody.dataCategoryList.size(); i++) {
+                    category[i] = jsonbody.dataCategoryList.get(i).getCategoryName();
+                    imageIdcat[i]= R.drawable.book;
+                }
+                CustomGrid adapter = new CustomGrid(MainActivity.this, course, imageId);
+                grid=(GridView)findViewById(R.id.grid);
+                grid.setAdapter(adapter);
+                grid.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+                    public void onItemClick(AdapterView<?> parent, View v,
+                                            int position, long id) {
+
+
+                        Toast.makeText(
+                                getApplicationContext(),
+                                ((TextView) v.findViewById( R.id.grid_text ))
+                                        .getText(), Toast.LENGTH_SHORT).show();
+
+                    }
+                });
+                CustomGrid adaptercat = new CustomGrid(MainActivity.this, category, imageIdcat);
+                gridcat=(GridView)findViewById(R.id.gridcat);
+                gridcat.setAdapter(adaptercat);
                 //displaying the string array into listview
-                listViewCourseList.setAdapter(new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_list_item_1, course));
-                listViewCategoryList.setAdapter(new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_list_item_1, category));
+                //listViewCourseList.setAdapter(new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_list_item_1, course));
+                //listViewCategoryList.setAdapter(new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_list_item_1, category));
                 //System.out.println("Error: " +jsonbody.Message);
 
 

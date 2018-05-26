@@ -9,12 +9,12 @@
     android:layout_height="160dp"
     android:theme="@style/ThemeOverlay.AppCompat.Dark"
     android:background="@drawable/navigationdrawerback">
-    <de.hdodenhof.circleimageview.CircleImageView
+    <android.support.v7.widget.AppCompatImageView
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:id="@+id/profile_image"
-        android:layout_width="56dp"
+        android:layout_width="90dp"
         android:layout_height="56dp"
-        android:src="@drawable/ic_account_circle_black_24dp"
+        android:src="@drawable/guidelogo"
         android:scaleType="centerCrop"
         />
     <TextView

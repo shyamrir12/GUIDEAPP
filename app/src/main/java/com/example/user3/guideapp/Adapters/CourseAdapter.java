@@ -1,24 +1,18 @@
 package com.example.user3.guideapp.Adapters;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.user3.guideapp.CourseDetails;
-import com.example.user3.guideapp.ItemClickListener;
 import com.example.user3.guideapp.Model.HomeData;
-import com.example.user3.guideapp.MyCourse;
 import com.example.user3.guideapp.R;
 import com.squareup.picasso.Picasso;
 
-import java.net.URL;
 import java.util.List;
 
 public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.CourseViewHolder> {
@@ -41,7 +35,7 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.CourseView
         //inflating and returning our view holder
         LayoutInflater inflater = LayoutInflater.from(mCtx);
         View view = inflater.inflate(R.layout.layout_courses, null);
-        return new CourseViewHolder(view);
+        return new CourseViewHolder(view,mCtx,courseList);
 
     }
 
@@ -61,16 +55,6 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.CourseView
 
         Picasso.with(this.mCtx).load(imgurl).into(holder.imageView);
 
-        holder.setItemClickListener(new ItemClickListener() {
-            @Override
-            public View onClick(View view, int Position, boolean isLongClick) {
-               if(isLongClick){
-                   Intent log = new Intent(mCtx.getApplicationContext(),CourseDetails.class);
-                   mCtx.startActivity(log);
-               }
-               return  view;
-            }
-        });
         //holder.imageView.setImageDrawable(mCtx.getResources().getDrawable();
 
 
@@ -83,37 +67,40 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.CourseView
     }
 
 
-    class CourseViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener,View.OnLongClickListener {
+    class CourseViewHolder extends RecyclerView.ViewHolder implements View.OnLongClickListener,View.OnClickListener {
 
         TextView textViewTitle, textViewShortDesc, textViewRating, textViewPrice;
-        private ItemClickListener itemClickListener;
-
-        public void setItemClickListener(ItemClickListener itemClickListener)
-        {
-            this.itemClickListener=itemClickListener;
-        }
-        @Override
-        public void onClick(View v) {
-        itemClickListener.onClick(v,getAdapterPosition(),false);
-        }
-
-        @Override
-        public boolean onLongClick(View v) {
-            itemClickListener.onClick(v,getAdapterPosition(),false);
-            return false;
-        }
+        private Context mCtx;
+        //we are storing all the products in a list
+        private List<HomeData.CourseApiList> courseList;
 
         ImageView imageView;
 
-        public CourseViewHolder(View itemView) {
+        public CourseViewHolder(View itemView,Context mCtx, List<HomeData.CourseApiList> courseList ) {
             super(itemView);
-
+            this.mCtx=mCtx;
+            this.courseList=courseList;
+            itemView.setOnClickListener(this);
             textViewTitle = itemView.findViewById(R.id.textViewTitle);
             textViewShortDesc = itemView.findViewById(R.id.textViewInstructorName);
             textViewShortDesc.setMaxLines(2);
             textViewRating = itemView.findViewById(R.id.textViewRating);
             textViewPrice = itemView.findViewById(R.id.textViewPrice);
             imageView = itemView.findViewById(R.id.imageView);
+        }
+
+        @Override
+        public boolean onLongClick(View v) {
+            return false;
+        }
+
+        @Override
+        public void onClick(View v) {
+           int position=getAdapterPosition();
+           HomeData.CourseApiList course =this.courseList.get(position);
+           Intent intent=new Intent(mCtx, CourseDetails.class);
+           intent.putExtra("courseid",course.getCourseID());
+           this.mCtx.startActivity(intent);
         }
     }
 }

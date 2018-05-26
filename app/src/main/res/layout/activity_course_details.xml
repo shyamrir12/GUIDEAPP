@@ -6,4 +6,13 @@
     android:layout_height="match_parent"
     tools:context=".CourseDetails">
 
+    <TextView
+        android:id="@+id/textViewCourseId"
+       android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="TextView"
+        android:textStyle="bold"
+        android:gravity="center"
+        android:textSize="18dp" android:layout_marginTop="20dp"
+        />
 </android.support.constraint.ConstraintLayout>

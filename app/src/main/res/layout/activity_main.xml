@@ -13,34 +13,74 @@
         android:elevation="4dp"
         android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
         app:popupTheme="@style/ThemeOverlay.AppCompat.Light"></android.support.v7.widget.Toolbar>
-    <LinearLayout
-        android:layout_width="fill_parent"
+    <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="?attr/actionBarSize"
-        android:orientation="vertical"
-        android:paddingLeft="20dp"
-        android:paddingRight="20dp"
-        android:paddingTop="20dp">
-        <android.support.v7.widget.AppCompatTextView
-            style="@style/HeaderTextStyle"
-            android:id="@+id/text_email"
-            android:text="User Home" />
-        <android.support.v7.widget.AppCompatTextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Course List" />
-        <ListView
-            android:id="@+id/listViewCourseList"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-        <android.support.v7.widget.AppCompatTextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Category List" />
-        <ListView
-            android:id="@+id/listViewCategoryList"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-    </LinearLayout>
+       >
 
+        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:tools="http://schemas.android.com/tools"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingTop="56dp">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_weight="2">
+
+                <TextView
+                    android:id="@+id/textGrid"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:gravity="center"
+                    android:text="COURSES"
+                    android:textSize="20dp" />
+
+            </RelativeLayout>
+
+            <GridView
+                android:id="@+id/grid"
+                android:layout_width="match_parent"
+                android:layout_height="470dp"
+                android:clipToPadding="false"
+
+                android:horizontalSpacing="16dp"
+                android:numColumns="2"
+                android:padding="16dp"
+                android:verticalSpacing="16dp" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_weight="2">
+
+                <TextView
+                    android:id="@+id/textGridcat"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+
+                    android:layout_centerInParent="true"
+                    android:text="CATEGORIES"
+                    android:textSize="20dp" />
+
+            </RelativeLayout>
+
+            <GridView
+                android:id="@+id/gridcat"
+                android:layout_width="wrap_content"
+                android:layout_height="800dp"
+                android:clipToPadding="false"
+
+                android:horizontalSpacing="16dp"
+                android:numColumns="2"
+                android:padding="16dp"
+                android:verticalSpacing="16dp" />
+        </LinearLayout></ScrollView>
 </android.support.constraint.ConstraintLayout>
