@@ -47,7 +47,7 @@
             <GridView
                 android:id="@+id/grid"
                 android:layout_width="match_parent"
-                android:layout_height="470dp"
+                android:layout_height="480dp"
                 android:clipToPadding="false"
 
                 android:horizontalSpacing="16dp"
@@ -75,7 +75,7 @@
             <GridView
                 android:id="@+id/gridcat"
                 android:layout_width="wrap_content"
-                android:layout_height="800dp"
+                android:layout_height="810dp"
                 android:clipToPadding="false"
 
                 android:horizontalSpacing="16dp"

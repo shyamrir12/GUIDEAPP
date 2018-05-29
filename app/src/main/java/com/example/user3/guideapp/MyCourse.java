@@ -144,7 +144,7 @@ public class MyCourse extends AppCompatActivity {
                 //HomeData.DataRating jsonbodyrating=gson.fromJson(result,HomeData.DataRating.class);
                  //System.out.println("Message: " +jsonbody.dataCourse.get(1).getCourseName());
 
-courseapiList=new ArrayList<>();
+                  courseapiList=new ArrayList<>();
 
                 courseapiList=jsonbody.courseapilist;
 

@@ -5,12 +5,6 @@ import java.util.List;
 public class CourseData {
     public class DataCourseFaq
     {
-        public String Course ;
-        public int QuestionID ;
-        public String Question ;
-        public String Answer ;
-        public String CourseID ;
-
         public String getCourse() {
             return Course;
         }
@@ -50,6 +44,195 @@ public class CourseData {
         public void setCourseID(String courseID) {
             CourseID = courseID;
         }
+
+        public String Course ;
+        public int QuestionID ;
+        public String Question ;
+        public String Answer ;
+        public String CourseID ;
+    }
+
+    public class Dataforum
+    {
+        public int getCommentId() {
+            return CommentId;
+        }
+
+        public void setCommentId(int commentId) {
+            CommentId = commentId;
+        }
+
+        public String getUserId() {
+            return UserId;
+        }
+
+        public void setUserId(String userId) {
+            UserId = userId;
+        }
+
+        public String getCourseID() {
+            return CourseID;
+        }
+
+        public void setCourseID(String courseID) {
+            CourseID = courseID;
+        }
+
+        public String getComment() {
+            return Comment;
+        }
+
+        public void setComment(String comment) {
+            Comment = comment;
+        }
+
+        public String getCommentedOn() {
+            return CommentedOn;
+        }
+
+        public void setCommentedOn(String commentedOn) {
+            CommentedOn = commentedOn;
+        }
+
+        public String getUserName() {
+            return UserName;
+        }
+
+        public void setUserName(String userName) {
+            UserName = userName;
+        }
+
+        public String getName() {
+            return Name;
+        }
+
+        public void setName(String name) {
+            Name = name;
+        }
+
+        public int CommentId ;
+        public String UserId ;
+        public String CourseID ;
+        public String Comment ;
+        public String CommentedOn ;
+        public String UserName ;
+        public String Name ;
+    }
+
+    public class Datareply
+    {
+        public int ReplyId ;
+        public int CommentId ;
+        public String Reply ;
+        public String RepliedOn ;
+        public String UserId ;
+        public String UserName ;
+        public String Name ;
+
+        public int getReplyId() {
+            return ReplyId;
+        }
+
+        public void setReplyId(int replyId) {
+            ReplyId = replyId;
+        }
+
+        public int getCommentId() {
+            return CommentId;
+        }
+
+        public void setCommentId(int commentId) {
+            CommentId = commentId;
+        }
+
+        public String getReply() {
+            return Reply;
+        }
+
+        public void setReply(String reply) {
+            Reply = reply;
+        }
+
+        public String getRepliedOn() {
+            return RepliedOn;
+        }
+
+        public void setRepliedOn(String repliedOn) {
+            RepliedOn = repliedOn;
+        }
+
+        public String getUserId() {
+            return UserId;
+        }
+
+        public void setUserId(String userId) {
+            UserId = userId;
+        }
+
+        public String getUserName() {
+            return UserName;
+        }
+
+        public void setUserName(String userName) {
+            UserName = userName;
+        }
+
+        public String getName() {
+            return Name;
+        }
+
+        public void setName(String name) {
+            Name = name;
+        }
+    }
+
+    public class DatacourseTestimonial
+    {
+        public String LearnerID ;
+        public String CourseID ;
+        public String Testimonial ;
+        public String LearnerName ;
+        public int Rating ;
+
+        public String getLearnerID() {
+            return LearnerID;
+        }
+
+        public void setLearnerID(String learnerID) {
+            LearnerID = learnerID;
+        }
+
+        public String getCourseID() {
+            return CourseID;
+        }
+
+        public void setCourseID(String courseID) {
+            CourseID = courseID;
+        }
+
+        public String getTestimonial() {
+            return Testimonial;
+        }
+
+        public void setTestimonial(String testimonial) {
+            Testimonial = testimonial;
+        }
+
+        public String getLearnerName() {
+            return LearnerName;
+        }
+
+        public void setLearnerName(String learnerName) {
+            LearnerName = learnerName;
+        }
+
+        public int getRating() {
+            return Rating;
+        }
+
+        public void setRating(int rating) {
+            Rating = rating;
+        }
     }
 
     public class Datacoursecontent
@@ -60,7 +243,7 @@ public class CourseData {
         public int EstimatedTime ;
         public String InstructorID ;
         public String ContentURL ;
-        public String ContentDescription;
+        public String ContentDescription ;
         public String FileName ;
         public String FileContentType ;
         public int MappingID ;
@@ -203,7 +386,7 @@ public class CourseData {
     public class Dataweek
     {
         public int WeekID ;
-        public String WeekName;
+        public String WeekName ;
 
         public int getWeekID() {
             return WeekID;
@@ -294,9 +477,9 @@ public class CourseData {
         public int CategoryID ;
         public String CategoryName ;
         public int CourseCount ;
-        public String ColorCategory;
+        public String ColorCategory ;
         public String SpanColor ;
-        public String BgColor;
+        public String BgColor ;
         public String HexCodes ;
 
         public int getCategoryID() {
@@ -414,30 +597,30 @@ public class CourseData {
         }
     }
 
-    public class CourseDetails
+    public class Datacoursedetails
     {
         public String CourseID ;
         public String CourseName ;
-        public String CourseDescription;
-        public String Keyword;
-        public int CourseStatus;
+        public String CourseDescription ;
+        public String Keyword ;
+        public int CourseStatus ;
         public double CoursePrice ;
         public String Currency ;
         public String InstructorID ;
-        public int CategoryID;
-        public String CategoryName;
-        public String InstructorName;
+        public int CategoryID ;
+        public String CategoryName ;
+        public String InstructorName ;
         public String ColorCategory ;
-        public String SpanColor;
+        public String SpanColor ;
         public String LectureType ;
-        public int Batch1StartDayOfMonth;
+        public int Batch1StartDayOfMonth ;
         public int Batch2StartDayOfMonth ;
-        public int Batch3StartDayOfMonth;
+        public int Batch3StartDayOfMonth ;
         public int Batch4StartDayOfMonth ;
-        public int Duration;
+        public int Duration ;
         public String BgColor ;
         public String HexCodes ;
-        public String PublishedOn;
+        public String PublishedOn ;
         public String Status ;
 
         public String getCourseID() {
@@ -625,40 +808,36 @@ public class CourseData {
         }
     }
 
-    public class CourseDataResult
+    public class RootObject
     {
-        public boolean Status ;
+        public Boolean Status ;
         public String Message ;
         public int totalSubscription ;
-        public int totalLactures;
+        public int totalLactures ;
         public String UserId ;
         public String url ;
         public String CourseId ;
         public int totaltestimonial ;
         public String msg ;
         public String date ;
-        public String startdate;
-        public boolean status;
+        public String startdate ;
+        public Boolean status ;
         public List<DataCourseFaq> dataCourseFaq ;
-        public String datadiscussionforum;
-        public String datacoursetestimonial ;
-        public String dataforum;
-        public String datareply;
-        public String datacourseTestimonial ;
+        public List<Dataforum> dataforum ;
+        public List<Datareply> datareply ;
+        public List<DatacourseTestimonial> datacourseTestimonial ;
         public List<Datacoursecontent> datacoursecontent ;
-        public List<Dataweek> dataweek;
+        public List<Dataweek> dataweek ;
         public List<Datatopic> datatopic ;
-        public String datacoursemapping ;
-        public List<Datacategorylist> datacategorylist;
-        public String datacourseRating ;
+        public List<Datacategorylist> datacategorylist ;
         public Datacoursebanner datacoursebanner ;
-        public CourseDetails CourseDetails ;
+        public Datacoursedetails datacoursedetails ;
 
-        public boolean isStatus() {
+        public Boolean getStatus() {
             return Status;
         }
 
-        public void setStatus(boolean status) {
+        public void setStatus(Boolean status) {
             Status = status;
         }
 
@@ -670,43 +849,27 @@ public class CourseData {
             this.dataCourseFaq = dataCourseFaq;
         }
 
-        public String getDatadiscussionforum() {
-            return datadiscussionforum;
-        }
-
-        public void setDatadiscussionforum(String datadiscussionforum) {
-            this.datadiscussionforum = datadiscussionforum;
-        }
-
-        public String getDatacoursetestimonial() {
-            return datacoursetestimonial;
-        }
-
-        public void setDatacoursetestimonial(String datacoursetestimonial) {
-            this.datacoursetestimonial = datacoursetestimonial;
-        }
-
-        public String getDataforum() {
+        public List<Dataforum> getDataforum() {
             return dataforum;
         }
 
-        public void setDataforum(String dataforum) {
+        public void setDataforum(List<Dataforum> dataforum) {
             this.dataforum = dataforum;
         }
 
-        public String getDatareply() {
+        public List<Datareply> getDatareply() {
             return datareply;
         }
 
-        public void setDatareply(String datareply) {
+        public void setDatareply(List<Datareply> datareply) {
             this.datareply = datareply;
         }
 
-        public String getDatacourseTestimonial() {
+        public List<DatacourseTestimonial> getDatacourseTestimonial() {
             return datacourseTestimonial;
         }
 
-        public void setDatacourseTestimonial(String datacourseTestimonial) {
+        public void setDatacourseTestimonial(List<DatacourseTestimonial> datacourseTestimonial) {
             this.datacourseTestimonial = datacourseTestimonial;
         }
 
@@ -734,28 +897,12 @@ public class CourseData {
             this.datatopic = datatopic;
         }
 
-        public String getDatacoursemapping() {
-            return datacoursemapping;
-        }
-
-        public void setDatacoursemapping(String datacoursemapping) {
-            this.datacoursemapping = datacoursemapping;
-        }
-
         public List<Datacategorylist> getDatacategorylist() {
             return datacategorylist;
         }
 
         public void setDatacategorylist(List<Datacategorylist> datacategorylist) {
             this.datacategorylist = datacategorylist;
-        }
-
-        public String getDatacourseRating() {
-            return datacourseRating;
-        }
-
-        public void setDatacourseRating(String datacourseRating) {
-            this.datacourseRating = datacourseRating;
         }
 
         public Datacoursebanner getDatacoursebanner() {
@@ -766,12 +913,12 @@ public class CourseData {
             this.datacoursebanner = datacoursebanner;
         }
 
-        public CourseData.CourseDetails getCourseDetails() {
-            return CourseDetails;
+        public Datacoursedetails getDatacoursedetails() {
+            return datacoursedetails;
         }
 
-        public void setCourseDetails(CourseData.CourseDetails courseDetails) {
-            CourseDetails = courseDetails;
+        public void setDatacoursedetails(Datacoursedetails datacoursedetails) {
+            this.datacoursedetails = datacoursedetails;
         }
 
         public String getMessage() {
