@@ -7,7 +7,7 @@
     tools:context=".CourseDetails">
 <ScrollView
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent" android:fillViewport="true">
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
@@ -18,7 +18,7 @@
         android:id="@+id/imageViewBanner"
         android:layout_width="match_parent"
         android:layout_height="168dp"
-        app:srcCompat="@drawable/guidelogo"
+
         />
 
         <RelativeLayout
@@ -33,7 +33,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="5dp"
 
-                android:text="Apple MacBook Air Core i5 5th Gen - (8 GB/128 GB SSD/Mac OS Sierra)"
+
                 android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"
 
                 android:textColor="#000000" />
@@ -45,7 +45,7 @@
                 android:layout_marginLeft="5dp"
                 android:layout_marginTop="5dp"
 
-                android:text="Mr.Vikash"
+
                 android:textAppearance="@style/Base.TextAppearance.AppCompat.Small" />
 
 
@@ -70,7 +70,7 @@
             <ExpandableListView
                 android:id="@+id/expandableListViewlecture"
                 android:layout_width="match_parent"
-                android:layout_height="300dp"
+                android:layout_height="wrap_content"
                 android:divider="@android:color/darker_gray"
                 android:dividerHeight="0.5dp"
                 android:indicatorLeft="?android:attr/expandableListPreferredItemIndicatorLeft"
@@ -94,7 +94,7 @@
           <android.support.v7.widget.RecyclerView
               android:id="@+id/recyclerViewfaq"
               android:layout_width="match_parent"
-              android:layout_height="match_parent" android:paddingTop="25dp" />
+              android:layout_height="match_parent" android:paddingTop="40dp" />
       </RelativeLayout>
 
     </LinearLayout></ScrollView>

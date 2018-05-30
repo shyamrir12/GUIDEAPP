@@ -1,12 +1,16 @@
 package com.example.user3.guideapp;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ExpandableListAdapter;
 import android.widget.ExpandableListView;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -21,6 +25,7 @@ import com.example.user3.guideapp.Model.HomeData;
 import com.google.gson.Gson;
 import com.squareup.picasso.Picasso;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -28,7 +33,7 @@ import java.util.List;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 
-public class CourseDetails extends AppCompatActivity {
+public class CourseDetails extends AppCompatActivity  {
     ProgressDialog progressDialog;
     WeekAdapter weekAdapter;
     ExpandableListView expListView;
@@ -40,6 +45,7 @@ public class CourseDetails extends AppCompatActivity {
     ImageView bannerimage;
     List<CourseData.DataCourseFaq> faqList;
     FaqAdapter adapterfaq;
+    String courseid;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -52,15 +58,67 @@ public class CourseDetails extends AppCompatActivity {
         recyclerViewfaq=findViewById(R.id.recyclerViewfaq);
         //expListView.setGroupIndicator(null);
         progressDialog = new ProgressDialog(this);
+        courseid=getIntent().getStringExtra("courseid");
         getMyCourseDesc();
+
+
     }
 
+
+
+
+   /* @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 1) {
+            if(resultCode==RESULT_OK)
+            {
+                courseid=data.getStringExtra("courseid");
+            }
+        }
+    }*/
+
+    private void setListViewHeight(ExpandableListView listView,
+                                   int group) {
+        ExpandableListAdapter listAdapter = (ExpandableListAdapter) listView.getExpandableListAdapter();
+        int totalHeight = 0;
+        int desiredWidth = View.MeasureSpec.makeMeasureSpec(listView.getWidth(),
+                View.MeasureSpec.EXACTLY);
+        for (int i = 0; i < listAdapter.getGroupCount(); i++) {
+            View groupItem = listAdapter.getGroupView(i, false, null, listView);
+            groupItem.measure(desiredWidth, View.MeasureSpec.UNSPECIFIED);
+
+            totalHeight += groupItem.getMeasuredHeight();
+
+            if (((listView.isGroupExpanded(i)) && (i != group))
+                    || ((!listView.isGroupExpanded(i)) && (i == group))) {
+                for (int j = 0; j < listAdapter.getChildrenCount(i); j++) {
+                    View listItem = listAdapter.getChildView(i, j, false, null,
+                            listView);
+                    listItem.measure(desiredWidth, View.MeasureSpec.UNSPECIFIED);
+
+                    totalHeight += listItem.getMeasuredHeight();
+
+                }
+            }
+        }
+
+        ViewGroup.LayoutParams params = listView.getLayoutParams();
+        int height = totalHeight
+                + (listView.getDividerHeight() * (listAdapter.getGroupCount() - 1));
+        if (height < 10)
+            height = 200;
+        params.height = height;
+        listView.setLayoutParams(params);
+        listView.requestLayout();
+
+    }
     public void getMyCourseDesc() {
         try {
             //String res="";
             progressDialog.setMessage("loading...");
             progressDialog.show();
-            new CourseDetails.GETCourseDesc().execute(SharedPrefManager.getInstance(this).getUser().access_token,getIntent().getStringExtra("courseid"));
+            new CourseDetails.GETCourseDesc().execute(SharedPrefManager.getInstance(this).getUser().access_token,courseid);
 
             //Toast.makeText(getApplicationContext(),res,Toast.LENGTH_SHORT).show();
 
@@ -72,7 +130,7 @@ public class CourseDetails extends AppCompatActivity {
         }
     }
 
-    private class GETCourseDesc extends AsyncTask<String, Void, String> {
+    private class GETCourseDesc extends AsyncTask<String, Void, String>  {
         @Override
         protected String doInBackground(String... params) {
 
@@ -139,44 +197,63 @@ public class CourseDetails extends AppCompatActivity {
                 for (int i = 0; i < dw.size(); i++) {
 
                     listDataHeader.add(dw.get(i).getWeekName());
+
                     List<String>  wn  = new ArrayList<String>();
                     for(int j = 0; j < dt.size(); j++)
                     {
                         if(dt.get(j).getWeekID()==dw.get(i).getWeekID()) {
                             for(int k=0;k<cc.size();k++){
                                 if(dt.get(j).getTopicID()==cc.get(k).getTopicID()){
+                                    String contentid=Integer.toString( cc.get(k).getContentID());
+                                    String lecture=dt.get(j).getTopicName()+":"+cc.get(k).getContentTitle()+","+contentid;
 
-                                    String lecture=dt.get(j).getTopicName()+":"+cc.get(k).getContentTitle();
                                     wn.add(lecture);
+
                                 }
                             }
                         }
                     }
                     listDataChild.put( dw.get(i).getWeekName(), wn);
-
-                    //System.out.println("Weekname:"+ weeks[i]);
+                   //System.out.println("Weekname:"+ weeks[i]);
                 }
                 weekAdapter = new WeekAdapter(CourseDetails.this, listDataHeader, listDataChild);
 
                 expListView.setAdapter(weekAdapter);
+                expListView.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
+                    @Override
+                    public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
+
+
+                       // Intent contentdetails = new Intent(CourseDetails.this,ContentDetails.class);
+                        //startActivity(contentdetails);
+                      String contentid=listDataChild.get(listDataHeader.get(groupPosition)).get(childPosition);
+                      contentid=contentid.substring(contentid.lastIndexOf(",") + 1);
+
+                        Intent contentdetails = new Intent(CourseDetails.this,ContentDetails.class);
+                        contentdetails.putExtra("contentid",contentid);
+                        contentdetails.putExtra("courseid",courseid);
+
+                              startActivity(contentdetails);
+                        //startActivityForResult(contentdetails, 1);
+                        return false;
+                    }
+                });
+                expListView.setOnGroupClickListener(new ExpandableListView.OnGroupClickListener() {
+                    @Override
+                    public boolean onGroupClick(ExpandableListView parent, View v, int groupPosition, long id) {
+                        setListViewHeight(parent, groupPosition);
+                        return false;
+                    }
+                });
                // List<CourseData.DataCourseFaq > df=jsonbodys.dataCourseFaq;
 
                 faqList=new ArrayList<>();
-
                 faqList=jsonbodys.dataCourseFaq;
-
-
-
                 adapterfaq = new FaqAdapter(CourseDetails.this, faqList);
-
                 recyclerViewfaq.setLayoutManager(new LinearLayoutManager(CourseDetails.this));
                 recyclerViewfaq.setAdapter(adapterfaq);
                 //Toast.makeText(getApplicationContext(), result, Toast.LENGTH_SHORT).show();
-
-
-
                 //jsonbody.datacoursebanner.getFileName();
-
                 //courseapiList=new ArrayList<>();
                 //  courseapiList=jsonbody.courseapilist;
                 //  adapter = new CourseAdapter(MyCourse.this, courseapiList);

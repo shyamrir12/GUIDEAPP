@@ -34,6 +34,7 @@ public class WeekAdapter extends BaseExpandableListAdapter {
 
     @Override
     public long getChildId(int groupPosition, int childPosition) {
+
         return childPosition;
     }
 
@@ -51,8 +52,11 @@ public class WeekAdapter extends BaseExpandableListAdapter {
 
         TextView txtListChild = (TextView) convertView
                 .findViewById(R.id.textViewLecture);
+        TextView txtListTitle = (TextView) convertView
+                .findViewById(R.id.textViewTitle);
+       txtListChild.setText(childText.split(",")[0]);
+        txtListTitle.setText(childText.substring(childText.lastIndexOf(",") + 1));
 
-        txtListChild.setText(childText);
         return convertView;
     }
 
