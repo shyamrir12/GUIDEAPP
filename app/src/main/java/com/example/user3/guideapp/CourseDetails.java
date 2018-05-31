@@ -66,7 +66,6 @@ public class CourseDetails extends AppCompatActivity  {
 
 
 
-
    /* @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -232,8 +231,8 @@ public class CourseDetails extends AppCompatActivity  {
                         Intent contentdetails = new Intent(CourseDetails.this,ContentDetails.class);
                         contentdetails.putExtra("contentid",contentid);
                         contentdetails.putExtra("courseid",courseid);
-
-                              startActivity(contentdetails);
+                       // Toast.makeText(CourseDetails.this,contentid,Toast.LENGTH_SHORT).show();
+                        startActivity(contentdetails);
                         //startActivityForResult(contentdetails, 1);
                         return false;
                     }

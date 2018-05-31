@@ -45,6 +45,7 @@ public class MyCourse extends AppCompatActivity {
         //setting adapter to recyclerview
 
     }
+
     public void getMyCourse()
     {
         try {
