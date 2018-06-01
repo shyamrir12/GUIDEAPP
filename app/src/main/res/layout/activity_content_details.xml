@@ -12,11 +12,15 @@
         android:layout_gravity="center"
         android:padding="4dp" >
 
-          <com.google.android.youtube.player.YouTubePlayerView
+        <!--  <com.google.android.youtube.player.YouTubePlayerView
           android:layout_width="match_parent"
            android:layout_height="300dp" android:id="@+id/youTubePlayerView">
 
-          </com.google.android.youtube.player.YouTubePlayerView>
+          </com.google.android.youtube.player.YouTubePlayerView>-->
+        <WebView
+            android:layout_width="match_parent"
+            android:layout_height="300dp" android:id="@+id/youTubePlayerView"
+            tools:ignore="WebViewLayout"></WebView>
 
         <TextView
             android:id="@+id/textViewlecture"

@@ -9,6 +9,9 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.WebSettings;
+import android.webkit.WebView;
+import android.webkit.WebViewClient;
 import android.widget.ExpandableListAdapter;
 import android.widget.ExpandableListView;
 import android.widget.TextView;
@@ -34,7 +37,7 @@ import java.util.regex.Pattern;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 
-public class ContentDetails extends YouTubeBaseActivity implements YouTubePlayer.OnInitializedListener {
+public class ContentDetails extends AppCompatActivity   {
 
     String courseid,contentid;
     List<String> listDataHeader;
@@ -43,14 +46,14 @@ public class ContentDetails extends YouTubeBaseActivity implements YouTubePlayer
     ExpandableListView expListView;
     ProgressDialog progressDialog;
 
-    private YouTubePlayerView videoPlayer;
-
-    private static final String API_KEY = "AIzaSyCPtfrnpWo3eHbmMchX2lySsIUclDHTr_s";
+    //private YouTubePlayerView videoPlayer;
+    WebView webView;
+   // private static final String API_KEY = "AIzaSyCPtfrnpWo3eHbmMchX2lySsIUclDHTr_s";
     String VIDEO_ID;
 
     ContentDetailsData.DataCourseContent dcc;
     List<ContentDetailsData.DataCourseContentrecord> dccr;
-
+    WebSettings webSettings;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -62,10 +65,13 @@ public class ContentDetails extends YouTubeBaseActivity implements YouTubePlayer
         contentid=getIntent().getStringExtra("contentid");
         progressDialog = new ProgressDialog(this);
 
-        videoPlayer = (YouTubePlayerView)findViewById(R.id.youTubePlayerView);
-
+       // videoPlayer = (YouTubePlayerView)findViewById(R.id.youTubePlayerView);
+          webView=findViewById(R.id.youTubePlayerView);
 
         getMyContentDesc();
+
+
+
 
 
         //listDataHeader =  (ArrayList<String>)getIntent().getSerializableExtra("BUNDLE1");
@@ -74,22 +80,80 @@ public class ContentDetails extends YouTubeBaseActivity implements YouTubePlayer
 
 
     }
-    /*@Override
+   @Override
     public boolean onSupportNavigateUp() {
         onBackPressed();
         return true;
-    }*/
+    }
     public  void getembedContent(String contentid)
-    {
+    {String frameWeb="<html><body><div ></div></body></html>",urlfb="";
+
         for(int l = 0; l < dccr.size(); l++)
         {
            // Toast.makeText(this,dccr.get(l).getContentType()+String.valueOf(dccr.get(l).getContentID())+contentid,Toast.LENGTH_SHORT).show();
             if(dccr.get(l).getContentID()==Integer.parseInt(contentid)) {
-                VIDEO_ID= getYoutubeID(dccr.get(l).getContentURL());
-               Toast.makeText(this,VIDEO_ID,Toast.LENGTH_SHORT).show();
 
 
-               // videoPlayer.initialize(API_KEY, this);
+                if(dccr.get(l).getContentType().equals("Embed Video"))
+                { //ok
+                    VIDEO_ID= getYoutubeID(dccr.get(l).getContentURL());
+                    frameWeb = "<iframe width=\"100%\" height=\"100%\" src=\"https://www.youtube.com/embed/"+VIDEO_ID+"#toolbar=0&navpanes=0&scrollbar=0\"  ></iframe>";
+                }
+                else if (dccr.get(l).getContentType().equals("Text"))
+                {//ok
+                    frameWeb = "<div style=\"padding:10px;height:'100%';width:'100%\">"+dccr.get(l).getContentDescription()+"</div>";
+
+                }
+                else if (dccr.get(l).getContentType().equals("Upload")||dccr.get(l).getContentType().equals("Upload-Video-File")||dccr.get(l).getContentType().equals("Upload-Audio-File")||dccr.get(l).getContentType().equals("Upload-Pdf-File")||dccr.get(l).getContentType().equals("Upload-Flash-File")||dccr.get(l).getContentType().equals("Upload-Ppt-Presentation-File")){
+                    urlfb="https://guidedevblob.blob.core.windows.net/"+dccr.get(l).getInstructorID()+"/"+dccr.get(l).getFileContentType()+"/"+dccr.get(l).getContentID()+"/"+dccr.get(l).getFileName().replace(' ','_').toLowerCase()+"";
+
+                    if (dccr.get(l).getFileContentType().equals("video/mp4")) {
+
+                        frameWeb = " <video width=\"100%\" height=\"100%\" controls controlslist=\"nodownload\"><source src=\""+urlfb+"\" type=\""+dccr.get(l).getFileContentType()+"\"><p>Your browser does not support H.264/MP4.</p> </video>";
+
+                    }
+                    else if(dccr.get(l).getFileContentType().equals("audio/mpeg")||dccr.get(l).getFileContentType().equals("audio/mp3"))
+                    {//ok
+                        frameWeb = "<audio controls controlslist=\"nodownload\"><source src=\""+urlfb+"\" type= \"\"+dccr.get(l).getFileContentType()+\"\">Your browser does not support the audio element.</audio>";
+
+                    }
+                    else if(dccr.get(l).getFileContentType().equals("application/pdf"))
+                    {//ok
+                         frameWeb="<iframe src='http://docs.google.com/viewer?url="+urlfb+"&embedded=true' width='100%' height='100%'  style='border: none;'></iframe>";
+
+                         // System.out.println(urlfb);
+                       // System.out.println(frameWeb);
+                    }
+                    else if(dccr.get(l).getFileContentType().equals("application/x-shockwave-flash"))
+                    {
+
+                        frameWeb="<object  data=\""+urlfb+"#toolbar=0&navpanes=0&scrollbar=0=\" type=\""+dccr.get(l).getFileContentType()+"\" style=\"width:100%; height:100%;\"></object>";
+                        //frameWeb=urlfb;
+                    }
+                    else if(dccr.get(l).getFileContentType().equals("application/vnd.ms-powerpoint")||dccr.get(l).getFileContentType().equals("application/vnd.openxmlformats-o"))
+                    {//ok
+                        frameWeb="<iframe src='https://view.officeapps.live.com/op/embed.aspx?src="+urlfb+"' width='100%' height='100%' frameborder='0'></iframe>";
+
+                    }
+
+                }
+                //Toast.makeText(this,dccr.get(l).getContentType(),Toast.LENGTH_SHORT).show();
+                //videoPlayer.initialize(API_KEY, this);
+
+                webView.setWebViewClient(new WebViewClient() {
+                    @Override
+                    public boolean shouldOverrideUrlLoading(WebView view, String url) {
+                        return false;
+                    }
+                });
+                webSettings = webView.getSettings();
+                webSettings.setJavaScriptEnabled(true);
+                webSettings.setAllowFileAccess(true);
+                webSettings.setPluginState(WebSettings.PluginState.ON);
+
+                // webView.setWebViewClient(new Callback());
+
+                webView.loadData(frameWeb, "text/html", "utf-8");
             }
         }
     }
@@ -175,8 +239,8 @@ public class ContentDetails extends YouTubeBaseActivity implements YouTubePlayer
             // System.out.println("Error: " + e);
         }
     }
-
-    @Override
+//implements YouTubePlayer.OnInitializedListener
+    /*@Override
     public void onInitializationSuccess(YouTubePlayer.Provider provider, YouTubePlayer youTubePlayer, boolean complete) {
         if (!complete) {
             youTubePlayer.cueVideo(VIDEO_ID);
@@ -188,7 +252,7 @@ public class ContentDetails extends YouTubeBaseActivity implements YouTubePlayer
     public void onInitializationFailure(YouTubePlayer.Provider provider, YouTubeInitializationResult youTubeInitializationResult) {
         //Toast.makeText(ContentDetails.this, youTubeInitializationResult.toString(), Toast.LENGTH_LONG).show();
     }
-
+*/
     private class GETContentDetails extends AsyncTask<String, Void, String> {
         @Override
         protected String doInBackground(String... params) {
@@ -244,10 +308,10 @@ public class ContentDetails extends YouTubeBaseActivity implements YouTubePlayer
                List<ContentDetailsData.DataWeek > dw=jsonbodys.dataWeek;
                 List<ContentDetailsData.DataTopic > dt=jsonbodys.dataTopic;
                 dcc=jsonbodys.dataCourseContent;
-                VIDEO_ID= getYoutubeID(dcc.getContentURL());
+               // VIDEO_ID= getYoutubeID(dcc.getContentURL());
                 dccr=jsonbodys.dataCourseContentrecord;
-                videoPlayer.initialize(API_KEY, ContentDetails.this);
-
+               // videoPlayer.initialize(API_KEY, ContentDetails.this);
+                getembedContent(contentid);
 
                 listDataHeader = new ArrayList<String>();
                 listDataChild = new HashMap<String, List<String>>();
