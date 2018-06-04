@@ -18,7 +18,7 @@
                                 <PersistentState>
                                   <option name="values">
                                     <map>
-                                      <entry key="url" value="jar:file:/D:/AndroidProject/Android/Android%20Studio/plugins/android/lib/android.jar!/images/material_design_icons/action/ic_account_circle_black_24dp.xml" />
+                                      <entry key="url" value="jar:file:/D:/AndroidProject/Android/Android%20Studio/plugins/android/lib/android.jar!/images/material_design_icons/navigation/ic_cancel_black_24dp.xml" />
                                     </map>
                                   </option>
                                 </PersistentState>
@@ -28,10 +28,12 @@
                         </option>
                         <option name="values">
                           <map>
-                            <entry key="color" value="cecfce" />
-                            <entry key="outputName" value="ic_account_circle_black_24dp" />
+                            <entry key="color" value="2929cf" />
+                            <entry key="height" value="12" />
+                            <entry key="outputName" value="ic_cancel" />
                             <entry key="overrideSize" value="true" />
                             <entry key="sourceFile" value="C:\Users\user3" />
+                            <entry key="width" value="12" />
                           </map>
                         </option>
                       </PersistentState>

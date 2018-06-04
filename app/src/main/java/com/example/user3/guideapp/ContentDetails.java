@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.Button;
 import android.widget.ExpandableListAdapter;
 import android.widget.ExpandableListView;
 import android.widget.TextView;
@@ -22,6 +23,7 @@ import com.example.user3.guideapp.Adapters.WeekAdapter;
 import com.example.user3.guideapp.Config.PlayerConfig;
 import com.example.user3.guideapp.Helper.SharedPrefManager;
 import com.example.user3.guideapp.Model.ContentDetailsData;
+import com.example.user3.guideapp.Model.Result;
 import com.google.android.youtube.player.YouTubeBaseActivity;
 import com.google.android.youtube.player.YouTubeInitializationResult;
 import com.google.android.youtube.player.YouTubePlayer;
@@ -34,6 +36,7 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import okhttp3.FormBody;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 
@@ -45,31 +48,41 @@ public class ContentDetails extends AppCompatActivity   {
     WeekAdapter weekAdapter;
     ExpandableListView expListView;
     ProgressDialog progressDialog;
-
+Button buttonComplete;
     //private YouTubePlayerView videoPlayer;
     WebView webView;
    // private static final String API_KEY = "AIzaSyCPtfrnpWo3eHbmMchX2lySsIUclDHTr_s";
     String VIDEO_ID;
 
-    ContentDetailsData.DataCourseContent dcc;
+
     List<ContentDetailsData.DataCourseContentrecord> dccr;
+    List<ContentDetailsData.Datalernercontent> dlcc;
     WebSettings webSettings;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_content_details);
         expListView=findViewById(R.id.expandableListViewlecture);
-
+        buttonComplete=findViewById(R.id.ButtonComplete);
         //getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         courseid=getIntent().getStringExtra("courseid");
         contentid=getIntent().getStringExtra("contentid");
         progressDialog = new ProgressDialog(this);
+
 
        // videoPlayer = (YouTubePlayerView)findViewById(R.id.youTubePlayerView);
           webView=findViewById(R.id.youTubePlayerView);
 
         getMyContentDesc();
 
+        buttonComplete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(buttonComplete.getText().equals("Mark As Complete")) {
+                    saveMarkAsComplete();
+                }
+            }
+        });
 
 
 
@@ -84,6 +97,22 @@ public class ContentDetails extends AppCompatActivity   {
     public boolean onSupportNavigateUp() {
         onBackPressed();
         return true;
+    }
+    public void saveMarkAsComplete(){
+        try {
+            //String res="";
+            progressDialog.setMessage("loading...");
+            progressDialog.show();
+            new ContentDetails.POSTMarkAsComplete().execute(SharedPrefManager.getInstance(this).getUser().access_token,courseid,contentid);
+
+            //Toast.makeText(getApplicationContext(),res,Toast.LENGTH_SHORT).show();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            progressDialog.dismiss();
+            Toast.makeText(getApplicationContext(), "Error: " + e, Toast.LENGTH_SHORT).show();
+            // System.out.println("Error: " + e);
+        }
     }
     public  void getembedContent(String contentid)
     {String frameWeb="<html><body><div ></div></body></html>",urlfb="";
@@ -154,7 +183,28 @@ public class ContentDetails extends AppCompatActivity   {
                 // webView.setWebViewClient(new Callback());
 
                 webView.loadData(frameWeb, "text/html", "utf-8");
+
+
             }
+        }
+        for(int k = 0; k < dlcc.size(); k++)
+        {
+            if(dlcc.get(k).getContentID()==Integer.parseInt(contentid)) {
+                if(dlcc.get(k).Status==true) {
+                buttonComplete.setVisibility(View.VISIBLE);
+                buttonComplete.setText("Completed");
+                buttonComplete.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_thumb,0,0,0);
+                }
+                else
+                {
+                    buttonComplete.setVisibility(View.VISIBLE);
+                    buttonComplete.setText("Mark As Complete");
+                    buttonComplete.setCompoundDrawablesWithIntrinsicBounds(0,0,0,0);
+
+                }
+           }
+
+
         }
     }
 
@@ -307,9 +357,10 @@ public class ContentDetails extends AppCompatActivity   {
                 List<ContentDetailsData.DataCourseContentrecord> cc=jsonbodys.dataCourseContentrecord;
                List<ContentDetailsData.DataWeek > dw=jsonbodys.dataWeek;
                 List<ContentDetailsData.DataTopic > dt=jsonbodys.dataTopic;
-                dcc=jsonbodys.dataCourseContent;
+                //dcc=jsonbodys.dataCourseContent;
                // VIDEO_ID= getYoutubeID(dcc.getContentURL());
                 dccr=jsonbodys.dataCourseContentrecord;
+                dlcc=jsonbodys.datalernercontent;
                // videoPlayer.initialize(API_KEY, ContentDetails.this);
                 getembedContent(contentid);
 
@@ -327,6 +378,14 @@ public class ContentDetails extends AppCompatActivity   {
                         if(dt.get(j).getWeekID()==dw.get(i).getWeekID()) {
                             for(int k=0;k<cc.size();k++){
                                 if(dt.get(j).getTopicID()==cc.get(k).getTopicID()){
+                                    String status="false";
+                                    for(int l=0;l<dlcc.size();l++)
+                                    {
+                                        if(cc.get(k).getContentID()==dlcc.get(l).getContentID())
+                                        {
+                                            status=Boolean.toString( dlcc.get(l).getStatus());
+                                             }
+                                    }
                                     String contentid=Integer.toString( cc.get(k).getContentID());
                                     String lecture=dt.get(j).getTopicName()+":"+cc.get(k).getContentTitle()+","+contentid;
 
@@ -346,8 +405,7 @@ public class ContentDetails extends AppCompatActivity   {
                     @Override
                     public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
 
-
-                        String contentid=listDataChild.get(listDataHeader.get(groupPosition)).get(childPosition);
+                       String contentid=listDataChild.get(listDataHeader.get(groupPosition)).get(childPosition);
                         contentid=contentid.substring(contentid.lastIndexOf(",") + 1);
                         getembedContent(contentid);
 
@@ -379,4 +437,77 @@ public class ContentDetails extends AppCompatActivity   {
         setResult(RESULT_OK, intent);
         finish();
     }*/
+   private class POSTMarkAsComplete extends AsyncTask<String, Void, String> {
+       @Override
+       protected String doInBackground(String... params) {
+
+           //     InputStream inputStream
+           String accesstoken = params[0];
+           String courseid = params[1];
+           String contentid = params[2];
+           //String res = params[2];
+           String json = "";
+           try {
+
+               OkHttpClient client = new OkHttpClient();
+               Request.Builder builder = new Request.Builder();
+               builder.url("http://guidedev.azurewebsites.net/api/LearnerApi/MarkAComplete/"+contentid+"/"+courseid);
+               builder.addHeader("Content-Type", "application/x-www-form-urlencoded");
+               builder.addHeader("Accept", "application/json");
+               builder.addHeader("Authorization", "Bearer " + accesstoken);
+
+               FormBody.Builder parameters = new FormBody.Builder();
+                parameters.add("test", "test");
+                //parameters.add("username", cliente);
+                //parameters.add("password", clave);
+                builder.post(parameters.build());
+
+
+               okhttp3.Response response = client.newCall(builder.build()).execute();
+
+               if (response.isSuccessful()) {
+                   json = response.body().string();
+
+
+               }
+           } catch (Exception e) {
+               e.printStackTrace();
+               progressDialog.dismiss();
+               // System.out.println("Error: " + e);
+               Toast.makeText(getApplicationContext(), "Error: " + e, Toast.LENGTH_SHORT).show();
+           }
+           return json;
+       }
+
+       protected void onPostExecute(String result) {
+
+           if (result.isEmpty()) {
+               progressDialog.dismiss();
+               Toast.makeText(getApplicationContext(), "Invalid request", Toast.LENGTH_SHORT).show();
+           } else {
+               //System.out.println("CONTENIDO:  " + result);
+               Gson gson = new Gson();
+               final Result jsonbodyres = gson.fromJson(result, Result.class);
+              Toast.makeText(ContentDetails.this,jsonbodyres.getMessage(),Toast.LENGTH_SHORT).show();
+               if(jsonbodyres.getStatus()==false) {
+
+                   buttonComplete.setText("Completed");
+                   buttonComplete.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_thumb,0,0,0);
+               }
+               else
+               {
+
+                   buttonComplete.setText("Mark As Complete");
+                   buttonComplete.setCompoundDrawablesWithIntrinsicBounds(0,0,0,0);
+
+               }
+
+               progressDialog.dismiss();
+
+           }
+
+
+       }
+
+   }
 }

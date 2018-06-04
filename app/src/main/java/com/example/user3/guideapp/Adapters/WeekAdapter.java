@@ -54,7 +54,9 @@ public class WeekAdapter extends BaseExpandableListAdapter {
                 .findViewById(R.id.textViewLecture);
         TextView txtListTitle = (TextView) convertView
                 .findViewById(R.id.textViewTitle);
+
        txtListChild.setText(childText.split(",")[0]);
+
         txtListTitle.setText(childText.substring(childText.lastIndexOf(",") + 1));
 
         return convertView;

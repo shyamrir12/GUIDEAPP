@@ -19,19 +19,36 @@
           </com.google.android.youtube.player.YouTubePlayerView>-->
         <WebView
             android:layout_width="match_parent"
-            android:layout_height="300dp" android:id="@+id/youTubePlayerView"
-            tools:ignore="WebViewLayout"></WebView>
+            android:layout_height="350dp" android:id="@+id/youTubePlayerView"
+            tools:ignore="WebViewLayout" ></WebView>
+<Button
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:text="Mark As Complete"
 
+    android:layout_below="@+id/youTubePlayerView"
+    android:id="@+id/ButtonComplete"
+    android:visibility="gone"
+    android:background="@color/colorPrimary"
+    android:textColor="@android:color/white"/>
+
+        <!--<Button
+            android:id="@+id/ButtonComplete"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/youTubePlayerView"
+            android:drawableLeft="@drawable/ic_thumb"
+            android:gravity="center"
+            android:text="Mark As Complete" />-->
         <TextView
             android:id="@+id/textViewlecture"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="5dp"
             android:text="Lecture"
             android:gravity="center"
-            android:layout_below="@+id/youTubePlayerView"
-            android:textAppearance="@style/Base.TextAppearance.AppCompat.Headline"
-
+            android:layout_below="@+id/ButtonComplete"
+            android:textAlignment="center"
             android:textColor="#000000" />
 
         <ExpandableListView
@@ -42,7 +59,7 @@
             android:divider="@android:color/darker_gray"
             android:dividerHeight="0.5dp"
             android:indicatorLeft="?android:attr/expandableListPreferredItemIndicatorLeft"
-            android:paddingTop="25dp" />
+            android:paddingTop="10dp" />
 
     </RelativeLayout>
 </android.support.constraint.ConstraintLayout>

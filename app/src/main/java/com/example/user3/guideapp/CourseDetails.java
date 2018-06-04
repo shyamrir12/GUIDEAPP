@@ -1,5 +1,9 @@
 package com.example.user3.guideapp;
 
+import android.app.AlertDialog;
+import android.app.Fragment;
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -10,6 +14,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ExpandableListAdapter;
 import android.widget.ExpandableListView;
 import android.widget.ImageView;
@@ -18,7 +23,9 @@ import android.widget.Toast;
 
 import com.example.user3.guideapp.Adapters.CourseAdapter;
 import com.example.user3.guideapp.Adapters.FaqAdapter;
+import com.example.user3.guideapp.Adapters.TestimonialAdapters;
 import com.example.user3.guideapp.Adapters.WeekAdapter;
+import com.example.user3.guideapp.Fragments.Fragment_Testimonial;
 import com.example.user3.guideapp.Helper.SharedPrefManager;
 import com.example.user3.guideapp.Model.CourseData;
 import com.example.user3.guideapp.Model.HomeData;
@@ -44,8 +51,13 @@ public class CourseDetails extends AppCompatActivity  {
     TextView textCourseId,textViewCoursedesc;
     ImageView bannerimage;
     List<CourseData.DataCourseFaq> faqList;
+    List<CourseData.DatacourseTestimonial> testimonialList;
     FaqAdapter adapterfaq;
     String courseid;
+
+    Button buttonSubmitReview;
+    //TestimonialAdapters testimonialAdapters;
+   // RecyclerView recyclerViewtestimonial;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -56,16 +68,41 @@ public class CourseDetails extends AppCompatActivity  {
         textViewCoursedesc=findViewById(R.id.textViewCoursedesc);
         expListView=findViewById(R.id.expandableListViewlecture);
         recyclerViewfaq=findViewById(R.id.recyclerViewfaq);
+        buttonSubmitReview=findViewById(R.id.buttonSubmitReview);
         //expListView.setGroupIndicator(null);
+        //recyclerViewtestimonial=findViewById(R.id.recyclerViewTestimonial) ;
+
         progressDialog = new ProgressDialog(this);
         courseid=getIntent().getStringExtra("courseid");
         getMyCourseDesc();
 
+    buttonSubmitReview.setOnClickListener(new View.OnClickListener() {
+    @Override
+    public void onClick(View v) {
+       // AlertDialog.Builder mBuilder=new AlertDialog.Builder(CourseDetails.this);
+        //View mView =getLayoutInflater().inflate(R.layout.layout_testimonial_dailog,null);
 
+
+
+        loadFragment();
+
+    }
+    });
     }
 
 
+    private void loadFragment() {
+// create a FragmentManager
+        FragmentManager fm = getFragmentManager();
+        Fragment_Testimonial ft=new Fragment_Testimonial();
+        ft.show(fm,"Testimonial");
+// create a FragmentTransaction to begin the transaction and replace the Fragment
+       // FragmentTransaction fragmentTransaction = fm.beginTransaction();
+// replace the FrameLayout with new Fragment
 
+        //fragmentTransaction.replace( R.id.frameLayout, fragment);
+        //fragmentTransaction.commit(); // save the changes
+    }
    /* @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -76,6 +113,14 @@ public class CourseDetails extends AppCompatActivity  {
             }
         }
     }*/
+public ArrayList gettimonialList()
+{
+    return (ArrayList) testimonialList;
+}
+
+    public String getCourseid() {
+        return courseid;
+    }
 
     private void setListViewHeight(ExpandableListView listView,
                                    int group) {
@@ -251,6 +296,12 @@ public class CourseDetails extends AppCompatActivity  {
                 adapterfaq = new FaqAdapter(CourseDetails.this, faqList);
                 recyclerViewfaq.setLayoutManager(new LinearLayoutManager(CourseDetails.this));
                 recyclerViewfaq.setAdapter(adapterfaq);
+
+                testimonialList=new ArrayList<>();
+                testimonialList=jsonbodys.datacourseTestimonial;
+                //testimonialAdapters = new TestimonialAdapters(CourseDetails.this, testimonialList);
+                //recyclerViewtestimonial.setLayoutManager(new LinearLayoutManager(CourseDetails.this));
+               // recyclerViewtestimonial.setAdapter(testimonialAdapters);
                 //Toast.makeText(getApplicationContext(), result, Toast.LENGTH_SHORT).show();
                 //jsonbody.datacoursebanner.getFileName();
                 //courseapiList=new ArrayList<>();
