@@ -25,6 +25,7 @@ import com.example.user3.guideapp.Adapters.CourseAdapter;
 import com.example.user3.guideapp.Adapters.FaqAdapter;
 import com.example.user3.guideapp.Adapters.TestimonialAdapters;
 import com.example.user3.guideapp.Adapters.WeekAdapter;
+import com.example.user3.guideapp.Fragments.Fragment_Comment;
 import com.example.user3.guideapp.Fragments.Fragment_Testimonial;
 import com.example.user3.guideapp.Helper.SharedPrefManager;
 import com.example.user3.guideapp.Model.CourseData;
@@ -88,6 +89,7 @@ public class CourseDetails extends AppCompatActivity  {
 
     }
     });
+        loadComment();
     }
 
 
@@ -102,6 +104,17 @@ public class CourseDetails extends AppCompatActivity  {
 
         //fragmentTransaction.replace( R.id.frameLayout, fragment);
         //fragmentTransaction.commit(); // save the changes
+    }
+    private void loadComment() {
+// create a FragmentManager
+        FragmentManager fm = getFragmentManager();
+
+// create a FragmentTransaction to begin the transaction and replace the Fragment
+        FragmentTransaction fragmentTransaction = fm.beginTransaction();
+// replace the FrameLayout with new Fragment
+        Fragment_Comment fragment=new Fragment_Comment();
+        fragmentTransaction.replace( R.id.frameLayout, fragment);
+        fragmentTransaction.commit(); // save the changes
     }
    /* @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -263,6 +276,8 @@ public ArrayList gettimonialList()
                 weekAdapter = new WeekAdapter(CourseDetails.this, listDataHeader, listDataChild);
 
                 expListView.setAdapter(weekAdapter);
+               // for(int g=0; g < weekAdapter.getGroupCount(); g++)
+               //     expListView.expandGroup(g);
                 expListView.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
                     @Override
                     public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {

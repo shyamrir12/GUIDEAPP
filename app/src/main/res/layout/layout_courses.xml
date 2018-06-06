@@ -16,9 +16,9 @@
 
             <ImageView
                 android:id="@+id/imageView"
-                android:layout_width="120dp"
-                android:layout_height="120dp"
-                android:padding="4dp" />
+                android:layout_width="140dp"
+                android:layout_height="100dp"
+                android:scaleType="fitXY" />
 
             <TextView
                 android:id="@+id/textViewTitle"
@@ -42,32 +42,35 @@
                 android:text="Mr.Vikash"
                 android:textAppearance="@style/Base.TextAppearance.AppCompat.Small" />
 
-            <TextView
-                android:id="@+id/textViewRating"
+
+            <RatingBar
+                android:id="@+id/ratingBar"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                style="?android:attr/ratingBarStyleIndicator"
                 android:layout_below="@id/textViewInstructorName"
-                android:layout_marginLeft="5dp"
-                android:layout_marginTop="5dp"
                 android:layout_toRightOf="@id/imageView"
-                android:background="@color/colorPrimary"
-                android:paddingLeft="15dp"
-                android:paddingRight="15dp"
-                android:text="4.7"
-                android:textAppearance="@style/Base.TextAppearance.AppCompat.Small.Inverse"
-                android:textStyle="bold" />
-
+                android:layout_marginLeft="5dp"
+                />
             <TextView
                 android:id="@+id/textViewPrice"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/textViewRating"
+                android:layout_below="@id/ratingBar"
                 android:layout_marginLeft="5dp"
                 android:layout_marginTop="5dp"
                 android:layout_toRightOf="@id/imageView"
                 android:text="INR 56990"
                 android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
                 android:textStyle="bold" />
+
+            <Button
+                android:id="@+id/button"
+                android:layout_width="140dp"
+                android:layout_height="30dp"
+                android:layout_below="@id/imageView"
+                android:text="Course Tracking"  android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"
+                android:background="@color/colorAccent"/>
 
         </RelativeLayout>
 

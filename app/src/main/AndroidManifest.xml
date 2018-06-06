@@ -41,7 +41,15 @@
             android:name=".CourseDetails"
             android:parentActivityName=".MyCourse"
             android:theme="@style/AppLogin" />
-        <activity android:name=".ContentDetails"  android:parentActivityName=".CourseDetails"
+        <activity
+            android:name=".ContentDetails"
+            android:parentActivityName=".CourseDetails"
+            android:theme="@style/AppLogin" />
+        <activity
+            android:name=".Course_Tracking"
+            android:parentActivityName=".MyCourse"
+            android:theme="@style/AppLogin" />
+        <activity android:name=".Reply"  android:parentActivityName=".CourseDetails"
             android:theme="@style/AppLogin"></activity>
     </application>
 

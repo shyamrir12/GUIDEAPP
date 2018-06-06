@@ -1,57 +1,51 @@
 <?xml version="1.0" encoding="utf-8"?>
-
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-xmlns:tools="http://schemas.android.com/tools"
-android:layout_width="match_parent"
-android:layout_height="wrap_content" android:padding="5dp"
->
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content" android:padding="5dp"
+    >
 
-<!--TextView and Button displayed in First Fragment -->
+    <!--TextView and Button displayed in First Fragment -->
     <TextView
         android:id="@+id/Mytext"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
-        android:text="Add Testimonial"
+        android:text="Reply header"
         android:textColor="@color/colorPrimaryDark"
         android:textSize="25sp" />
-    <RatingBar
-        android:id="@+id/ratingBarTestimonial"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-       android:layout_below="@id/Mytext"
 
-        />
     <EditText
-        android:id="@+id/edittextTestimonial"
+        android:id="@+id/edittextReply"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
-       android:inputType="textMultiLine"
-       android:layout_below="@id/ratingBarTestimonial" android:hint="Testimonial type here....." />
+        android:inputType="textMultiLine"
+        android:layout_below="@id/Mytext"
+        android:hint="Reply here....." />
     <Button
-        android:id="@+id/firstButton"
+        android:id="@+id/firstButtonreply"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
-        android:layout_below="@id/edittextTestimonial"
+        android:layout_below="@id/edittextReply"
         android:background="@color/colorAccent"
-        android:text="Submit"
+        android:text="Reply"
         android:textColor="@color/colorPrimary"
         android:textSize="20sp"
         android:textStyle="bold" />
     <android.support.v7.widget.RecyclerView
-        android:id="@+id/recyclerViewTestimonial"
+        android:id="@+id/recyclerViewReply"
         android:layout_width="match_parent"
         android:layout_height="match_parent"  android:layout_alignParentBottom="true"
         android:layout_alignParentStart="true" android:layout_below="@+id/firstButton" />
 
-    <Button
-        android:id="@+id/buttonclose"
-        android:layout_width="41dp"
-        android:layout_height="38dp"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentTop="true"
-        android:background="@drawable/ic_cancel" />
+    <!-- <Button
+         android:id="@+id/buttonclose"
+         android:layout_width="41dp"
+         android:layout_height="38dp"
+         android:layout_alignParentEnd="true"
+         android:layout_alignParentTop="true"
+         android:background="@drawable/ic_cancel" />-->
 </RelativeLayout>

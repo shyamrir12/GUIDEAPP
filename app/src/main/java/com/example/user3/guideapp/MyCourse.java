@@ -1,6 +1,7 @@
 package com.example.user3.guideapp;
 
 import android.app.Activity;
+import android.app.FragmentManager;
 import android.app.ProgressDialog;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
@@ -12,6 +13,8 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import com.example.user3.guideapp.Adapters.CourseAdapter;
+import com.example.user3.guideapp.Fragments.Fragment_Testimonial;
+import com.example.user3.guideapp.Fragments.Fragment_Tracking;
 import com.example.user3.guideapp.Helper.SharedPrefManager;
 import com.example.user3.guideapp.Model.HomeData;
 import com.google.gson.Gson;
@@ -45,7 +48,11 @@ public class MyCourse extends AppCompatActivity {
         //setting adapter to recyclerview
 
     }
-
+    public void loadFragment() {
+        FragmentManager fm = getFragmentManager();
+        Fragment_Tracking  ftr=new Fragment_Tracking();
+        ftr.show(fm,"Fragment");
+    }
     public void getMyCourse()
     {
         try {

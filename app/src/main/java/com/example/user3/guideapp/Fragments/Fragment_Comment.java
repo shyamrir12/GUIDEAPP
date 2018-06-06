@@ -1,6 +1,5 @@
 package com.example.user3.guideapp.Fragments;
 
-import android.app.DialogFragment;
 import android.app.Fragment;
 import android.app.ProgressDialog;
 import android.os.AsyncTask;
@@ -12,11 +11,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ListView;
 import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
-
+import com.example.user3.guideapp.Adapters.CommentAdapter;
 import com.example.user3.guideapp.Adapters.TestimonialAdapters;
 import com.example.user3.guideapp.CourseDetails;
 import com.example.user3.guideapp.Helper.SharedPrefManager;
@@ -32,60 +30,55 @@ import okhttp3.FormBody;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 
-public class Fragment_Testimonial extends DialogFragment {
+public class Fragment_Comment extends Fragment {
     View view;
-    Button firstButton,buttonclose;
-    List<CourseData.DatacourseTestimonial> testimonialList;
-       EditText textViewTestimonial;
-      RatingBar ratingBar;
-     RecyclerView recyclerViewtestimonial;
-     TestimonialAdapters testimonialAdapters;
+    Button firstButton, buttonclose;
+    List<CourseData.Dataforum> commentList;
+    EditText editTextComment;
+    RatingBar ratingBar;
+    RecyclerView recyclerViewComment;
+   CommentAdapter commentAdapters;
     ProgressDialog progressDialog;
-    String courseid,learnerid;
+    String courseid, learnerid;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        CourseDetails cd=(CourseDetails)getActivity();
-             cd.gettimonialList();
+        CourseDetails cd = (CourseDetails) getActivity();
+        //cd.gettimonialList();
         //testimonialList=new ArrayList<>();
-       // set title
-       // getDialog().setTitle("Add Testimonial");
-        courseid=cd.getCourseid();
+        // set title
+        // getDialog().setTitle("Add Testimonial");
+        courseid = cd.getCourseid();
         progressDialog = new ProgressDialog(getActivity());
         getMyCourseDesc();
-// Inflate the layout for this fragment
-        view = inflater.inflate(R.layout.fragment_testimonial, container, false);
-// get the reference of Button
+         // Inflate the layout for this fragment
+        view = inflater.inflate(R.layout.fragment_comment, container, false);
+         // get the reference of Button
 
-        textViewTestimonial=(EditText) view.findViewById(R.id.edittextTestimonial);
-        ratingBar=(RatingBar) view.findViewById(R.id.ratingBarTestimonial);
+
         firstButton = (Button) view.findViewById(R.id.firstButton);
-        buttonclose=(Button)view.findViewById(R.id.buttonclose);
-        buttonclose.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dismiss();
-            }
-        });
-// perform setOnClickListener on first Button
+     editTextComment=(EditText)view.findViewById(R.id.edittextComment);
+        // perform setOnClickListener on first Button
         firstButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-// display a message by using a Toast
+                // display a message by using a Toast
                 //Toast.makeText(getActivity(), "First Fragment :", Toast.LENGTH_LONG).show();
-                saveTestimonial();
+                saveComment();
 
 
             }
         });
         return view;
     }
+
     public void getMyCourseDesc() {
         try {
             //String res="";
             progressDialog.setMessage("loading...");
             progressDialog.show();
-            new Fragment_Testimonial.GETCourseDesc().execute(SharedPrefManager.getInstance(getActivity()).getUser().access_token,courseid);
+            new Fragment_Comment.GETCourseDesc().execute(SharedPrefManager.getInstance(getActivity()).getUser().access_token, courseid);
 
             //Toast.makeText(getApplicationContext(),res,Toast.LENGTH_SHORT).show();
 
@@ -96,7 +89,8 @@ public class Fragment_Testimonial extends DialogFragment {
             // System.out.println("Error: " + e);
         }
     }
-    private class GETCourseDesc extends AsyncTask<String, Void, String>  {
+
+    private class GETCourseDesc extends AsyncTask<String, Void, String> {
         @Override
         protected String doInBackground(String... params) {
 
@@ -109,7 +103,7 @@ public class Fragment_Testimonial extends DialogFragment {
 
                 OkHttpClient client = new OkHttpClient();
                 Request.Builder builder = new Request.Builder();
-                builder.url("http://guidedev.azurewebsites.net/api/InstructorApi/GetCourseDetails/"+courseid);
+                builder.url("http://guidedev.azurewebsites.net/api/InstructorApi/GetCourseDetails/" + courseid);
                 builder.addHeader("Content-Type", "application/x-www-form-urlencoded");
                 builder.addHeader("Accept", "application/json");
                 builder.addHeader("Authorization", "Bearer " + accesstoken);
@@ -147,17 +141,17 @@ public class Fragment_Testimonial extends DialogFragment {
                 //System.out.println("CONTENIDO:  " + result);
                 Gson gson = new Gson();
                 CourseData.RootObject jsonbodys = gson.fromJson(result, CourseData.RootObject.class);
-                testimonialList=new ArrayList<>();
-                testimonialList=jsonbodys.datacourseTestimonial;
+              commentList = new ArrayList<>();
+                commentList = jsonbodys.dataforum;
 
-                recyclerViewtestimonial=(RecyclerView) view.findViewById(R.id.recyclerViewTestimonial) ;
+                recyclerViewComment = (RecyclerView) view.findViewById(R.id.recyclerViewComment);
 
-                testimonialAdapters = new TestimonialAdapters(getActivity(), testimonialList);
+               CommentAdapter commentAdapter= new CommentAdapter(getActivity(), commentList);
 
-                recyclerViewtestimonial.setLayoutManager(new LinearLayoutManager(getActivity()));
+                recyclerViewComment.setLayoutManager(new LinearLayoutManager(getActivity()));
 
-                recyclerViewtestimonial.setAdapter(testimonialAdapters);
-                learnerid=jsonbodys.getUserId();
+                recyclerViewComment.setAdapter(commentAdapter);
+                learnerid = jsonbodys.getUserId();
                 progressDialog.dismiss();
 
             }
@@ -165,16 +159,16 @@ public class Fragment_Testimonial extends DialogFragment {
 
         }
     }
-    public void saveTestimonial(){
+
+    public void saveComment() {
         try {
             //String res="";
             progressDialog.setMessage("loading...");
             progressDialog.show();
-            String testimonialtext=textViewTestimonial.getText().toString();
-            String rating=String.valueOf((int)ratingBar.getRating());
+            String commenttext =editTextComment.getText().toString();
 
 
-            new Fragment_Testimonial.POSTTestimonial().execute(SharedPrefManager.getInstance(getActivity()).getUser().access_token,rating,testimonialtext,courseid,learnerid);
+            new Fragment_Comment.POSTComment().execute(SharedPrefManager.getInstance(getActivity()).getUser().access_token, commenttext, courseid, learnerid);
 
             //Toast.makeText(getApplicationContext(),res,Toast.LENGTH_SHORT).show();
 
@@ -185,30 +179,31 @@ public class Fragment_Testimonial extends DialogFragment {
             // System.out.println("Error: " + e);
         }
     }
-    private class POSTTestimonial extends AsyncTask<String, Void, String> {
+
+    private class POSTComment extends AsyncTask<String, Void, String> {
         @Override
         protected String doInBackground(String... params) {
 
             //     InputStream inputStream
             String accesstoken = params[0];
-            String rating = params[1];
 
-            String testimonialtext = params[2];
-            String courseidtext = params[3];
-            String learnerid = params[4];
+
+            String commenttext = params[1];
+            String courseidtext = params[2];
+            String learnerid = params[3];
 
             String json = "";
             try {
 
                 OkHttpClient client = new OkHttpClient();
                 Request.Builder builder = new Request.Builder();
-                builder.url("http://guidedev.azurewebsites.net/api/LearnerApi/CourseTestimonialpost/"+rating);
+                builder.url("http://guidedev.azurewebsites.net/api/LearnerApi/CourseTestimonialpost" );
                 builder.addHeader("Content-Type", "application/x-www-form-urlencoded");
                 builder.addHeader("Accept", "application/json");
                 builder.addHeader("Authorization", "Bearer" + accesstoken);
 
                 FormBody.Builder parameters = new FormBody.Builder();
-                parameters.add("Testimonial", testimonialtext);
+                parameters.add("Comment", commenttext);
                 parameters.add("CourseID", courseidtext);
                 parameters.add("LearnerID", learnerid);
                 builder.post(parameters.build());
@@ -239,9 +234,8 @@ public class Fragment_Testimonial extends DialogFragment {
                 //System.out.println("CONTENIDO:  " + result);
                 Gson gson = new Gson();
                 final Result jsonbodyres = gson.fromJson(result, Result.class);
-                Toast.makeText(getActivity(),jsonbodyres.getMessage(),Toast.LENGTH_SHORT).show();
-                if(jsonbodyres.getStatus()==false)
-                {
+                Toast.makeText(getActivity(), jsonbodyres.getMessage(), Toast.LENGTH_SHORT).show();
+                if (jsonbodyres.getStatus() == false) {
                     getMyCourseDesc();
                 }
                 progressDialog.dismiss();

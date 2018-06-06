@@ -401,6 +401,8 @@ Button buttonComplete;
                 weekAdapter = new WeekAdapter(ContentDetails.this, listDataHeader, listDataChild);
 
                 expListView.setAdapter(weekAdapter);
+               // for(int g=0; g < weekAdapter.getGroupCount(); g++)
+                 //   expListView.expandGroup(g);
                 expListView.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
                     @Override
                     public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
