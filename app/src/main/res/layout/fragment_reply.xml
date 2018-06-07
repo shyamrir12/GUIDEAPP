@@ -5,16 +5,55 @@
     android:layout_height="wrap_content" android:padding="5dp"
     >
 
-    <!--TextView and Button displayed in First Fragment -->
+
     <TextView
-        android:id="@+id/Mytext"
+        android:id="@+id/textViewCommentNumber"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:text="Reply header"
-        android:textColor="@color/colorPrimaryDark"
-        android:textSize="25sp" />
+        android:layout_marginLeft="5dp"
+        android:text="Comment"
+        android:textAppearance="@style/Base.TextAppearance.AppCompat.Headline"
+        android:textColor="#000000" />
+
+
+    <TextView
+        android:id="@+id/textViewLearnerName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="50dp"
+        android:layout_below="@id/textViewCommentNumber"
+        android:text="Apple MacBook Air Core i5 5th Gen - (8 GB/128 GB SSD/Mac OS Sierra)"
+        android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"
+        android:textColor="#000000" />
+
+    <TextView
+        android:id="@+id/textViewTime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/textViewLearnerName"
+        android:layout_marginLeft="50dp"
+        android:layout_marginTop="5dp"
+        android:text=" Mr.Vikash"
+        android:drawableLeft="@drawable/ic_time"
+        android:textAppearance="@style/Base.TextAppearance.AppCompat.Small" />
+    <TextView
+        android:id="@+id/textViewComment"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/textViewTime"
+        android:layout_marginLeft="50dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginRight="30dp"
+        android:text=" Mr.Vikash comment"
+        android:drawableLeft="@drawable/ic_question_answer"
+        android:textAppearance="@style/Base.TextAppearance.AppCompat.Small" />
+
+
+
+
+
+
+    <!--TextView and Button displayed in First Fragment -->
 
     <EditText
         android:id="@+id/edittextReply"
@@ -22,8 +61,8 @@
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
         android:inputType="textMultiLine"
-        android:layout_below="@id/Mytext"
-        android:hint="Reply here....." />
+        android:layout_below="@id/textViewComment"
+        android:hint="Reply here....." android:layout_marginLeft="5dp" />
     <Button
         android:id="@+id/firstButtonreply"
         android:layout_width="match_parent"
@@ -34,18 +73,12 @@
         android:text="Reply"
         android:textColor="@color/colorPrimary"
         android:textSize="20sp"
-        android:textStyle="bold" />
+        android:textStyle="bold"  />
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recyclerViewReply"
         android:layout_width="match_parent"
         android:layout_height="match_parent"  android:layout_alignParentBottom="true"
-        android:layout_alignParentStart="true" android:layout_below="@+id/firstButton" />
+        android:layout_below="@+id/firstButtonreply" android:layout_marginLeft="5dp" />
 
-    <!-- <Button
-         android:id="@+id/buttonclose"
-         android:layout_width="41dp"
-         android:layout_height="38dp"
-         android:layout_alignParentEnd="true"
-         android:layout_alignParentTop="true"
-         android:background="@drawable/ic_cancel" />-->
+
 </RelativeLayout>

@@ -384,7 +384,7 @@ Button buttonComplete;
                                         if(cc.get(k).getContentID()==dlcc.get(l).getContentID())
                                         {
                                             status=Boolean.toString( dlcc.get(l).getStatus());
-                                             }
+                                        }
                                     }
                                     String contentid=Integer.toString( cc.get(k).getContentID());
                                     String lecture=dt.get(j).getTopicName()+":"+cc.get(k).getContentTitle()+","+contentid;
@@ -407,8 +407,8 @@ Button buttonComplete;
                     @Override
                     public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
 
-                       String contentid=listDataChild.get(listDataHeader.get(groupPosition)).get(childPosition);
-                        contentid=contentid.substring(contentid.lastIndexOf(",") + 1);
+                       String contentids=listDataChild.get(listDataHeader.get(groupPosition)).get(childPosition);
+                        contentid  =contentids.substring(contentids.lastIndexOf(",") + 1);
                         getembedContent(contentid);
 
 

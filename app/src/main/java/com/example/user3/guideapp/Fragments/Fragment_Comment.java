@@ -144,6 +144,18 @@ public class Fragment_Comment extends Fragment {
               commentList = new ArrayList<>();
                 commentList = jsonbodys.dataforum;
 
+                List<CourseData.Datareply> replylist =jsonbodys.datareply;
+                for (CourseData.Dataforum c : commentList){
+
+                    List<CourseData.Datareply> newList = new ArrayList<>();
+                    for (CourseData.Datareply d : replylist){
+                        if (d.getCommentId()==c.getCommentId())
+                            newList.add(d);
+
+                    }
+                    c.setTotalReply( newList.size());
+                   // System.out.println("Reply"+String.valueOf(c.getTotalReply()));
+                }
                 recyclerViewComment = (RecyclerView) view.findViewById(R.id.recyclerViewComment);
 
                CommentAdapter commentAdapter= new CommentAdapter(getActivity(), commentList);
@@ -168,7 +180,7 @@ public class Fragment_Comment extends Fragment {
             String commenttext =editTextComment.getText().toString();
 
 
-            new Fragment_Comment.POSTComment().execute(SharedPrefManager.getInstance(getActivity()).getUser().access_token, commenttext, courseid, learnerid);
+            new Fragment_Comment.POSTComment().execute(SharedPrefManager.getInstance(getActivity()).getUser().access_token, commenttext, courseid);
 
             //Toast.makeText(getApplicationContext(),res,Toast.LENGTH_SHORT).show();
 
@@ -190,14 +202,14 @@ public class Fragment_Comment extends Fragment {
 
             String commenttext = params[1];
             String courseidtext = params[2];
-            String learnerid = params[3];
+
 
             String json = "";
             try {
 
                 OkHttpClient client = new OkHttpClient();
                 Request.Builder builder = new Request.Builder();
-                builder.url("http://guidedev.azurewebsites.net/api/LearnerApi/CourseTestimonialpost" );
+                builder.url("http://guidedev.azurewebsites.net/api/LearnerApi/PostDiscussionForum" );
                 builder.addHeader("Content-Type", "application/x-www-form-urlencoded");
                 builder.addHeader("Accept", "application/json");
                 builder.addHeader("Authorization", "Bearer" + accesstoken);
@@ -205,7 +217,7 @@ public class Fragment_Comment extends Fragment {
                 FormBody.Builder parameters = new FormBody.Builder();
                 parameters.add("Comment", commenttext);
                 parameters.add("CourseID", courseidtext);
-                parameters.add("LearnerID", learnerid);
+                parameters.add("UserId",String.valueOf( learnerid));
                 builder.post(parameters.build());
 
 

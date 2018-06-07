@@ -214,6 +214,35 @@ public class HomeData {
         public String HexCodes ;
         public String PublishedOn ;
         public String Status;
+        public int AvrageRating;
+
+        public int getAvrageRating() {
+            return AvrageRating;
+        }
+
+        public void setAvrageRating(int avrageRating) {
+            AvrageRating = avrageRating;
+        }
+
+        public int getFileId() {
+            return FileId;
+        }
+
+        public void setFileId(int fileId) {
+            FileId = fileId;
+        }
+
+        public String getFileName() {
+            return FileName;
+        }
+
+        public void setFileName(String fileName) {
+            FileName = fileName;
+        }
+
+        public int FileId ;
+
+        public String FileName ;
     }
     public class CourseApiList
     {

@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RatingBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.user3.guideapp.Adapters.CommentAdapter;
@@ -40,11 +41,12 @@ public class Fragment_Reply extends Fragment {
     Button firstButtonreply;
     List<CourseData.Datareply> replyList;
     EditText editTextReply;
-
+ TextView textViewLearnerName,textViewTime,textViewComment,textViewCommentNumber;
     RecyclerView recyclerViewReply;
    ReplyAdapter replyAdapters;
     ProgressDialog progressDialog;
-    String courseid, commentid,learnerid;
+    String courseid,learnerid,learnerName,time, comment;;
+    int commentid,commentno;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -56,13 +58,25 @@ public class Fragment_Reply extends Fragment {
         // getDialog().setTitle("Add Testimonial");
         courseid = ra.getCourseid();
         commentid=ra.getCommentid();
+        learnerName=ra.getLearnerName();
+        time=ra.getTime();
+        comment=ra.getComment();
+        commentno=ra.getCommentNo();
         progressDialog = new ProgressDialog(getActivity());
         getMyCourseDesc();
         // Inflate the layout for this fragment
-        view = inflater.inflate(R.layout.layout_reply, container, false);
+        view = inflater.inflate(R.layout.fragment_reply, container, false);
         // get the reference of Button
 
-
+        textViewCommentNumber=(TextView) view.findViewById(R.id.textViewCommentNumber);
+        textViewComment=(TextView) view.findViewById(R.id.textViewComment);
+        textViewLearnerName=(TextView) view.findViewById(R.id.textViewLearnerName);
+        textViewTime=(TextView) view.findViewById(R.id.textViewTime);
+        textViewComment.setText(comment);
+        textViewLearnerName.setText(learnerName);
+        textViewTime.setText(time);
+        commentno=commentno+1;
+        textViewCommentNumber.setText("Comment:"+commentno);
         firstButtonreply = (Button) view.findViewById(R.id.firstButtonreply);
         editTextReply=(EditText)view.findViewById(R.id.edittextReply);
         // perform setOnClickListener on first Button
@@ -154,10 +168,11 @@ public class Fragment_Reply extends Fragment {
                 replyList = jsonbodys.datareply;
 
 
-                List<CourseData.Datareply> newList = new ArrayList<>();
+               List<CourseData.Datareply> newList = new ArrayList<>();
                 for (CourseData.Datareply c : replyList){
-                    if (c.getCommentId()==Integer.parseInt(commentid)) newList.add(c);
-                }
+                    if (c.getCommentId()==commentid) newList.add(c);
+
+                    }
 
                 recyclerViewReply = (RecyclerView) view.findViewById(R.id.recyclerViewReply);
 
@@ -183,7 +198,7 @@ public class Fragment_Reply extends Fragment {
             String replytext =editTextReply.getText().toString();
 
 
-            new Fragment_Reply.POSTComment().execute(SharedPrefManager.getInstance(getActivity()).getUser().access_token, replytext, courseid, learnerid);
+            new Fragment_Reply.POSTComment().execute(SharedPrefManager.getInstance(getActivity()).getUser().access_token, replytext);
 
             //Toast.makeText(getApplicationContext(),res,Toast.LENGTH_SHORT).show();
 
@@ -201,26 +216,24 @@ public class Fragment_Reply extends Fragment {
 
             //     InputStream inputStream
             String accesstoken = params[0];
-
-
             String replytext = params[1];
-            String courseidtext = params[2];
-            String learnerid = params[3];
+
 
             String json = "";
             try {
 
                 OkHttpClient client = new OkHttpClient();
                 Request.Builder builder = new Request.Builder();
-                builder.url("http://guidedev.azurewebsites.net/api/LearnerApi/CourseTestimonialpost" );
+                builder.url("http://guidedev.azurewebsites.net/api/LearnerApi/PostDiscussionForum" );
                 builder.addHeader("Content-Type", "application/x-www-form-urlencoded");
                 builder.addHeader("Accept", "application/json");
                 builder.addHeader("Authorization", "Bearer" + accesstoken);
 
                 FormBody.Builder parameters = new FormBody.Builder();
                 parameters.add("Reply", replytext);
-                parameters.add("CourseID", courseidtext);
-                parameters.add("LearnerID", learnerid);
+                parameters.add("CommentID",String.valueOf( commentid));
+                parameters.add("UserId",String.valueOf( learnerid));
+
                 builder.post(parameters.build());
 
 

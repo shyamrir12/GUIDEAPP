@@ -9,24 +9,42 @@ import com.example.user3.guideapp.Fragments.Fragment_Comment;
 import com.example.user3.guideapp.Fragments.Fragment_Reply;
 
 public class Reply extends AppCompatActivity {
-String courseid,commentid;
+String courseid, learnerName,time, comment;
+int commentid,commentno;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_reply);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         courseid=getIntent().getStringExtra("courseid");
-        commentid=getIntent().getStringExtra("commantid");
+        commentid=getIntent().getIntExtra("commantid",0);
+        commentno=getIntent().getIntExtra("commentno",0);
+       learnerName=getIntent().getStringExtra("LearnerName");
+        time=getIntent().getStringExtra("Time");
+        comment=getIntent().getStringExtra("Comment");
         loadreply();
     }
 
     public String getCourseid() {
         return courseid;
     }
-    public String getCommentid() {
+    public int getCommentid() {
         return commentid;
     }
+    public int getCommentNo() {
+        return commentno;
+    }
+    public String getLearnerName() {
+        return learnerName;
+    }
 
+    public String getTime() {
+        return time;
+    }
+
+    public String getComment() {
+        return comment;
+    }
     @Override
     public boolean onSupportNavigateUp() {
         onBackPressed();

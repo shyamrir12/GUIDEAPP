@@ -41,7 +41,7 @@ public class ReplyAdapter extends RecyclerView.Adapter<ReplyAdapter.ReplyViewHol
         CourseData.Datareply Reply =ReplyList.get(position);
 
         //binding the data with the viewholder views
-        holder.textViewLearnerName.setText(Reply.getUserName());
+        holder.textViewLearnerName.setText(Reply.getName());
         holder.textViewTime.setText(Reply.getRepliedOn());
         holder.textViewReply.setText(Reply.getReply());
 

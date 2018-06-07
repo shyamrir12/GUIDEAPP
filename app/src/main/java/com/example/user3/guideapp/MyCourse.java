@@ -152,13 +152,33 @@ public class MyCourse extends AppCompatActivity {
                 //HomeData.DataRating jsonbodyrating=gson.fromJson(result,HomeData.DataRating.class);
                  //System.out.println("Message: " +jsonbody.dataCourse.get(1).getCourseName());
 
-                  courseapiList=new ArrayList<>();
+                  //courseapiList=new ArrayList<>();
 
-                courseapiList=jsonbody.courseapilist;
+                //courseapiList=jsonbody.courseapilist;
+
+                List<HomeData.DataCourse> courselist =jsonbody.dataCourse;
+                List<HomeData.DataCourseBanner> bannerlist =jsonbody.dataCourseBanner;
+                List<HomeData.DataRating> ratinglist =jsonbody.dataRating;
+
+                for (HomeData.DataCourse c : courselist){
+
+                    for (HomeData.DataCourseBanner b : bannerlist){
+                        if (b.getCourseID().equals(c.getCourseID())) {
+                            c.setFileId(b.getFileId());
+                            c.setFileName(b.getFileName());
+                        }
 
 
+                    }
+                    for (HomeData.DataRating r : ratinglist){
+                        if (r.getCourseID().equals(c.getCourseID()))
+                            c.setAvrageRating(r.getAvrageRating());
 
-                adapter = new CourseAdapter(MyCourse.this, courseapiList);
+                    }
+
+                }
+
+                adapter = new CourseAdapter(MyCourse.this, courselist);
                 recyclerView.setAdapter(adapter);
                 //creating recyclerview adapter
 

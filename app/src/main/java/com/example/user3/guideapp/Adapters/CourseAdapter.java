@@ -30,11 +30,11 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.CourseView
     private Context mCtx;
 
     //we are storing all the products in a list
-    private List<HomeData.CourseApiList> courseList;
+    private List<HomeData.DataCourse> courseList;
 
 
     //getting the context and product list with constructor
-    public CourseAdapter(Context mCtx, List<HomeData.CourseApiList> courseList) {
+    public CourseAdapter(Context mCtx, List<HomeData.DataCourse> courseList) {
         this.mCtx = mCtx;
         this.courseList = courseList;
 
@@ -52,11 +52,13 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.CourseView
     @Override
     public void onBindViewHolder(CourseViewHolder holder, int position) {
 
-
+        String imgurl="";
        //getting the product of the specified position
-        HomeData.CourseApiList course = courseList.get(position);
-        String imgurl="https://guidedevblob.blob.core.windows.net/"+course.getCourseID().toLowerCase()+"/"+course.getFileId()+"/"+course.getFileName().replace(' ','_').toLowerCase();
-
+        HomeData.DataCourse course = courseList.get(position);
+          if(course.FileId!=0)
+         imgurl="https://guidedevblob.blob.core.windows.net/"+course.getCourseID().toLowerCase()+"/"+course.getFileId()+"/"+course.getFileName().replace(' ','_').toLowerCase();
+         else
+         imgurl="https://www.homesbykimblanton.com/uploads/shared/images/library%202.jpg";
         //binding the data with the viewholder views
         holder.textViewTitle.setText(course.getCourseName());
         holder.textViewShortDesc.setText(course.getCourseDescription());
@@ -83,11 +85,11 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.CourseView
         RatingBar ratingBar;
         private Context mCtx;
         //we are storing all the products in a list
-        private List<HomeData.CourseApiList> courseList;
+        private List<HomeData.DataCourse> courseList;
 
         ImageView imageView;
 
-        public CourseViewHolder(View itemView,Context mCtx, List<HomeData.CourseApiList> courseList ) {
+        public CourseViewHolder(View itemView,Context mCtx, List<HomeData.DataCourse> courseList ) {
             super(itemView);
             this.mCtx=mCtx;
             this.courseList=courseList;
@@ -113,7 +115,7 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.CourseView
         public void onClick(View v) {
 
             int position=getAdapterPosition();
-            HomeData.CourseApiList course =this.courseList.get(position);
+            HomeData.DataCourse course =this.courseList.get(position);
 
             if (v.getId() == imageView.getId()||v.getId() == textViewTitle.getId()) {
                 Intent intent=new Intent(mCtx, CourseDetails.class);

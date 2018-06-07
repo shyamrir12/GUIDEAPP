@@ -237,6 +237,7 @@ public ArrayList gettimonialList()
             } else {
                //System.out.println("CONTENIDO:  " + result);
              Gson gson = new Gson();
+                String imgurl="";
              CourseData.RootObject jsonbodys = gson.fromJson(result, CourseData.RootObject.class);
              CourseData.Datacoursedetails cd=jsonbodys.datacoursedetails;
              CourseData.Datacoursebanner cb=jsonbodys.datacoursebanner;
@@ -245,8 +246,16 @@ public ArrayList gettimonialList()
                 List<CourseData.Datatopic > dt=jsonbodys.datatopic;
                 textCourseId.setText( cd.getCourseName());
                 textViewCoursedesc.setText( cd.getCourseDescription());
-                String imgurl="https://guidedevblob.blob.core.windows.net/"+cd.getCourseID().toLowerCase()+"/"+cb.getFileId()+"/"+cb.getFileName().replace(' ','_').toLowerCase();
-                Picasso.with(CourseDetails.this).load(imgurl).into(bannerimage);
+
+
+
+                if(cb!=null)
+                     imgurl="https://guidedevblob.blob.core.windows.net/"+cd.getCourseID().toLowerCase()+"/"+cb.getFileId()+"/"+cb.getFileName().replace(' ','_').toLowerCase();
+                else
+                    imgurl="https://www.homesbykimblanton.com/uploads/shared/images/library%202.jpg";
+
+
+                 Picasso.with(CourseDetails.this).load(imgurl).into(bannerimage);
                 listDataHeader = new ArrayList<String>();
                 listDataChild = new HashMap<String, List<String>>();
 

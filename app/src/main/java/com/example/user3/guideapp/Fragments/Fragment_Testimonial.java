@@ -149,13 +149,9 @@ public class Fragment_Testimonial extends DialogFragment {
                 CourseData.RootObject jsonbodys = gson.fromJson(result, CourseData.RootObject.class);
                 testimonialList=new ArrayList<>();
                 testimonialList=jsonbodys.datacourseTestimonial;
-
                 recyclerViewtestimonial=(RecyclerView) view.findViewById(R.id.recyclerViewTestimonial) ;
-
                 testimonialAdapters = new TestimonialAdapters(getActivity(), testimonialList);
-
                 recyclerViewtestimonial.setLayoutManager(new LinearLayoutManager(getActivity()));
-
                 recyclerViewtestimonial.setAdapter(testimonialAdapters);
                 learnerid=jsonbodys.getUserId();
                 progressDialog.dismiss();

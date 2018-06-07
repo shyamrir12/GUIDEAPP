@@ -45,10 +45,13 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
     public void onBindViewHolder(CommentViewHolder holder, int position) {
         //getting the product of the specified position
       CourseData.Dataforum comment =commentList.get(position);
+      int commentno=position+1;
          //binding the data with the viewholder views
-        holder.textViewLearnerName.setText(comment.getUserName());
+        holder.textViewCommentNumber.setText("Comment :"+commentno);
+        holder.textViewLearnerName.setText(comment.getName());
         holder.textViewTime.setText(comment.getCommentedOn());
         holder.textViewComment.setText(comment.getComment());
+        holder.textViewReply.setText("Reply:"+comment.getTotalReply());
 
     }
 
@@ -92,6 +95,13 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
                 Intent intent=new Intent(mCtx, Reply.class);
                 intent.putExtra("courseid",comment.getCourseID());
                 intent.putExtra("commantid",comment.getCommentId());
+
+                intent.putExtra("commentno",position);
+                intent.putExtra("LearnerName",comment.getName());
+                intent.putExtra("Time",comment.getCommentedOn());
+                intent.putExtra("Comment",comment.getComment());
+                //intent.putExtra("ReplyNumber",comment.getCommentId());
+
                 this.mCtx.startActivity(intent);
             }
         }

@@ -117,6 +117,15 @@ public class CourseData {
         public String CommentedOn ;
         public String UserName ;
         public String Name ;
+        public int TotalReply ;
+
+        public int getTotalReply() {
+            return TotalReply;
+        }
+
+        public void setTotalReply(int totalReply) {
+            TotalReply = totalReply;
+        }
     }
 
     public class Datareply
