@@ -14,6 +14,7 @@ import android.widget.EditText;
 import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import com.example.user3.guideapp.Adapters.CommentAdapter;
 import com.example.user3.guideapp.Adapters.TestimonialAdapters;
 import com.example.user3.guideapp.CourseDetails;
@@ -30,16 +31,17 @@ import okhttp3.FormBody;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 
-public class Fragment_Comment extends Fragment {
+public class Fragment_Comment extends android.support.v4.app.Fragment {
     View view;
     Button firstButton, buttonclose;
     List<CourseData.Dataforum> commentList;
     EditText editTextComment;
     RatingBar ratingBar;
     RecyclerView recyclerViewComment;
-   CommentAdapter commentAdapters;
+    CommentAdapter commentAdapters;
     ProgressDialog progressDialog;
-    String courseid, learnerid;
+    String courseid, learnerid, courseDescription;
+    TextView textViewcourseDescription;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -50,15 +52,17 @@ public class Fragment_Comment extends Fragment {
         // set title
         // getDialog().setTitle("Add Testimonial");
         courseid = cd.getCourseid();
+        //courseDescription = cd.getCourseDescription();
         progressDialog = new ProgressDialog(getActivity());
         getMyCourseDesc();
-         // Inflate the layout for this fragment
+        // Inflate the layout for this fragment
         view = inflater.inflate(R.layout.fragment_comment, container, false);
-         // get the reference of Button
+        // get the reference of Button
 
+        textViewcourseDescription = (TextView) view.findViewById(R.id.textViewTitle);
 
         firstButton = (Button) view.findViewById(R.id.firstButton);
-     editTextComment=(EditText)view.findViewById(R.id.edittextComment);
+        editTextComment = (EditText) view.findViewById(R.id.edittextComment);
         // perform setOnClickListener on first Button
         firstButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -89,6 +93,7 @@ public class Fragment_Comment extends Fragment {
             // System.out.println("Error: " + e);
         }
     }
+
 
     private class GETCourseDesc extends AsyncTask<String, Void, String> {
         @Override
@@ -141,24 +146,26 @@ public class Fragment_Comment extends Fragment {
                 //System.out.println("CONTENIDO:  " + result);
                 Gson gson = new Gson();
                 CourseData.RootObject jsonbodys = gson.fromJson(result, CourseData.RootObject.class);
-              commentList = new ArrayList<>();
+                courseDescription=jsonbodys.datacoursedetails.getCourseDescription();
+                textViewcourseDescription.setText(courseDescription);
+                commentList = new ArrayList<>();
                 commentList = jsonbodys.dataforum;
 
-                List<CourseData.Datareply> replylist =jsonbodys.datareply;
-                for (CourseData.Dataforum c : commentList){
+                List<CourseData.Datareply> replylist = jsonbodys.datareply;
+                for (CourseData.Dataforum c : commentList) {
 
                     List<CourseData.Datareply> newList = new ArrayList<>();
-                    for (CourseData.Datareply d : replylist){
-                        if (d.getCommentId()==c.getCommentId())
+                    for (CourseData.Datareply d : replylist) {
+                        if (d.getCommentId() == c.getCommentId())
                             newList.add(d);
 
                     }
-                    c.setTotalReply( newList.size());
-                   // System.out.println("Reply"+String.valueOf(c.getTotalReply()));
+                    c.setTotalReply(newList.size());
+                    // System.out.println("Reply"+String.valueOf(c.getTotalReply()));
                 }
                 recyclerViewComment = (RecyclerView) view.findViewById(R.id.recyclerViewComment);
 
-               CommentAdapter commentAdapter= new CommentAdapter(getActivity(), commentList);
+                CommentAdapter commentAdapter = new CommentAdapter(getActivity(), commentList);
 
                 recyclerViewComment.setLayoutManager(new LinearLayoutManager(getActivity()));
 
@@ -177,7 +184,7 @@ public class Fragment_Comment extends Fragment {
             //String res="";
             progressDialog.setMessage("loading...");
             progressDialog.show();
-            String commenttext =editTextComment.getText().toString();
+            String commenttext = editTextComment.getText().toString();
 
 
             new Fragment_Comment.POSTComment().execute(SharedPrefManager.getInstance(getActivity()).getUser().access_token, commenttext, courseid);
@@ -209,15 +216,15 @@ public class Fragment_Comment extends Fragment {
 
                 OkHttpClient client = new OkHttpClient();
                 Request.Builder builder = new Request.Builder();
-                builder.url("http://guidedev.azurewebsites.net/api/LearnerApi/PostDiscussionForum" );
+                builder.url("http://guidedev.azurewebsites.net/api/LearnerApi/PostDiscussionForum");
                 builder.addHeader("Content-Type", "application/x-www-form-urlencoded");
                 builder.addHeader("Accept", "application/json");
-                builder.addHeader("Authorization", "Bearer" + accesstoken);
+                builder.addHeader("Authorization", "Bearer " + accesstoken);
 
                 FormBody.Builder parameters = new FormBody.Builder();
                 parameters.add("Comment", commenttext);
                 parameters.add("CourseID", courseidtext);
-                parameters.add("UserId",String.valueOf( learnerid));
+                parameters.add("UserId", String.valueOf(learnerid));
                 builder.post(parameters.build());
 
 

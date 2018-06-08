@@ -15,6 +15,7 @@ import android.webkit.WebViewClient;
 import android.widget.Button;
 import android.widget.ExpandableListAdapter;
 import android.widget.ExpandableListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.VideoView;
@@ -48,6 +49,7 @@ public class ContentDetails extends AppCompatActivity   {
     WeekAdapter weekAdapter;
     ExpandableListView expListView;
     ProgressDialog progressDialog;
+    RelativeLayout relativelayout;
 Button buttonComplete;
     //private YouTubePlayerView videoPlayer;
     WebView webView;
@@ -68,7 +70,7 @@ Button buttonComplete;
         courseid=getIntent().getStringExtra("courseid");
         contentid=getIntent().getStringExtra("contentid");
         progressDialog = new ProgressDialog(this);
-
+relativelayout=findViewById(R.id.relativelayout);
 
        // videoPlayer = (YouTubePlayerView)findViewById(R.id.youTubePlayerView);
           webView=findViewById(R.id.youTubePlayerView);
@@ -388,9 +390,7 @@ Button buttonComplete;
                                     }
                                     String contentid=Integer.toString( cc.get(k).getContentID());
                                     String lecture=dt.get(j).getTopicName()+":"+cc.get(k).getContentTitle()+","+contentid;
-
                                     wn.add(lecture);
-
                                 }
                             }
                         }
@@ -401,8 +401,14 @@ Button buttonComplete;
                 weekAdapter = new WeekAdapter(ContentDetails.this, listDataHeader, listDataChild);
 
                 expListView.setAdapter(weekAdapter);
-               // for(int g=0; g < weekAdapter.getGroupCount(); g++)
-                 //   expListView.expandGroup(g);
+
+              /* for(int g=0; g < weekAdapter.getGroupCount(); g++)
+                    expListView.expandGroup(g);*/
+
+       /*         final float scale =ContentDetails.this.getResources().getDisplayMetrics().density;
+                int px = (int) (100 * dw.size() + 0.5f);  // replace 100 with your dimensions
+                relativelayout.getLayoutParams().height=px;*/
+
                 expListView.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
                     @Override
                     public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
@@ -415,13 +421,13 @@ Button buttonComplete;
                         return false;
                     }
                 });
-                expListView.setOnGroupClickListener(new ExpandableListView.OnGroupClickListener() {
+              /*  expListView.setOnGroupClickListener(new ExpandableListView.OnGroupClickListener() {
                     @Override
                     public boolean onGroupClick(ExpandableListView parent, View v, int groupPosition, long id) {
                         setListViewHeight(parent, groupPosition);
                         return false;
                     }
-                });
+                });*/
 
                 progressDialog.dismiss();
 

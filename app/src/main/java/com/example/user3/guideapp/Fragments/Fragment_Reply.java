@@ -227,7 +227,7 @@ public class Fragment_Reply extends Fragment {
                 builder.url("http://guidedev.azurewebsites.net/api/LearnerApi/PostDiscussionForum" );
                 builder.addHeader("Content-Type", "application/x-www-form-urlencoded");
                 builder.addHeader("Accept", "application/json");
-                builder.addHeader("Authorization", "Bearer" + accesstoken);
+                builder.addHeader("Authorization", "Bearer " + accesstoken);
 
                 FormBody.Builder parameters = new FormBody.Builder();
                 parameters.add("Reply", replytext);

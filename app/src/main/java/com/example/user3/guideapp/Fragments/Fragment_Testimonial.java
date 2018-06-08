@@ -32,7 +32,7 @@ import okhttp3.FormBody;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 
-public class Fragment_Testimonial extends DialogFragment {
+public class Fragment_Testimonial extends  DialogFragment {
     View view;
     Button firstButton,buttonclose;
     List<CourseData.DatacourseTestimonial> testimonialList;
@@ -201,7 +201,7 @@ public class Fragment_Testimonial extends DialogFragment {
                 builder.url("http://guidedev.azurewebsites.net/api/LearnerApi/CourseTestimonialpost/"+rating);
                 builder.addHeader("Content-Type", "application/x-www-form-urlencoded");
                 builder.addHeader("Accept", "application/json");
-                builder.addHeader("Authorization", "Bearer" + accesstoken);
+                builder.addHeader("Authorization", "Bearer " + accesstoken);
 
                 FormBody.Builder parameters = new FormBody.Builder();
                 parameters.add("Testimonial", testimonialtext);

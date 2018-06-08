@@ -47,6 +47,7 @@ public class CourseDetails extends AppCompatActivity  {
     ExpandableListView expListView;
     List<String> listDataHeader;
     RecyclerView recyclerViewfaq;
+
     HashMap<String, List<String>> listDataChild;
 
     TextView textCourseId,textViewCoursedesc;
@@ -54,7 +55,7 @@ public class CourseDetails extends AppCompatActivity  {
     List<CourseData.DataCourseFaq> faqList;
     List<CourseData.DatacourseTestimonial> testimonialList;
     FaqAdapter adapterfaq;
-    String courseid;
+    String courseid,courseDescription;
 
     Button buttonSubmitReview;
     //TestimonialAdapters testimonialAdapters;
@@ -107,10 +108,10 @@ public class CourseDetails extends AppCompatActivity  {
     }
     private void loadComment() {
 // create a FragmentManager
-        FragmentManager fm = getFragmentManager();
+      android.support.v4.app.FragmentManager fm = getSupportFragmentManager();
 
 // create a FragmentTransaction to begin the transaction and replace the Fragment
-        FragmentTransaction fragmentTransaction = fm.beginTransaction();
+        android.support.v4.app.FragmentTransaction fragmentTransaction = fm.beginTransaction();
 // replace the FrameLayout with new Fragment
         Fragment_Comment fragment=new Fragment_Comment();
         fragmentTransaction.replace( R.id.frameLayout, fragment);
@@ -130,11 +131,25 @@ public ArrayList gettimonialList()
 {
     return (ArrayList) testimonialList;
 }
+    public ArrayList getfaqList()
+    {
+        return (ArrayList) faqList;
+    }
+    public ArrayList getHeaderList()
+    {
+        return (ArrayList) listDataHeader;
+    }
+    public HashMap<String, List<String>> getChildList()
+    {
+        return (HashMap<String, List<String>>) listDataChild;
+    }
 
     public String getCourseid() {
         return courseid;
     }
-
+    public String getCourseDescription() {
+        return courseDescription;
+    }
     private void setListViewHeight(ExpandableListView listView,
                                    int group) {
         ExpandableListAdapter listAdapter = (ExpandableListAdapter) listView.getExpandableListAdapter();
@@ -243,10 +258,10 @@ public ArrayList gettimonialList()
              CourseData.Datacoursebanner cb=jsonbodys.datacoursebanner;
              List<CourseData.Datacoursecontent> cc=jsonbodys.datacoursecontent;
              List<CourseData.Dataweek > dw=jsonbodys.dataweek;
-                List<CourseData.Datatopic > dt=jsonbodys.datatopic;
+             List<CourseData.Datatopic > dt=jsonbodys.datatopic;
                 textCourseId.setText( cd.getCourseName());
                 textViewCoursedesc.setText( cd.getCourseDescription());
-
+                courseDescription= cd.getCourseDescription();
 
 
                 if(cb!=null)
@@ -320,7 +335,6 @@ public ArrayList gettimonialList()
                 adapterfaq = new FaqAdapter(CourseDetails.this, faqList);
                 recyclerViewfaq.setLayoutManager(new LinearLayoutManager(CourseDetails.this));
                 recyclerViewfaq.setAdapter(adapterfaq);
-
                 testimonialList=new ArrayList<>();
                 testimonialList=jsonbodys.datacourseTestimonial;
                 //testimonialAdapters = new TestimonialAdapters(CourseDetails.this, testimonialList);
