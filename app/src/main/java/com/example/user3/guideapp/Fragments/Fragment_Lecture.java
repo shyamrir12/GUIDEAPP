@@ -11,6 +11,7 @@ import android.widget.ExpandableListView;
 import com.example.user3.guideapp.Adapters.WeekAdapter;
 import com.example.user3.guideapp.ContentDetails;
 import com.example.user3.guideapp.CourseDetails;
+import com.example.user3.guideapp.Course_Details_Tab;
 import com.example.user3.guideapp.R;
 
 import java.util.HashMap;
@@ -26,13 +27,13 @@ public class Fragment_Lecture extends android.support.v4.app.Fragment {
     HashMap<String, List<String>> listDataChild;
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        CourseDetails cd = (CourseDetails) getActivity();
+        Course_Details_Tab cd = (Course_Details_Tab) getActivity();
         listDataHeader= cd.getHeaderList();
         listDataChild=cd.getChildList();
         courseid=cd.getCourseid();
         view = inflater.inflate(R.layout.fragment_lecture, container, false);
 
-        expListView= (ExpandableListView)view.findViewById(R.id.expandableListViewlecture);
+        expListView= (ExpandableListView)view.findViewById(R.id.expandableListViewLecture);
 
 
         weekAdapter = new WeekAdapter(getActivity(), listDataHeader, listDataChild);

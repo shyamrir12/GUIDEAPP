@@ -18,6 +18,7 @@ import android.widget.Toast;
 import com.example.user3.guideapp.Adapters.CommentAdapter;
 import com.example.user3.guideapp.Adapters.TestimonialAdapters;
 import com.example.user3.guideapp.CourseDetails;
+import com.example.user3.guideapp.Course_Details_Tab;
 import com.example.user3.guideapp.Helper.SharedPrefManager;
 import com.example.user3.guideapp.Model.CourseData;
 import com.example.user3.guideapp.Model.Result;
@@ -46,7 +47,7 @@ public class Fragment_Comment extends android.support.v4.app.Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        CourseDetails cd = (CourseDetails) getActivity();
+        Course_Details_Tab cd = (Course_Details_Tab) getActivity();
         //cd.gettimonialList();
         //testimonialList=new ArrayList<>();
         // set title

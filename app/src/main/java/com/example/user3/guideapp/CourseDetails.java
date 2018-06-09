@@ -86,15 +86,15 @@ public class CourseDetails extends AppCompatActivity  {
 
 
 
-        loadFragment();
+       // loadFragment();
 
     }
     });
         loadComment();
     }
 
-
-    private void loadFragment() {
+//fragment when dylog
+  /*  private void loadFragment() {
 // create a FragmentManager
         FragmentManager fm = getFragmentManager();
         Fragment_Testimonial ft=new Fragment_Testimonial();
@@ -105,7 +105,7 @@ public class CourseDetails extends AppCompatActivity  {
 
         //fragmentTransaction.replace( R.id.frameLayout, fragment);
         //fragmentTransaction.commit(); // save the changes
-    }
+    }*/
     private void loadComment() {
 // create a FragmentManager
       android.support.v4.app.FragmentManager fm = getSupportFragmentManager();

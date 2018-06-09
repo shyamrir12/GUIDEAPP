@@ -13,6 +13,7 @@ import android.widget.Button;
 import com.example.user3.guideapp.Adapters.CommentAdapter;
 import com.example.user3.guideapp.Adapters.FaqAdapter;
 import com.example.user3.guideapp.CourseDetails;
+import com.example.user3.guideapp.Course_Details_Tab;
 import com.example.user3.guideapp.Model.CourseData;
 import com.example.user3.guideapp.R;
 
@@ -25,7 +26,7 @@ public class Fragment_Faq  extends android.support.v4.app.Fragment {
     RecyclerView recyclerViewFaq;
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        CourseDetails cd = (CourseDetails) getActivity();
+        Course_Details_Tab cd = (Course_Details_Tab) getActivity();
         faqList= cd.getfaqList();
 
         view = inflater.inflate(R.layout.fragment_faq, container, false);

@@ -13,6 +13,7 @@ import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.example.user3.guideapp.CourseDetails;
+import com.example.user3.guideapp.Course_Details_Tab;
 import com.example.user3.guideapp.Course_Tracking;
 import com.example.user3.guideapp.Fragments.Fragment_Testimonial;
 import com.example.user3.guideapp.Fragments.Fragment_Tracking;
@@ -118,7 +119,7 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.CourseView
             HomeData.DataCourse course =this.courseList.get(position);
 
             if (v.getId() == imageView.getId()||v.getId() == textViewTitle.getId()) {
-                Intent intent=new Intent(mCtx, CourseDetails.class);
+                Intent intent=new Intent(mCtx, Course_Details_Tab.class);
                 intent.putExtra("courseid",course.getCourseID());
                 this.mCtx.startActivity(intent);
             }
