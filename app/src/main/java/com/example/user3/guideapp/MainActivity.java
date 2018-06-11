@@ -22,6 +22,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.user3.guideapp.Adapters.CustomGrid;
+import com.example.user3.guideapp.Config.PlayerConfig;
 import com.example.user3.guideapp.Helper.SharedPrefManager;
 import com.example.user3.guideapp.Model.HomeData;
 import com.example.user3.guideapp.Model.HomeIndex;
@@ -41,13 +42,13 @@ import okhttp3.Request;
 
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
-    GridView grid,gridcat;
+    GridView grid, gridcat;
     DrawerLayout drawerLayout;
     NavigationView navigationView;
     Toolbar toolbar;
-    ListView listViewCourseList,listViewCategoryList;
+    ListView listViewCourseList, listViewCategoryList;
     //TextView textemail;
-    ProgressDialog progressDialog ;
+    ProgressDialog progressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,23 +63,23 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         navigationView = findViewById(R.id.navigation_view);
 
         navigationView.setNavigationItemSelectedListener(this);
-       // View header=navigationView.getHeaderView(0);
+        // View header=navigationView.getHeaderView(0);
         /*View view=navigationView.inflateHeaderView(R.layout.nav_header_main);*/
-        View hView =  navigationView.inflateHeaderView(R.layout.navigation_header);
+        View hView = navigationView.inflateHeaderView(R.layout.navigation_header);
 
 
-        TextView  email =  hView.findViewById(R.id.textvieemail);
+        TextView email = hView.findViewById(R.id.textvieemail);
         //TextView  name =  hView.findViewById(R.id.textviewname);
 
         email.setText(SharedPrefManager.getInstance(this).getUser().userName);
-       // name.setText(SharedPrefManager.getInstance(this).getUser().expires_in);
+        // name.setText(SharedPrefManager.getInstance(this).getUser().expires_in);
 
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.open_drawer, R.string.close_drawer);
         drawerLayout.addDrawerListener(toggle);
         toggle.syncState();
 
         //listViewCourseList = findViewById(R.id.listViewCourseList);
-       // listViewCategoryList=findViewById(R.id.listViewCategoryList);
+        // listViewCategoryList=findViewById(R.id.listViewCategoryList);
         //textemail.setText(SharedPrefManager.getInstance(this).getUser().userName);
         getheros();
 
@@ -133,7 +134,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 Toast.makeText(this, "Profile Clicked", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.my_course_id:
-                Intent log = new Intent(getApplicationContext(),MyCourse.class);
+                Intent log = new Intent(getApplicationContext(), MyCourse.class);
                 startActivity(log);
                 //Toast.makeText(this, "Course Clicked", Toast.LENGTH_SHORT).show();
                 break;
@@ -158,7 +159,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private void getheros() {
         try {
             //String res="";
-           progressDialog.setMessage("loading...");
+            progressDialog.setMessage("loading...");
             progressDialog.show();
             new GETWeekList().execute();
 
@@ -224,7 +225,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
                 OkHttpClient client = new OkHttpClient();
                 Request.Builder builder = new Request.Builder();
-                builder.url("http://guidedev.azurewebsites.net/api/HomeApi/GetIndex");
+                builder.url(PlayerConfig.BASE_URL_API + "HomeApi/GetIndex");
                 builder.addHeader("Content-Type", "application/x-www-form-urlencoded");
                 builder.addHeader("Accept", "application/json");
                 //builder.addHeader("Authorization", "Bearer " + accesstoken);
@@ -251,8 +252,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             } catch (Exception e) {
                 e.printStackTrace();
                 progressDialog.dismiss();
-               // System.out.println("Error: " + e);
-                Toast.makeText(getApplicationContext(),"Error: " + e,Toast.LENGTH_SHORT).show();
+                // System.out.println("Error: " + e);
+                Toast.makeText(getApplicationContext(), "Error: " + e, Toast.LENGTH_SHORT).show();
             }
 
 
@@ -270,7 +271,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 //System.out.println(result);
                 Gson gson = new Gson();
 
-                 //to convert strong responce in to list
+                //to convert strong responce in to list
                 /*Type listType = new TypeToken<List<Week>>(){}.getType();
                 List<Week> jsonbody = new Gson().fromJson(result, listType);
 
@@ -288,24 +289,24 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
               */
 
 
-              HomeIndex.HomeIndexResult jsonbody = gson.fromJson(result, HomeIndex.HomeIndexResult.class);
+                HomeIndex.HomeIndexResult jsonbody = gson.fromJson(result, HomeIndex.HomeIndexResult.class);
 
                 final String[] course = new String[jsonbody.dataCourseList.size()];
                 String[] category = new String[jsonbody.dataCategoryList.size()];
-                int[] imageId=new int[jsonbody.dataCourseList.size()];
-                int[] imageIdcat=new int[jsonbody.getDataCategoryList().size()];
+                int[] imageId = new int[jsonbody.dataCourseList.size()];
+                int[] imageIdcat = new int[jsonbody.getDataCategoryList().size()];
                 //looping through all the heroes and inserting the names inside the string array
                 for (int i = 0; i < jsonbody.dataCourseList.size(); i++) {
                     course[i] = jsonbody.dataCourseList.get(i).getCourseName();
-                    imageId[i]= R.drawable.book;
+                    imageId[i] = R.drawable.book;
                 }
 
                 for (int i = 0; i < jsonbody.dataCategoryList.size(); i++) {
                     category[i] = jsonbody.dataCategoryList.get(i).getCategoryName();
-                    imageIdcat[i]= R.drawable.book;
+                    imageIdcat[i] = R.drawable.book;
                 }
                 CustomGrid adapter = new CustomGrid(MainActivity.this, course, imageId);
-                grid=(GridView)findViewById(R.id.grid);
+                grid = (GridView) findViewById(R.id.grid);
                 grid.setAdapter(adapter);
                 grid.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
@@ -315,13 +316,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
                         Toast.makeText(
                                 getApplicationContext(),
-                                ((TextView) v.findViewById( R.id.grid_text ))
+                                ((TextView) v.findViewById(R.id.grid_text))
                                         .getText(), Toast.LENGTH_SHORT).show();
 
                     }
                 });
                 CustomGrid adaptercat = new CustomGrid(MainActivity.this, category, imageIdcat);
-                gridcat=(GridView)findViewById(R.id.gridcat);
+                gridcat = (GridView) findViewById(R.id.gridcat);
                 gridcat.setAdapter(adaptercat);
                 //displaying the string array into listview
                 //listViewCourseList.setAdapter(new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_list_item_1, course));
@@ -330,9 +331,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
 
                 progressDialog.dismiss();
-               // Toast.makeText(getApplicationContext(),jsonbody.Message,Toast.LENGTH_SHORT).show();
+                // Toast.makeText(getApplicationContext(),jsonbody.Message,Toast.LENGTH_SHORT).show();
                 //progressBar.setVisibility(View.INVISIBLE);
-               // progressDialog.dismiss();
+                // progressDialog.dismiss();
                 //Intent log = new Intent(getApplicationContext(), MainActivity.class);
                 //startActivity(log);
             }

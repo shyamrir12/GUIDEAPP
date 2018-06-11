@@ -8,6 +8,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.user3.guideapp.Config.PlayerConfig;
 import com.example.user3.guideapp.Helper.SharedPrefManager;
 import com.example.user3.guideapp.Model.TrackingData;
 import com.google.gson.Gson;
@@ -73,7 +74,7 @@ public class Course_Tracking extends AppCompatActivity {
 
                 OkHttpClient client = new OkHttpClient();
                 Request.Builder builder = new Request.Builder();
-                builder.url("http://guidedev.azurewebsites.net/api/LearnerApi/CourseTracking/"+courseid+"/x");
+                builder.url(PlayerConfig.BASE_URL_API+"LearnerApi/CourseTracking/"+courseid+"/x");
                 builder.addHeader("Content-Type", "application/x-www-form-urlencoded");
                 builder.addHeader("Accept", "application/json");
                 builder.addHeader("Authorization", "Bearer " + accesstoken);

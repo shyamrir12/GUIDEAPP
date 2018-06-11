@@ -13,6 +13,7 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import com.example.user3.guideapp.Adapters.CourseAdapter;
+import com.example.user3.guideapp.Config.PlayerConfig;
 import com.example.user3.guideapp.Fragments.Fragment_Testimonial;
 import com.example.user3.guideapp.Fragments.Fragment_Tracking;
 import com.example.user3.guideapp.Helper.SharedPrefManager;
@@ -83,7 +84,7 @@ public class MyCourse extends AppCompatActivity {
 
                 OkHttpClient client = new OkHttpClient();
                 Request.Builder builder = new Request.Builder();
-                builder.url("http://guidedev.azurewebsites.net/api/InstructorApi/GetMyCourse");
+                builder.url(PlayerConfig.BASE_URL_API+"InstructorApi/GetMyCourse");
                 builder.addHeader("Content-Type", "application/x-www-form-urlencoded");
                 builder.addHeader("Accept", "application/json");
                 builder.addHeader("Authorization", "Bearer " + accesstoken);

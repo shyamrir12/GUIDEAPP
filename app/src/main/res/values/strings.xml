@@ -25,4 +25,5 @@
     <string name="app_guide_login">GUIDE LOGIN</string>
     <string name="login">Login</string>
     <string name="register">Register</string>
+    <string name="unsus"><b><u>Unsubscribe</u></b></string>
 </resources>

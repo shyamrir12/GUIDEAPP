@@ -21,6 +21,7 @@ import android.widget.Toolbar;
 import com.example.user3.guideapp.Adapters.FaqAdapter;
 import com.example.user3.guideapp.Adapters.PagerAdapter;
 import com.example.user3.guideapp.Adapters.WeekAdapter;
+import com.example.user3.guideapp.Config.PlayerConfig;
 import com.example.user3.guideapp.Fragments.Fragment_Comment;
 import com.example.user3.guideapp.Fragments.Fragment_Faq;
 import com.example.user3.guideapp.Fragments.Fragment_Lecture;
@@ -129,7 +130,7 @@ public class Course_Details_Tab extends AppCompatActivity  {
 
                 OkHttpClient client = new OkHttpClient();
                 Request.Builder builder = new Request.Builder();
-                builder.url("http://guidedev.azurewebsites.net/api/InstructorApi/GetCourseDetails/"+courseid);
+                builder.url(PlayerConfig.BASE_URL_API+"InstructorApi/GetCourseDetails/"+courseid);
                 builder.addHeader("Content-Type", "application/x-www-form-urlencoded");
                 builder.addHeader("Accept", "application/json");
                 builder.addHeader("Authorization", "Bearer " + accesstoken);
@@ -178,7 +179,7 @@ public class Course_Details_Tab extends AppCompatActivity  {
 
 
                 if(cb!=null)
-                    imgurl="https://guidedevblob.blob.core.windows.net/"+cd.getCourseID().toLowerCase()+"/"+cb.getFileId()+"/"+cb.getFileName().replace(' ','_').toLowerCase();
+                    imgurl=PlayerConfig.BASE_URL_API_BLOB+cd.getCourseID().toLowerCase()+"/"+cb.getFileId()+"/"+cb.getFileName().replace(' ','_').toLowerCase();
                 else
                     imgurl="https://www.homesbykimblanton.com/uploads/shared/images/library%202.jpg";
 

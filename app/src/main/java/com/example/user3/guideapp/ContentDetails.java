@@ -319,7 +319,7 @@ relativelayout=findViewById(R.id.relativelayout);
 
                 OkHttpClient client = new OkHttpClient();
                 Request.Builder builder = new Request.Builder();
-                builder.url("http://guidedev.azurewebsites.net/api/InstructorApi/GetContentDetails/"+contentid+"/"+courseid);
+                builder.url(PlayerConfig.BASE_URL_API+"InstructorApi/GetContentDetails/"+contentid+"/"+courseid);
                 builder.addHeader("Content-Type", "application/x-www-form-urlencoded");
                 builder.addHeader("Accept", "application/json");
                 builder.addHeader("Authorization", "Bearer " + accesstoken);
@@ -459,7 +459,7 @@ relativelayout=findViewById(R.id.relativelayout);
 
                OkHttpClient client = new OkHttpClient();
                Request.Builder builder = new Request.Builder();
-               builder.url("http://guidedev.azurewebsites.net/api/LearnerApi/MarkAComplete/"+contentid+"/"+courseid);
+               builder.url(PlayerConfig.BASE_URL_API+"LearnerApi/MarkAComplete/"+contentid+"/"+courseid);
                builder.addHeader("Content-Type", "application/x-www-form-urlencoded");
                builder.addHeader("Accept", "application/json");
                builder.addHeader("Authorization", "Bearer " + accesstoken);

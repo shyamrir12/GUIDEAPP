@@ -18,6 +18,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.user3.guideapp.Adapters.TestimonialAdapters;
+import com.example.user3.guideapp.Config.PlayerConfig;
 import com.example.user3.guideapp.CourseDetails;
 import com.example.user3.guideapp.Course_Details_Tab;
 import com.example.user3.guideapp.Helper.SharedPrefManager;
@@ -112,7 +113,7 @@ public class Fragment_Testimonial extends android.support.v4.app.Fragment {
 
                 OkHttpClient client = new OkHttpClient();
                 Request.Builder builder = new Request.Builder();
-                builder.url("http://guidedev.azurewebsites.net/api/InstructorApi/GetCourseDetails/" + courseid);
+                builder.url(PlayerConfig.BASE_URL_API+"InstructorApi/GetCourseDetails/" + courseid);
                 builder.addHeader("Content-Type", "application/x-www-form-urlencoded");
                 builder.addHeader("Accept", "application/json");
                 builder.addHeader("Authorization", "Bearer " + accesstoken);
@@ -203,7 +204,7 @@ public class Fragment_Testimonial extends android.support.v4.app.Fragment {
 
                 OkHttpClient client = new OkHttpClient();
                 Request.Builder builder = new Request.Builder();
-                builder.url("http://guidedev.azurewebsites.net/api/LearnerApi/CourseTestimonialpost/" + rating);
+                builder.url(PlayerConfig.BASE_URL_API+"LearnerApi/CourseTestimonialpost/" + rating);
                 builder.addHeader("Content-Type", "application/x-www-form-urlencoded");
                 builder.addHeader("Accept", "application/json");
                 builder.addHeader("Authorization", "Bearer " + accesstoken);

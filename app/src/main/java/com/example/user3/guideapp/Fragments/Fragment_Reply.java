@@ -19,6 +19,7 @@ import android.widget.Toast;
 
 import com.example.user3.guideapp.Adapters.CommentAdapter;
 import com.example.user3.guideapp.Adapters.ReplyAdapter;
+import com.example.user3.guideapp.Config.PlayerConfig;
 import com.example.user3.guideapp.CourseDetails;
 import com.example.user3.guideapp.Helper.SharedPrefManager;
 import com.example.user3.guideapp.Model.CourseData;
@@ -123,7 +124,7 @@ public class Fragment_Reply extends Fragment {
 
                 OkHttpClient client = new OkHttpClient();
                 Request.Builder builder = new Request.Builder();
-                builder.url("http://guidedev.azurewebsites.net/api/InstructorApi/GetCourseDetails/" + courseid);
+                builder.url(PlayerConfig.BASE_URL_API+"InstructorApi/GetCourseDetails/" + courseid);
                 builder.addHeader("Content-Type", "application/x-www-form-urlencoded");
                 builder.addHeader("Accept", "application/json");
                 builder.addHeader("Authorization", "Bearer " + accesstoken);
@@ -137,6 +138,7 @@ public class Fragment_Reply extends Fragment {
                 okhttp3.Response response = client.newCall(builder.build()).execute();
 
                 if (response.isSuccessful()) {
+
                     json = response.body().string();
 
 
@@ -176,7 +178,7 @@ public class Fragment_Reply extends Fragment {
 
                 recyclerViewReply = (RecyclerView) view.findViewById(R.id.recyclerViewReply);
 
-             replyAdapters= new ReplyAdapter(getActivity(), newList);
+               replyAdapters= new ReplyAdapter(getActivity(), newList);
 
                 recyclerViewReply.setLayoutManager(new LinearLayoutManager(getActivity()));
 
@@ -224,7 +226,7 @@ public class Fragment_Reply extends Fragment {
 
                 OkHttpClient client = new OkHttpClient();
                 Request.Builder builder = new Request.Builder();
-                builder.url("http://guidedev.azurewebsites.net/api/LearnerApi/PostDiscussionForum" );
+                builder.url(PlayerConfig.BASE_URL_API+"LearnerApi/PostDiscussionForum" );
                 builder.addHeader("Content-Type", "application/x-www-form-urlencoded");
                 builder.addHeader("Accept", "application/json");
                 builder.addHeader("Authorization", "Bearer " + accesstoken);

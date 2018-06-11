@@ -23,6 +23,7 @@ import android.widget.Toast;
 
 import com.example.user3.guideapp.Api.Api;
 import com.example.user3.guideapp.Api.GuideApi;
+import com.example.user3.guideapp.Config.PlayerConfig;
 import com.example.user3.guideapp.Helper.SharedPrefManager;
 import com.example.user3.guideapp.Model.Token;
 import com.example.user3.guideapp.Model.TokenRequest;
@@ -238,7 +239,7 @@ public class Login extends AppCompatActivity {
 
                 OkHttpClient client = new OkHttpClient();
                 Request.Builder builder = new Request.Builder();
-                builder.url("http://guidedev.azurewebsites.net/token");
+                builder.url(PlayerConfig.BASE_URL+"token");
                 builder.addHeader("Content-Type", "application/x-www-form-urlencoded");
                 builder.addHeader("Accept", "application/json");
 
