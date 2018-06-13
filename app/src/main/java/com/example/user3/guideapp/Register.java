@@ -14,8 +14,12 @@ import android.widget.Toast;
 
 import com.example.user3.guideapp.Config.PlayerConfig;
 import com.example.user3.guideapp.Helper.SharedPrefManager;
+import com.example.user3.guideapp.Model.RegisterData;
 import com.example.user3.guideapp.Model.Result;
 import com.google.gson.Gson;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import fr.ganfra.materialspinner.MaterialSpinner;
 import okhttp3.FormBody;
@@ -52,13 +56,13 @@ MaterialSpinner spinner;
         buttonRegister.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                saveRegister();
             }
         });
 
 
     }
-    public void saveComment() {
+    public void saveRegister() {
         try {
             //String res="";
             progressDialog.setMessage("loading...");
@@ -83,7 +87,7 @@ MaterialSpinner spinner;
     }
 
     private class POSTRegister extends AsyncTask<String, Void, String> {
-        int responcecode=0;
+
         @Override
         protected String doInBackground(String... params) {
 
@@ -96,6 +100,8 @@ MaterialSpinner spinner;
             String role = params[4];
             String courseid = params[5];
             String conpassword=params[6];
+            if(courseid==null)
+                courseid="";
             String json = "";
             try {
 
@@ -104,8 +110,6 @@ MaterialSpinner spinner;
                 builder.url(PlayerConfig.BASE_URL_API+"Account/Register");
                 builder.addHeader("Content-Type", "application/x-www-form-urlencoded");
                 builder.addHeader("Accept", "application/json");
-
-
                 FormBody.Builder parameters = new FormBody.Builder();
                parameters.add("UserName", name);
                 parameters.add("Email", email);
@@ -118,7 +122,7 @@ MaterialSpinner spinner;
                 okhttp3.Response response = client.newCall(builder.build()).execute();
                 if (response.isSuccessful()) {
                     json = response.body().string();
-                   responcecode=response.code();
+
                 }
             } catch (Exception e) {
                 e.printStackTrace();
@@ -134,17 +138,31 @@ MaterialSpinner spinner;
             if (result.isEmpty()) {
                 progressDialog.dismiss();
                 Toast.makeText(Register.this, "Invalid request", Toast.LENGTH_SHORT).show();
-            } else {
+            }
+            /* else {
                 if(responcecode==200) {
                     Toast.makeText(Register.this,"Registration successful", Toast.LENGTH_SHORT).show();
-                }
+                }*/
                 else {
                     //System.out.println("CONTENIDO:  " + result);
                     Gson gson = new Gson();
-                    final Result jsonbodyres = gson.fromJson(result, Result.class);
-                    Toast.makeText(Register.this, jsonbodyres.getMessage(), Toast.LENGTH_SHORT).show();
-                }
-                progressDialog.dismiss();
+              RegisterData.RootObject jsonbodys = gson.fromJson(result, RegisterData.RootObject.class);
+
+               if(jsonbodys.dataIdentityResult.getSucceeded()==true)
+               {
+                   Toast.makeText(Register.this, jsonbodys.getMessage(), Toast.LENGTH_SHORT).show();
+               }
+               else {
+
+
+                   Toast.makeText(Register.this,jsonbodys.dataIdentityResult.getErrors().get(0) , Toast.LENGTH_SHORT).show();
+               }
+            }
+
+
+            progressDialog.dismiss();
+
+
 
             }
 
@@ -152,4 +170,4 @@ MaterialSpinner spinner;
         }
 
     }
-}
+

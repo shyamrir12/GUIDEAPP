@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ExpandableListView;
+import android.widget.Toast;
 
 import com.example.user3.guideapp.Adapters.WeekAdapter;
 import com.example.user3.guideapp.ContentDetails;
@@ -25,11 +26,13 @@ public class Fragment_Lecture extends android.support.v4.app.Fragment {
     ExpandableListView expListView;
     List<String> listDataHeader;
     HashMap<String, List<String>> listDataChild;
+    String msg;
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         Course_Details_Tab cd = (Course_Details_Tab) getActivity();
         listDataHeader= cd.getHeaderList();
         listDataChild=cd.getChildList();
+        msg=cd.getMsg();
         courseid=cd.getCourseid();
         view = inflater.inflate(R.layout.fragment_lecture, container, false);
 
@@ -46,15 +49,20 @@ public class Fragment_Lecture extends android.support.v4.app.Fragment {
             public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
 
 
+if(msg.equals("")) {
+    String contentid = listDataChild.get(listDataHeader.get(groupPosition)).get(childPosition);
+    contentid = contentid.substring(contentid.lastIndexOf(",") + 1);
 
-                String contentid=listDataChild.get(listDataHeader.get(groupPosition)).get(childPosition);
-                contentid=contentid.substring(contentid.lastIndexOf(",") + 1);
+    Intent contentdetails = new Intent(getActivity(), ContentDetails.class);
+    contentdetails.putExtra("contentid", contentid);
+    contentdetails.putExtra("courseid", courseid);
+    // Toast.makeText(CourseDetails.this,contentid,Toast.LENGTH_SHORT).show();
+    startActivity(contentdetails);
+}else
+{
+    Toast.makeText(getActivity(),msg,Toast.LENGTH_SHORT).show();
 
-                Intent contentdetails = new Intent(getActivity(),ContentDetails.class);
-                contentdetails.putExtra("contentid",contentid);
-                contentdetails.putExtra("courseid",courseid);
-                // Toast.makeText(CourseDetails.this,contentid,Toast.LENGTH_SHORT).show();
-                startActivity(contentdetails);
+}
                 return false;
             }
         });

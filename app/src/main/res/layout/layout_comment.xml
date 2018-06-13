@@ -16,7 +16,7 @@
 
             <TextView
                 android:id="@+id/textViewCommentNumber"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="5dp"
 
@@ -28,7 +28,7 @@
 
             <TextView
                 android:id="@+id/textViewLearnerName"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="50dp"
 
@@ -41,7 +41,7 @@
 
             <TextView
                 android:id="@+id/textViewTime"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/textViewLearnerName"
                 android:layout_marginLeft="50dp"
@@ -52,12 +52,12 @@
                 android:textAppearance="@style/Base.TextAppearance.AppCompat.Small" />
             <TextView
                 android:id="@+id/textViewComment"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/textViewTime"
                 android:layout_marginLeft="50dp"
                 android:layout_marginTop="5dp"
-               android:layout_marginRight="30dp"
+                android:layout_marginRight="30dp"
                 android:text=" Mr.Vikash comment"
                 android:drawableLeft="@drawable/ic_question_answer"
                 android:textAppearance="@style/Base.TextAppearance.AppCompat.Small" />
@@ -88,8 +88,8 @@
                 android:padding="5dp"
                 android:background="@color/colorAccent"
                 android:layout_below="@id/textViewComment"
-               android:layout_toRightOf="@+id/textViewReply"
-               android:drawableLeft="@drawable/ic_reply"
+                android:layout_toRightOf="@+id/textViewReply"
+                android:drawableLeft="@drawable/ic_reply"
                 android:text="Reply" />
         </RelativeLayout>
 

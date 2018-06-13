@@ -57,8 +57,15 @@ public class Course_Details_Tab extends AppCompatActivity  {
     List<CourseData.DataCourseFaq> faqList;
     List<CourseData.DatacourseTestimonial> testimonialList;
     FaqAdapter adapterfaq;
-    String courseid,courseDescription;
-    Button buttonSubmitReview;
+    String courseid;
+    String courseDescription;
+
+    public String getMsg() {
+        return msg;
+    }
+
+    String msg;
+    Button buttonSubmitReview,bsubscribe;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -71,6 +78,7 @@ public class Course_Details_Tab extends AppCompatActivity  {
         textCourseTitle = findViewById(R.id.textViewTitle);
         progressDialog = new ProgressDialog(this);
         courseid=getIntent().getStringExtra("courseid");
+        bsubscribe=findViewById(R.id.bsubscribe);
         getMyCourseDesc();
 
 
@@ -227,6 +235,11 @@ public class Course_Details_Tab extends AppCompatActivity  {
                 pagerAdapter.addFragment(new Fragment_Testimonial(),"Testimonial");
                 viewPager.setAdapter(pagerAdapter);
                 tabLayout.setupWithViewPager(viewPager);
+                msg=jsonbodys.getMsg();
+               if(jsonbodys.msg.equals(""))
+                { bsubscribe.setText("Unsubscribe");}
+                else { bsubscribe.setText("Subscribe");}
+
                 progressDialog.dismiss();
 
             }
