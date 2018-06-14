@@ -177,11 +177,13 @@ public class Course_Details_Tab extends AppCompatActivity  {
                 Gson gson = new Gson();
                 String imgurl="";
                 CourseData.RootObject jsonbodys = gson.fromJson(result, CourseData.RootObject.class);
+
                 CourseData.Datacoursedetails cd=jsonbodys.datacoursedetails;
                 CourseData.Datacoursebanner cb=jsonbodys.datacoursebanner;
                 List<CourseData.Datacoursecontent> cc=jsonbodys.datacoursecontent;
                 List<CourseData.Dataweek > dw=jsonbodys.dataweek;
                 List<CourseData.Datatopic > dt=jsonbodys.datatopic;
+                msg=jsonbodys.getMsg();
                textCourseTitle.setText( cd.getCourseName());
                courseDescription= cd.getCourseDescription();
 
@@ -235,7 +237,7 @@ public class Course_Details_Tab extends AppCompatActivity  {
                 pagerAdapter.addFragment(new Fragment_Testimonial(),"Testimonial");
                 viewPager.setAdapter(pagerAdapter);
                 tabLayout.setupWithViewPager(viewPager);
-                msg=jsonbodys.getMsg();
+
                if(jsonbodys.msg.equals(""))
                 { bsubscribe.setText("Unsubscribe");}
                 else { bsubscribe.setText("Subscribe");}

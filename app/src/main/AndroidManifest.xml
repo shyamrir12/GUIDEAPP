@@ -58,6 +58,8 @@
             android:configChanges="orientation|screenSize|keyboardHidden"
             android:parentActivityName=".MyCourse"
             android:theme="@style/AppTheme.NoActionBar"></activity>
+
+        <activity android:name=".SeeMoreActivity"  android:parentActivityName=".MainActivity" android:theme="@style/AppLogin"/>
     </application>
 
 </manifest>

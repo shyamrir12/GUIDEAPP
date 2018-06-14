@@ -39,7 +39,15 @@
             android:textColor="@android:color/black"
             android:textSize="9sp"
             android:textStyle="bold"></TextView>
-
+        <TextView
+            android:id="@+id/grid_catid"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="0"
+            android:textAlignment="center"
+            android:visibility="gone"
+           ></TextView>
     </LinearLayout>
 </android.support.v7.widget.CardView>
 

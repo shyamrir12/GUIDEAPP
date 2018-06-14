@@ -14,12 +14,14 @@ import com.example.user3.guideapp.R;
 public class CustomGrid extends BaseAdapter{
     private Context mContext;
     private final String[] web;
+    private final String[] catid;
     private final int[] Imageid;
 
-    public CustomGrid(Context c,String[] web,int[] Imageid ) {
+    public CustomGrid(Context c,String[] web,int[] Imageid ,String [] catid) {
         mContext = c;
         this.Imageid = Imageid;
         this.web = web;
+        this.catid=catid;
     }
 
     @Override
@@ -53,7 +55,9 @@ public class CustomGrid extends BaseAdapter{
             grid = inflater.inflate(R.layout.grid_course, null);
             TextView textView = (TextView) grid.findViewById(R.id.grid_text);
             ImageView imageView = (ImageView)grid.findViewById(R.id.grid_image);
+            TextView textViewcatid = (TextView) grid.findViewById(R.id.grid_catid);
             textView.setText(web[position]);
+            textViewcatid.setText(catid[position]);
             imageView.setImageResource(Imageid[position]);
         } else {
             grid = (View) convertView;

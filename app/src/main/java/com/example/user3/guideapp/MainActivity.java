@@ -293,37 +293,52 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
                 final String[] course = new String[jsonbody.dataCourseList.size()];
                 String[] category = new String[jsonbody.dataCategoryList.size()];
+                String[] catid = new String[jsonbody.dataCategoryList.size()];
                 int[] imageId = new int[jsonbody.dataCourseList.size()];
+                String[] courseid = new String[jsonbody.dataCourseList.size()];
                 int[] imageIdcat = new int[jsonbody.getDataCategoryList().size()];
                 //looping through all the heroes and inserting the names inside the string array
                 for (int i = 0; i < jsonbody.dataCourseList.size(); i++) {
                     course[i] = jsonbody.dataCourseList.get(i).getCourseName();
                     imageId[i] = R.drawable.book;
+                    courseid[i]=jsonbody.dataCourseList.get(i).getCourseID();
                 }
 
                 for (int i = 0; i < jsonbody.dataCategoryList.size(); i++) {
                     category[i] = jsonbody.dataCategoryList.get(i).getCategoryName();
                     imageIdcat[i] = R.drawable.book;
+                    catid[i]=String.valueOf(jsonbody.dataCategoryList.get(i).getCategoryID());
                 }
-                CustomGrid adapter = new CustomGrid(MainActivity.this, course, imageId);
+                CustomGrid adapter = new CustomGrid(MainActivity.this, course, imageId,courseid);
                 grid = (GridView) findViewById(R.id.grid);
                 grid.setAdapter(adapter);
                 grid.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
                     public void onItemClick(AdapterView<?> parent, View v,
                                             int position, long id) {
+                       // Toast.makeText(getApplicationContext(), ((TextView) v.findViewById(R.id.grid_catid)).getText(), Toast.LENGTH_SHORT).show();
+                        Intent intent=new Intent(MainActivity.this, Course_Details_Tab.class);
+                        intent.putExtra("courseid",((TextView) v.findViewById(R.id.grid_catid)).getText());
+                        startActivity(intent);
+                    }
+                });
+                CustomGrid adaptercat = new CustomGrid(MainActivity.this, category, imageIdcat,catid);
+                gridcat = (GridView) findViewById(R.id.gridcat);
+                gridcat.setAdapter(adaptercat);
 
+                gridcat.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
-                        Toast.makeText(
-                                getApplicationContext(),
-                                ((TextView) v.findViewById(R.id.grid_text))
-                                        .getText(), Toast.LENGTH_SHORT).show();
+                    public void onItemClick(AdapterView<?> parent, View v,
+                                            int position, long id) {
+
+                    //    Toast.makeText(MainActivity.this, ((TextView) v.findViewById(R.id.grid_catid)).getText(), Toast.LENGTH_SHORT).show();
+
+                        Intent seemore = new Intent(MainActivity.this,SeeMoreActivity.class);
+                        seemore.putExtra("categoryid",((TextView) v.findViewById(R.id.grid_catid)).getText());
+                        startActivity(seemore);
 
                     }
                 });
-                CustomGrid adaptercat = new CustomGrid(MainActivity.this, category, imageIdcat);
-                gridcat = (GridView) findViewById(R.id.gridcat);
-                gridcat.setAdapter(adaptercat);
                 //displaying the string array into listview
                 //listViewCourseList.setAdapter(new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_list_item_1, course));
                 //listViewCategoryList.setAdapter(new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_list_item_1, category));

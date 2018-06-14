@@ -48,7 +48,7 @@ MaterialSpinner spinner;
         input_mobile=findViewById(R.id.input_mobile);
         input_confirmpassword=findViewById(R.id.input_confirmpassword);
         input_password=findViewById(R.id.input_password);
-
+        courseid=getIntent().getStringExtra("courseid");
         progressDialog = new ProgressDialog(this);
         spinner.setAdapter(adapter);
         spinner.setSelection(1,true);
