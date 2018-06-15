@@ -12,7 +12,6 @@
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
-
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
@@ -54,12 +53,17 @@
             android:name=".Reply"
             android:parentActivityName=".Course_Details_Tab"
             android:theme="@style/AppLogin" />
-        <activity android:name=".Course_Details_Tab"
+        <activity
+            android:name=".Course_Details_Tab"
             android:configChanges="orientation|screenSize|keyboardHidden"
             android:parentActivityName=".MyCourse"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
-
-        <activity android:name=".SeeMoreActivity"  android:parentActivityName=".MainActivity" android:theme="@style/AppLogin"/>
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".SeeMoreActivity"
+            android:parentActivityName=".MainActivity"
+            android:theme="@style/AppLogin" />
+        <activity android:name=".CartActivity"
+            android:theme="@style/AppLogin"> </activity>
     </application>
 
 </manifest>

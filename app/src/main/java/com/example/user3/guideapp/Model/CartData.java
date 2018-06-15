@@ -308,6 +308,62 @@ public class CartData {
         public DatacourseDetails datacourseDetails ;
         public Dataduration dataduration ;
 
+        public String OngoingBatch ;
+        public String OngoingBatchSD ;
+        public String OngoingBatchED ;
+
+        public String getOngoingBatch() {
+            return OngoingBatch;
+        }
+
+        public void setOngoingBatch(String ongoingBatch) {
+            OngoingBatch = ongoingBatch;
+        }
+
+        public String getOngoingBatchSD() {
+            return OngoingBatchSD;
+        }
+
+        public void setOngoingBatchSD(String ongoingBatchSD) {
+            OngoingBatchSD = ongoingBatchSD;
+        }
+
+        public String getOngoingBatchED() {
+            return OngoingBatchED;
+        }
+
+        public void setOngoingBatchED(String ongoingBatchED) {
+            OngoingBatchED = ongoingBatchED;
+        }
+
+        public String getUpcomingBatch() {
+            return UpcomingBatch;
+        }
+
+        public void setUpcomingBatch(String upcomingBatch) {
+            UpcomingBatch = upcomingBatch;
+        }
+
+        public String getUpcomingBatchSD() {
+            return UpcomingBatchSD;
+        }
+
+        public void setUpcomingBatchSD(String upcomingBatchSD) {
+            UpcomingBatchSD = upcomingBatchSD;
+        }
+
+        public String getUpcomingBatchED() {
+            return UpcomingBatchED;
+        }
+
+        public void setUpcomingBatchED(String upcomingBatchED) {
+            UpcomingBatchED = upcomingBatchED;
+        }
+
+        public String UpcomingBatch;
+        public String UpcomingBatchSD ;
+        public String UpcomingBatchED ;
+
         public String getUserId() {
             return UserId;
         }
