@@ -42,8 +42,8 @@ public class Fragment_Comment extends android.support.v4.app.Fragment {
     RecyclerView recyclerViewComment;
     CommentAdapter commentAdapters;
     ProgressDialog progressDialog;
-    String courseid, learnerid, courseDescription;
-    TextView textViewcourseDescription;
+    String courseid, learnerid, courseDescription,msg;
+    TextView textViewcourseDescription,mytext;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -54,6 +54,7 @@ public class Fragment_Comment extends android.support.v4.app.Fragment {
         // set title
         // getDialog().setTitle("Add Testimonial");
         courseid = cd.getCourseid();
+        msg=cd.getMsg();
         //courseDescription = cd.getCourseDescription();
         progressDialog = new ProgressDialog(getActivity());
         getMyCourseDesc();
@@ -62,7 +63,7 @@ public class Fragment_Comment extends android.support.v4.app.Fragment {
         // get the reference of Button
 
         textViewcourseDescription = (TextView) view.findViewById(R.id.textViewTitle);
-
+        mytext=(TextView) view.findViewById(R.id.Mytext);
         firstButton = (Button) view.findViewById(R.id.firstButton);
         editTextComment = (EditText) view.findViewById(R.id.edittextComment);
         // perform setOnClickListener on first Button
@@ -71,7 +72,12 @@ public class Fragment_Comment extends android.support.v4.app.Fragment {
             public void onClick(View v) {
                 // display a message by using a Toast
                 //Toast.makeText(getActivity(), "First Fragment :", Toast.LENGTH_LONG).show();
-                saveComment();
+                if(msg.equals("")){
+                    saveComment();
+            } else {
+                Toast.makeText(getActivity(), msg, Toast.LENGTH_SHORT).show();
+
+            }
 
 
             }
@@ -173,6 +179,16 @@ public class Fragment_Comment extends android.support.v4.app.Fragment {
 
                 recyclerViewComment.setAdapter(commentAdapter);
                 learnerid = jsonbodys.getUserId();
+                if(msg.equals("")){
+                    recyclerViewComment.setVisibility(View.VISIBLE);
+                mytext.setVisibility(View.VISIBLE);
+                firstButton.setVisibility(View.VISIBLE);
+                editTextComment.setVisibility(View.VISIBLE);}
+                else {
+                    recyclerViewComment.setVisibility(View.GONE); mytext.setVisibility(View.GONE);
+                    firstButton.setVisibility(View.GONE);
+                    editTextComment.setVisibility(View.GONE);
+                }
                 progressDialog.dismiss();
 
             }

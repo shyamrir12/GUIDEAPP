@@ -48,7 +48,7 @@ public class SeeMoreActivity extends AppCompatActivity
             //String res="";
             progressDialog.setMessage("loading...");
             progressDialog.show();
-            new SeeMoreActivity.GETCourseList().execute(categoryid);
+            new SeeMoreActivity.GETCourseList().execute(SharedPrefManager.getInstance(this).getUser().access_token,categoryid);
 
             //Toast.makeText(getApplicationContext(),res,Toast.LENGTH_SHORT).show();
 
@@ -64,7 +64,8 @@ public class SeeMoreActivity extends AppCompatActivity
         protected String doInBackground(String... params) {
 
             //     InputStream inputStream
-            String catid = params[0];
+            String accesstoken = params[0];
+            String catid = params[1];
             //String res = params[2];
             String json = "";
             try {
@@ -74,6 +75,7 @@ public class SeeMoreActivity extends AppCompatActivity
                 builder.url(PlayerConfig.BASE_URL_API+"HomeApi/SeeMoreget/"+catid);
                 builder.addHeader("Content-Type", "application/x-www-form-urlencoded");
                 builder.addHeader("Accept", "application/json");
+                builder.addHeader("Authorization", "Bearer " + accesstoken);
 
                /* FormBody.Builder parameters = new FormBody.Builder();
                 parameters.add("grant_type", "password");
@@ -111,6 +113,7 @@ public class SeeMoreActivity extends AppCompatActivity
                 List< SeeMoreData.Datacourselist> courselist =jsonbody.datacourselist;
                 List<SeeMoreData.Datacoursebanner> bannerlist =jsonbody.datacoursebanner;
                 List<SeeMoreData.Dataavragecourserating> ratinglist =jsonbody.dataavragecourserating;
+                List<SeeMoreData.Datalearnersubscription> learnersubscriptionlist =jsonbody.datalearnersubscription;
 
                 for (SeeMoreData.Datacourselist c : courselist){
 
@@ -127,6 +130,12 @@ public class SeeMoreActivity extends AppCompatActivity
                             c.setAvrageRating(r.getAvrageRating());
 
                     }
+                    if(learnersubscriptionlist!=null){
+                    for (SeeMoreData.Datalearnersubscription s : learnersubscriptionlist){
+                        if (s.getCourseID().equals(c.getCourseID()))
+                            c.setSubscriptionStatus(s.isSubscriptionStatus());
+
+                    }}
 
                 }
 

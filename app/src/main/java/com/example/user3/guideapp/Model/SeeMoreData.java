@@ -29,6 +29,15 @@ public class SeeMoreData {
         public String PublishedOn ;
         public Boolean Status ;
         public int AvrageRating;
+        public boolean SubscriptionStatus;
+
+        public boolean isSubscriptionStatus() {
+            return SubscriptionStatus;
+        }
+
+        public void setSubscriptionStatus(boolean subscriptionStatus) {
+            SubscriptionStatus = subscriptionStatus;
+        }
 
         public int getAvrageRating() {
             return AvrageRating;

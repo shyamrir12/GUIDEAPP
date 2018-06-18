@@ -10,6 +10,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.user3.guideapp.Course_Details_Tab;
 import com.example.user3.guideapp.Course_Tracking;
@@ -63,6 +64,10 @@ public class SeeMoreAdapter extends RecyclerView.Adapter<SeeMoreAdapter.SeeMoreV
         holder.ratingBar.setRating(course.getAvrageRating());
         holder.textViewPrice.setText(String.valueOf(course.getCoursePrice()+" "+course.getCurrency()));
         holder.textViewInstructorName.setText(course.getInstructorName());
+        if(course.isSubscriptionStatus()==true)
+        holder.button.setText("Already Enrolled");
+        else
+            holder.button.setText("Enroll");
         Picasso.with(this.mCtx).load(imgurl).into(holder.imageView);
 
         //holder.imageView.setImageDrawable(mCtx.getResources().getDrawable();
@@ -118,15 +123,20 @@ public class SeeMoreAdapter extends RecyclerView.Adapter<SeeMoreAdapter.SeeMoreV
             SeeMoreData.Datacourselist course =this.courseList.get(position);
 
             if (v.getId() == imageView.getId()||v.getId() == textViewTitle.getId()) {
-                Intent intent=new Intent(mCtx, Course_Details_Tab.class);
+                Intent intent=new Intent(mCtx,Course_Details_Tab.class);
                 intent.putExtra("courseid",course.getCourseID());
                 this.mCtx.startActivity(intent);
             }
             else if(v.getId()==button.getId())
+            { if(course.isSubscriptionStatus()==true){
+                Toast.makeText(mCtx,"Already Enrolled",Toast.LENGTH_SHORT).show();
+                }
+                else
             {
                 Intent intent=new Intent(mCtx, Register.class);
                 intent.putExtra("courseid",course.getCourseID());
                 this.mCtx.startActivity(intent);
+            }
             }
         }
 

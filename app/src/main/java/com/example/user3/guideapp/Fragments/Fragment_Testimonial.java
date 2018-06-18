@@ -43,7 +43,7 @@ public class Fragment_Testimonial extends android.support.v4.app.Fragment {
     RecyclerView recyclerViewtestimonial;
     TestimonialAdapters testimonialAdapters;
     ProgressDialog progressDialog;
-    String courseid, learnerid;
+    String courseid, learnerid,msg;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -54,6 +54,7 @@ public class Fragment_Testimonial extends android.support.v4.app.Fragment {
         // set title
         // getDialog().setTitle("Add Testimonial");
         courseid = cd.getCourseid();
+        msg= cd.getMsg();
         progressDialog = new ProgressDialog(getActivity());
         getMyCourseDesc();
 // Inflate the layout for this fragment
@@ -75,9 +76,12 @@ public class Fragment_Testimonial extends android.support.v4.app.Fragment {
             @Override
             public void onClick(View v) {
 // display a message by using a Toast
-                //Toast.makeText(getActivity(), "First Fragment :", Toast.LENGTH_LONG).show();
+                if(msg.equals("")){ //Toast.makeText(getActivity(), "First Fragment :", Toast.LENGTH_LONG).show();
                 saveTestimonial();
+                } else {
+                    Toast.makeText(getActivity(), msg, Toast.LENGTH_SHORT).show();
 
+                }
             }
         });
         return view;

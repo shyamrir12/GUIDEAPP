@@ -265,7 +265,9 @@ public class CartActivity extends AppCompatActivity {
                         CartActivity.this.startActivity(intent);
                     }
                     else {
+
                         //payment getwe messge is gatwe url
+
                     }
                 }
                 else

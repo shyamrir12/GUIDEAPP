@@ -21,6 +21,7 @@ import com.example.user3.guideapp.Adapters.CommentAdapter;
 import com.example.user3.guideapp.Adapters.ReplyAdapter;
 import com.example.user3.guideapp.Config.PlayerConfig;
 import com.example.user3.guideapp.CourseDetails;
+import com.example.user3.guideapp.Course_Details_Tab;
 import com.example.user3.guideapp.Helper.SharedPrefManager;
 import com.example.user3.guideapp.Model.CourseData;
 import com.example.user3.guideapp.Model.Result;
@@ -46,17 +47,19 @@ public class Fragment_Reply extends Fragment {
     RecyclerView recyclerViewReply;
    ReplyAdapter replyAdapters;
     ProgressDialog progressDialog;
-    String courseid,learnerid,learnerName,time, comment;;
+    String courseid,learnerid,learnerName,time, comment;
     int commentid,commentno;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
        Reply  ra = (Reply) getActivity();
+       // Course_Details_Tab cd = (Course_Details_Tab) getActivity();
 
         //testimonialList=new ArrayList<>();
         // set title
         // getDialog().setTitle("Add Testimonial");
+       //msg= cd.getMsg();
         courseid = ra.getCourseid();
         commentid=ra.getCommentid();
         learnerName=ra.getLearnerName();
@@ -85,7 +88,6 @@ public class Fragment_Reply extends Fragment {
             @Override
             public void onClick(View v) {
                 // display a message by using a Toast
-                //Toast.makeText(getActivity(), "First Fragment :", Toast.LENGTH_LONG).show();
                 saveReply();
 
 
