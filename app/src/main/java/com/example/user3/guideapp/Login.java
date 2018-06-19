@@ -1,8 +1,10 @@
 package com.example.user3.guideapp;
 
 import android.app.ActionBar;
+import android.app.AlertDialog;
 import android.app.DownloadManager;
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.support.design.widget.CoordinatorLayout;
@@ -15,16 +17,20 @@ import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.user3.guideapp.Api.Api;
 import com.example.user3.guideapp.Api.GuideApi;
 import com.example.user3.guideapp.Config.PlayerConfig;
 import com.example.user3.guideapp.Helper.SharedPrefManager;
+import com.example.user3.guideapp.Model.Result;
 import com.example.user3.guideapp.Model.Token;
 import com.example.user3.guideapp.Model.TokenRequest;
 import com.example.user3.guideapp.Model.TokenResponse;
@@ -49,7 +55,8 @@ public class Login extends AppCompatActivity {
     CoordinatorLayout login_layout;
     AppCompatEditText emailedit, passwordedit;
     TextInputLayout emaillayout, passwordlayout;
-    ProgressDialog progressDialog ;
+    ProgressDialog progressDialog;
+    String otp;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -239,7 +246,7 @@ public class Login extends AppCompatActivity {
 
                 OkHttpClient client = new OkHttpClient();
                 Request.Builder builder = new Request.Builder();
-                builder.url(PlayerConfig.BASE_URL+"token");
+                builder.url(PlayerConfig.BASE_URL + "token");
                 builder.addHeader("Content-Type", "application/x-www-form-urlencoded");
                 builder.addHeader("Accept", "application/json");
 
@@ -257,7 +264,6 @@ public class Login extends AppCompatActivity {
                     Gson gson = new Gson();
                     Token jsonbody = gson.fromJson(json, Token.class);
                     SharedPrefManager.getInstance(getApplicationContext()).userLogin(jsonbody);
-
                     //System.out.println(jsonbody.userName+":"+ jsonbody.access_token);
                     //res=json;
                     //System.out.println("CONTENIDO::  " + json);
@@ -280,14 +286,272 @@ public class Login extends AppCompatActivity {
                 //progressBar.setVisibility(View.INVISIBLE);
                 Toast.makeText(getApplicationContext(), "Invalid user id or password", Toast.LENGTH_SHORT).show();
             } else {
+                //first check otp
                 //progressBar.setVisibility(View.INVISIBLE);
-                progressDialog.dismiss();
-                Intent log = new Intent(getApplicationContext(), MainActivity.class);
-                startActivity(log);
+
+                new Login.GETEmailStatus().execute(SharedPrefManager.getInstance(Login.this).getUser().access_token);
+
             }
             //Toast.makeText(getApplicationContext(),result,Toast.LENGTH_SHORT).show();
             //progressDialog.dismiss();
 
         }
     }
+
+
+    private class POSTConfirmEmail extends AsyncTask<String, Void, String> {
+        @Override
+        protected String doInBackground(String... params) {
+
+            //     InputStream inputStream
+            String accesstoken = params[0];
+            String eotp = params[1];
+
+
+            String json = "";
+            try {
+
+                OkHttpClient client = new OkHttpClient();
+                Request.Builder builder = new Request.Builder();
+                builder.url(PlayerConfig.BASE_URL_API + "Account/ConfirmEmail/" + eotp);
+                builder.addHeader("Content-Type", "application/x-www-form-urlencoded");
+                builder.addHeader("Accept", "application/json");
+                builder.addHeader("Authorization", "Bearer " + accesstoken);
+
+                FormBody.Builder parameters = new FormBody.Builder();
+                // parameters.add("Reply", replytext);
+                // parameters.add("CommentID",String.valueOf( commentid));
+                // parameters.add("UserId",String.valueOf( learnerid));
+
+                builder.post(parameters.build());
+
+
+                okhttp3.Response response = client.newCall(builder.build()).execute();
+
+                if (response.isSuccessful()) {
+                    json = response.body().string();
+
+
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+                progressDialog.dismiss();
+                // System.out.println("Error: " + e);
+                Toast.makeText(Login.this, "Error: " + e, Toast.LENGTH_SHORT).show();
+            }
+            return json;
+        }
+
+        protected void onPostExecute(String result) {
+
+            if (result.isEmpty()) {
+                progressDialog.dismiss();
+                Toast.makeText(Login.this, "Invalid request", Toast.LENGTH_SHORT).show();
+            } else {
+                //System.out.println("CONTENIDO:  " + result);
+                Gson gson = new Gson();
+                final Result jsonbodyres = gson.fromJson(result, Result.class);
+                Toast.makeText(Login.this, jsonbodyres.getMessage(), Toast.LENGTH_SHORT).show();
+                progressDialog.dismiss();
+                if (jsonbodyres.getStatus() == false) {
+                    //sucess
+                    Intent log = new Intent(getApplicationContext(), MainActivity.class);
+                    startActivity(log);
+
+                } else {
+                    Toast.makeText(Login.this, jsonbodyres.getMessage(), Toast.LENGTH_SHORT).show();
+
+                }
+
+
+            }
+
+
+        }
+
+    }
+
+    private class POSTGenerateCode extends AsyncTask<String, Void, String> {
+        @Override
+        protected String doInBackground(String... params) {
+
+            //     InputStream inputStream
+            String accesstoken = params[0];
+
+
+            String json = "";
+            try {
+
+                OkHttpClient client = new OkHttpClient();
+                Request.Builder builder = new Request.Builder();
+                builder.url(PlayerConfig.BASE_URL_API + "Account/GenerateCode");
+                builder.addHeader("Content-Type", "application/x-www-form-urlencoded");
+                builder.addHeader("Accept", "application/json");
+                builder.addHeader("Authorization", "Bearer " + accesstoken);
+
+                FormBody.Builder parameters = new FormBody.Builder();
+                // parameters.add("Reply", replytext);
+                // parameters.add("CommentID",String.valueOf( commentid));
+                // parameters.add("UserId",String.valueOf( learnerid));
+
+                builder.post(parameters.build());
+
+
+                okhttp3.Response response = client.newCall(builder.build()).execute();
+
+                if (response.isSuccessful()) {
+                    json = response.body().string();
+
+
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+                progressDialog.dismiss();
+                // System.out.println("Error: " + e);
+                Toast.makeText(Login.this, "Error: " + e, Toast.LENGTH_SHORT).show();
+            }
+            return json;
+        }
+
+        protected void onPostExecute(String result) {
+
+            if (result.isEmpty()) {
+                progressDialog.dismiss();
+                Toast.makeText(Login.this, "Invalid request", Toast.LENGTH_SHORT).show();
+            } else {
+                //System.out.println("CONTENIDO:  " + result);
+                Gson gson = new Gson();
+                final Result jsonbodyres = gson.fromJson(result, Result.class);
+                Toast.makeText(Login.this, jsonbodyres.getMessage(), Toast.LENGTH_SHORT).show();
+                progressDialog.dismiss();
+
+                    Toast.makeText(Login.this, jsonbodyres.getMessage(), Toast.LENGTH_SHORT).show();
+
+
+
+            }
+
+
+        }
+
+    }
+
+    private class GETEmailStatus extends AsyncTask<String, Void, String> {
+        @Override
+        protected String doInBackground(String... params) {
+
+            //     InputStream inputStream
+            String accesstoken = params[0];
+
+
+            String json = "";
+            try {
+
+                OkHttpClient client = new OkHttpClient();
+                Request.Builder builder = new Request.Builder();
+                builder.url(PlayerConfig.BASE_URL_API + "Account/EmailStatus");
+                builder.addHeader("Content-Type", "application/x-www-form-urlencoded");
+                builder.addHeader("Accept", "application/json");
+                builder.addHeader("Authorization", "Bearer " + accesstoken);
+
+                // FormBody.Builder parameters = new FormBody.Builder();
+                // parameters.add("Reply", replytext);
+                // parameters.add("CommentID",String.valueOf( commentid));
+                // parameters.add("UserId",String.valueOf( learnerid));
+
+                //builder.post(parameters.build());
+
+
+                okhttp3.Response response = client.newCall(builder.build()).execute();
+
+                if (response.isSuccessful()) {
+                    json = response.body().string();
+
+
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+                progressDialog.dismiss();
+                // System.out.println("Error: " + e);
+                Toast.makeText(Login.this, "Error: " + e, Toast.LENGTH_SHORT).show();
+            }
+            return json;
+        }
+
+        protected void onPostExecute(String result) {
+
+            if (result.isEmpty()) {
+                progressDialog.dismiss();
+                Toast.makeText(Login.this, "Invalid request", Toast.LENGTH_SHORT).show();
+            } else {
+                //System.out.println("CONTENIDO:  " + result);
+                Gson gson = new Gson();
+                final Result jsonbodyres = gson.fromJson(result, Result.class);
+                Toast.makeText(Login.this, jsonbodyres.getMessage(), Toast.LENGTH_SHORT).show();
+                progressDialog.dismiss();
+                if (jsonbodyres.getStatus() == false) {
+                    //sucess
+                    progressDialog.dismiss();
+                    Intent log = new Intent(getApplicationContext(), MainActivity.class);
+                    startActivity(log);
+                } else {
+                    LayoutInflater li = LayoutInflater.from(Login.this);
+                    View promptsView = li.inflate(R.layout.email_confirm_layout, null);
+
+                    AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
+                            Login.this);
+
+                    // set prompts.xml to alertdialog builder
+                    alertDialogBuilder.setView(promptsView);
+
+                    final EditText userInput = (EditText) promptsView
+                            .findViewById(R.id.editTextDialogUserInput);
+                    final TextView resendotp = (TextView) promptsView.findViewById(R.id.textView2);
+                    resendotp.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            progressDialog.show();
+                            new Login.POSTGenerateCode().execute(SharedPrefManager.getInstance(Login.this).getUser().access_token);
+
+                        }
+                    });
+                    // set dialog message
+                    alertDialogBuilder
+                            .setCancelable(false)
+                            .setPositiveButton("OK",
+                                    new DialogInterface.OnClickListener() {
+                                        public void onClick(DialogInterface dialog, int id) {
+                                            // get user input and set it to result
+                                            // edit text
+                                            otp = userInput.getText().toString();
+                                            progressDialog.show();
+                                            new Login.POSTConfirmEmail().execute(SharedPrefManager.getInstance(Login.this).getUser().access_token, otp);
+                                        }
+                                    })
+                            .setNegativeButton("Cancel",
+                                    new DialogInterface.OnClickListener() {
+                                        public void onClick(DialogInterface dialog, int id) {
+                                            dialog.cancel();
+                                        }
+                                    });
+
+                    // create alert dialog
+                    AlertDialog alertDialog = alertDialogBuilder.create();
+
+                    // show it
+                    alertDialog.show();
+                    //genrate dailog for otp
+                    //Toast.makeText(Login.this, jsonbodyres.getMessage(), Toast.LENGTH_SHORT).show();
+
+                }
+
+
+            }
+
+
+        }
+
+    }
+
+
 }

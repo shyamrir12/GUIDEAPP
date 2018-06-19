@@ -12,8 +12,10 @@ import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.user3.guideapp.CartActivity;
 import com.example.user3.guideapp.Course_Details_Tab;
 import com.example.user3.guideapp.Course_Tracking;
+import com.example.user3.guideapp.Helper.SharedPrefManager;
 import com.example.user3.guideapp.Model.HomeData;
 import com.example.user3.guideapp.Model.RegisterData;
 import com.example.user3.guideapp.Model.SeeMoreData;
@@ -133,9 +135,21 @@ public class SeeMoreAdapter extends RecyclerView.Adapter<SeeMoreAdapter.SeeMoreV
                 }
                 else
             {
-                Intent intent=new Intent(mCtx, Register.class);
-                intent.putExtra("courseid",course.getCourseID());
-                this.mCtx.startActivity(intent);
+                if(SharedPrefManager.getInstance(mCtx).getUser().access_token.equals(""))
+                {
+                    Intent intent=new Intent(mCtx, Register.class);
+                    intent.putExtra("courseid",course.getCourseID());
+                    this.mCtx.startActivity(intent);
+                }
+                else
+                {
+                    //go to cart
+                    Intent intent=new Intent(mCtx,CartActivity.class);
+                    intent.putExtra("courseid",course.getCourseID());
+                    this.mCtx.startActivity(intent);
+
+                }
+
             }
             }
         }

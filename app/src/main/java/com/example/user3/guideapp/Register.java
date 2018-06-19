@@ -1,7 +1,10 @@
 package com.example.user3.guideapp;
 
 import android.app.ActionBar;
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -33,6 +36,7 @@ MaterialSpinner spinner;
     ProgressDialog progressDialog;
     EditText input_name,input_email,input_mobile,input_confirmpassword,input_password;
     String courseid;
+    AlertDialog.Builder builder;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -146,11 +150,33 @@ MaterialSpinner spinner;
                 else {
                     //System.out.println("CONTENIDO:  " + result);
                     Gson gson = new Gson();
-              RegisterData.RootObject jsonbodys = gson.fromJson(result, RegisterData.RootObject.class);
+               RegisterData.RootObject jsonbodys = gson.fromJson(result, RegisterData.RootObject.class);
 
                if(jsonbodys.dataIdentityResult.getSucceeded()==true)
                {
                    Toast.makeText(Register.this, jsonbodys.getMessage(), Toast.LENGTH_SHORT).show();
+                   builder = new AlertDialog.Builder(Register.this);
+                   builder.setCancelable(true);
+                   builder.setTitle("Congratulations");
+
+                   builder.setMessage("Go for login.");
+                   builder.setPositiveButton("Login",
+                           new DialogInterface.OnClickListener() {
+                               @Override
+                               public void onClick(DialogInterface dialog, int which) {
+                                 //login
+                                   Intent intent=new Intent(Register.this,Login.class);
+                                    Register.this.startActivity(intent);
+                               }
+                           });
+                         builder.setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
+                       @Override
+                       public void onClick(DialogInterface dialog, int which) {
+                           // finish();
+                       }
+                   });
+                   AlertDialog dialog = builder.create();
+                   dialog.show();
                }
                else {
 
