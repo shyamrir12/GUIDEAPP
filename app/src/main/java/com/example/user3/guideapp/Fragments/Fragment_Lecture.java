@@ -26,7 +26,7 @@ public class Fragment_Lecture extends android.support.v4.app.Fragment {
     ExpandableListView expListView;
     List<String> listDataHeader;
     HashMap<String, List<String>> listDataChild;
-    String msg;
+    boolean msg;
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -50,7 +50,7 @@ public class Fragment_Lecture extends android.support.v4.app.Fragment {
             public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
 
 
-                if (msg.equals("")) {
+                if (msg==true) {
                     String contentid = listDataChild.get(listDataHeader.get(groupPosition)).get(childPosition);
                     contentid = contentid.substring(contentid.lastIndexOf(",") + 1);
 
@@ -60,7 +60,7 @@ public class Fragment_Lecture extends android.support.v4.app.Fragment {
                     // Toast.makeText(CourseDetails.this,contentid,Toast.LENGTH_SHORT).show();
                     startActivity(contentdetails);
                 } else {
-                    Toast.makeText(getActivity(), msg, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(), "Course Not Subscribe by You", Toast.LENGTH_SHORT).show();
 
                 }
                 return false;

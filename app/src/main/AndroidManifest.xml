@@ -24,11 +24,7 @@
         <activity
             android:name=".Login"
             android:theme="@style/AppLogin">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity
             android:name=".WeekMaster"
@@ -62,8 +58,16 @@
             android:name=".SeeMoreActivity"
             android:parentActivityName=".MainActivity"
             android:theme="@style/AppLogin" />
-        <activity android:name=".CartActivity"
-            android:theme="@style/AppLogin"> </activity>
+        <activity
+            android:name=".CartActivity"
+            android:theme="@style/AppLogin"></activity>
+        <activity android:name=".GoogleLoginActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
     </application>
 
 </manifest>

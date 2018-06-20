@@ -29,6 +29,7 @@ public class CartActivity extends AppCompatActivity {
     LinearLayout linerLayoutdates, linerLayoutduration;
     ProgressDialog progressDialog;
     String UpcomingBatchSD,UpcomingBatchED,OngoingBatchSD,OngoingBatchED,startdate;
+    String wvt="false";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -47,6 +48,7 @@ public class CartActivity extends AppCompatActivity {
         linerLayoutduration = findViewById(R.id.linerLayoutduration);
         textViewPrice=findViewById(R.id.textViewPrice);
         progressDialog = new ProgressDialog(this);
+
         getCart();
 
         //textViewCourseId=findViewById(R.id.textViewCourseId);
@@ -131,6 +133,7 @@ public class CartActivity extends AppCompatActivity {
                 textviewDescription.setText(jsonbodys.datacourseDetails.getCourseDescription());
                 textViewPrice.setText("INR "+String.valueOf(jsonbodys.datacourseDetails.getCoursePrice()));
                 if (jsonbodys.getLectureType()!= null&&jsonbodys.getLectureType().equals("WeekWise")) {
+
                     textviewweekno.setText(jsonbodys.getDuration()+" Weeks");
                     if (jsonbodys.getOngoingBatch().isEmpty()) {
                         radioongoing.setVisibility(View.GONE);
@@ -146,6 +149,7 @@ public class CartActivity extends AppCompatActivity {
 
 
                 } else {
+                    wvt="true";
                     linerLayoutdates.setVisibility(View.GONE);
                     linerLayoutduration.setVisibility(View.GONE);
                     radioongoing.setVisibility(View.GONE);
@@ -170,7 +174,8 @@ public class CartActivity extends AppCompatActivity {
                 textViewCheckout.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                    startdate=textviewSD.getText().toString();
+
+                           startdate=textviewSD.getText().toString();
                         SaveCart();
 
                     }
@@ -190,7 +195,7 @@ public class CartActivity extends AppCompatActivity {
             progressDialog.setMessage("loading...");
             progressDialog.show();
 
-            new CartActivity.POSTCart().execute(SharedPrefManager.getInstance(this).getUser().access_token, courseid,startdate);
+            new CartActivity.POSTCart().execute(SharedPrefManager.getInstance(this).getUser().access_token, courseid,startdate,wvt);
 
             //Toast.makeText(getApplicationContext(),res,Toast.LENGTH_SHORT).show();
 
@@ -210,14 +215,16 @@ public class CartActivity extends AppCompatActivity {
             String accesstoken = params[0];
             String cid = params[1];
             String sd = params[2];
-
-
+            String wvtt = params[3];
             String json = "";
             try {
 
                 OkHttpClient client = new OkHttpClient();
                 Request.Builder builder = new Request.Builder();
-                builder.url(PlayerConfig.BASE_URL_API+"LearnerApi/Cartpost/"+cid+"/test/"+sd );
+                if(wvtt.equals("true"))
+                    builder.url(PlayerConfig.BASE_URL_API+"LearnerApi/Cartpost/"+cid+"/test" );
+                else
+                    builder.url(PlayerConfig.BASE_URL_API+"LearnerApi/Cartpost/"+cid+"/test/"+sd );
                 builder.addHeader("Content-Type", "application/x-www-form-urlencoded");
                 builder.addHeader("Accept", "application/json");
                 builder.addHeader("Authorization", "Bearer " + accesstoken);

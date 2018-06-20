@@ -51,7 +51,7 @@ import okhttp3.Response;
 
 
 public class Login extends AppCompatActivity {
-    Button register, login;
+    Button register, login,googlelogin;
     CoordinatorLayout login_layout;
     AppCompatEditText emailedit, passwordedit;
     TextInputLayout emaillayout, passwordlayout;

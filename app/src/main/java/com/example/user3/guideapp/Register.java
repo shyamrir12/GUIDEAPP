@@ -184,15 +184,8 @@ MaterialSpinner spinner;
                    Toast.makeText(Register.this,jsonbodys.dataIdentityResult.getErrors().get(0) , Toast.LENGTH_SHORT).show();
                }
             }
-
-
-            progressDialog.dismiss();
-
-
-
+           progressDialog.dismiss();
             }
-
-
         }
 
     }

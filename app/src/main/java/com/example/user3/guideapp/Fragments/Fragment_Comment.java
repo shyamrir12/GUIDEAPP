@@ -42,7 +42,8 @@ public class Fragment_Comment extends android.support.v4.app.Fragment {
     RecyclerView recyclerViewComment;
     CommentAdapter commentAdapters;
     ProgressDialog progressDialog;
-    String courseid, learnerid, courseDescription,msg;
+    String courseid, learnerid, courseDescription;
+    boolean msg;
     TextView textViewcourseDescription,mytext;
 
     @Override
@@ -72,10 +73,10 @@ public class Fragment_Comment extends android.support.v4.app.Fragment {
             public void onClick(View v) {
                 // display a message by using a Toast
                 //Toast.makeText(getActivity(), "First Fragment :", Toast.LENGTH_LONG).show();
-                if(msg.equals("")){
+                if(msg=true){
                     saveComment();
             } else {
-                Toast.makeText(getActivity(), msg, Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(), "Course Not Subscribe by You", Toast.LENGTH_SHORT).show();
 
             }
 
@@ -179,7 +180,7 @@ public class Fragment_Comment extends android.support.v4.app.Fragment {
 
                 recyclerViewComment.setAdapter(commentAdapter);
                 learnerid = jsonbodys.getUserId();
-                if(msg.equals("")){
+                if(msg==true){
                     recyclerViewComment.setVisibility(View.VISIBLE);
                 mytext.setVisibility(View.VISIBLE);
                 firstButton.setVisibility(View.VISIBLE);

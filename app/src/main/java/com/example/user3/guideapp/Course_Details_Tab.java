@@ -65,11 +65,11 @@ public class Course_Details_Tab extends AppCompatActivity  {
     String courseid;
     String courseDescription;
     AlertDialog.Builder builder;
-    public String getMsg() {
+    public boolean getMsg() {
         return msg;
     }
 
-    String msg;
+    boolean msg;
     Button buttonSubmitReview,bsubscribe;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -207,7 +207,7 @@ public class Course_Details_Tab extends AppCompatActivity  {
                 List<CourseData.Datacoursecontent> cc=jsonbodys.datacoursecontent;
                 List<CourseData.Dataweek > dw=jsonbodys.dataweek;
                 List<CourseData.Datatopic > dt=jsonbodys.datatopic;
-                msg=jsonbodys.getMsg();
+                msg=jsonbodys.status;
                textCourseTitle.setText( cd.getCourseName());
                courseDescription= cd.getCourseDescription();
 
@@ -262,7 +262,7 @@ public class Course_Details_Tab extends AppCompatActivity  {
                 viewPager.setAdapter(pagerAdapter);
                 tabLayout.setupWithViewPager(viewPager);
 
-                 if(jsonbodys.msg.equals(""))
+                 if(jsonbodys.status==true)
                 { bsubscribe.setText("Unsubscribe");
 
                     bsubscribe.setOnClickListener(new View.OnClickListener() {

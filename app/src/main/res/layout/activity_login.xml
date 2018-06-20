@@ -59,17 +59,17 @@
             android:layout_height="wrap_content"
             android:text="@string/login"
             android:background="@color/colorPrimary"
-            android:layout_marginTop="40dp"
+            android:layout_marginTop="20dp"
             android:textColor="@android:color/white"/>
+
 
         <Button android:id="@+id/btn_register"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:text="@string/register"
             android:background="@color/colorPrimary"
-            android:layout_marginTop="40dp"
+            android:layout_marginTop="20dp"
             android:textColor="@android:color/white"/>
-
-    </android.support.v7.widget.LinearLayoutCompat>
+       </android.support.v7.widget.LinearLayoutCompat>
 
 </android.support.design.widget.CoordinatorLayout>
